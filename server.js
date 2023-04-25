@@ -25,11 +25,11 @@ app.patch("/api/update", function (request, response) {
 
   fs.writeFile(fileName, data, function (err) {
     if (err) {
-      response.status(500).json({ "msg": "Update error" });
+      response.json({ "msg": "Update error" });
       console.error(err);
     }
     else {
-      response.status(200).json({ "msg": "File updated" });
+      response.json({ "msg": "File updated" });
     }
   });
 
@@ -37,7 +37,7 @@ app.patch("/api/update", function (request, response) {
   //console.log(request.body);
   if(!request.body) return response.sendStatus(400);
   
-  response.json(request.body);
+  //response.json(request.body);
 });
   
 
