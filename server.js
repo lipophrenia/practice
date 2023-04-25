@@ -1,5 +1,5 @@
 const host = 'localhost';
-const port = 3030;
+const port = 8080;
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser')
