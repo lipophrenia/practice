@@ -1,0 +1,1209 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="Cache-Control" content="no-cache"> -->
+  <link rel="shortcut icon" href="#">
+  <script type="application/javascript;charset=utf-8" src="http_control/index.js"></script>
+</head>
+
+<body>  
+  <div class="wrapper_main">
+    <div class="wrapper">
+      <div>
+
+        <!-- Конфигурации камеры -->
+        <form name="Configs">
+          <div class="formConfig">
+            <fieldset class="account-action">
+              <strong>Конфигурации</strong>
+            </fieldset>
+            <div class="wrapper_config">
+              <!-- rtsp -->
+              <div class="form_Rtsp">
+                <fieldset class="account-action_rtsp">
+                  <strong>rtsp</strong>
+                </fieldset>
+                <!-- порт RTSP -->
+                <div class="formRtsp_port">
+                  <div class="formRtsp_port_one"> Порт RTSP </div>
+                  <input class="formRtsp_port_two" type="text" id="rtsp_video1" name="rtsp_video1" %rtsp_video1%=""
+                    value=" ">
+                </div>
+                <!-- Режим выдачи видео -->
+                <div class="formRtsp_output">
+                  <div class="formRtsp_output_one">Режим выдачи <br> видео</div>
+                  <div class="formRtsp_output_radio">
+                    <div class="formRtsp_output_two"><input name="r1" type="radio" id="parallel" value="parallel"
+                        checked>parallel</div>
+                    <div class="formRtsp_output_three"><input name="r1" type="radio" id="single" value="single">single
+                    </div>
+                  </div>
+                </div>
+                <!-- Остановка неактивного видео -->
+                <div class="formRtsp_stop">
+                  <div class="formRtsp_stop_one">Останавливать <br> неактивное видео</div>
+                  <div class="formRtsp_stop_two"><input name="r3" type="checkbox" id="stop" value="stop" checked></div>
+                </div>
+              </div>
+
+              <div class="wrapper_control_gyro">
+                <!-- kontrol -->
+                <div class="formControl">
+                  <fieldset class="account_action_control">
+                    <strong>control</strong>
+                  </fieldset>
+                  <!-- Порт управления -->
+                  <div class="formControl_port">
+                    <div class="formControl_port_one">Порт управления</div>
+                    <input class="formControl_port_two" type="text" id="control_video1" name="control_video1"
+                      %control_video1%="" value="">
+                  </div>
+                  <!-- TCP-порт управления -->
+                  <div class="formControl_TCPport">
+                    <div class="formControl_TCPport_one">TCP-порт управления</div>
+                    <input class="formControl_TCPport_two" type="text" name="TCP_video1" id="TCP_video1" %TCP_video1%=""
+                      value="">
+                  </div>
+                </div>
+                <!-- gyro -->
+                <div class="gyro">
+                  <fieldset class="account_action_gyro">
+                    <strong>gyro</strong>
+                  </fieldset>
+                  <!-- Порт подвеса -->
+                  <div class="gyro_port">
+                    <div class="gyro_port_one">Порт подвеса</div>
+                    <input class="gyro_port_two" type="text" name="gyro_video1" id="gyro_video1" %gyro_video1%=""
+                      value="">
+                  </div>
+                </div>
+              </div>
+
+              <!-- processing -->
+              <div class="formProcessing">
+                <fieldset class="account_action_processing">
+                  <strong>processing</strong>
+                </fieldset>
+                <!-- Ширина изображения для обработки -->
+                <div class="formProcessing_img">
+                  <div class="formProcessing_img_one">Ширина изображения <br> для обработки</div>
+                  <input class="formProcessing_img_two" type="text" id="width_img_video1" name="width_img_video1"
+                    %width_img_video1%="" value="">
+                </div>
+                <!-- Высота изображения для обработки -->
+                <div class="formProcessing_img">
+                  <div class="formProcessing_img_one">Высота изображения <br> для обработки</div>
+                  <input class="formProcessing_img_two" type="text" id="height_img_video1" name="height_img_video1"
+                    %height_img_video1%="" value="">
+                </div>
+                <!-- Треккер -->
+                <div class="formProcessing_img">
+                  <div class="formProcessing_img_tracker">Треккер</div>
+                  <input class="formProcessing_img_three" type="text" id="tracker_video1" name="tracker_video1"
+                    %tracker_video1%="" value="">
+                </div>
+              </div>
+            </div>
+
+            <div class="wrapper_video1_video2">
+              <!-- VIDEO_1 -->
+              <div class="formVideo1">
+                <fieldset class="account_action_video1">
+                  <strong>video1</strong>
+                </fieldset>
+                <div class="wrapper_formVideo1_device_fps">
+                  <!-- Устройство -->
+                  <div class="formVideo1_device">
+                    <div class="formVideo1_device_one">Устройство</div>
+                    <input class="formVideo1_device_two" type="text" name="device_video1" id="device_video1"
+                      %device_video1%="" value="">
+                  </div>
+                  <!-- fps -->
+                  <div class="formVideo1_fps">
+                    <div class="formVideo1_fps_one">fps</div>
+                    <input class="formVideo1_fps_two" type="text" name="fps_video1" id="fps_video1" %fps_video1%=""
+                      value="">
+                  </div>
+                </div>
+
+                <div class="wrapper_video1_block_1">
+                  <!-- Изображение -->
+                  <div class="Video1_img">
+                    <fieldset class="account_action_video1_img">
+                      <strong>Изображение</strong>
+                    </fieldset>
+                    <!-- Ширина изображения -->
+                    <div class="formImg1_width">
+                      <div class="width_video1_one">Ширина</div>
+                      <input class="width_video1_two" type="text" name="width_video1_two" id="width_video1_two"
+                        %width_video1_two%="" value="">
+                    </div>
+                    <!-- Высота изображения -->
+                    <div class="formImg1_height">
+                      <div class="height_video1_one">Высота</div>
+                      <input class="height_video1_two" type="text" name="height_video1_two" id="height_video1_two"
+                        %height_video1_two%="" value="">
+                    </div>
+                  </div>
+
+                  <div class="wrapper_formVideo1_format_bitrate">
+                    <!-- Формат изображения -->
+                    <div class="formatVideo1">
+                      <div class="formatVideo1_one">Формат <br> изображения</div>
+                      <input class="formatVideo1_two" type="text" name="formantImg_video1" id="formatImg_video1"
+                        %formatImg_video1%="" value="">
+                    </div>
+
+                    <!-- Качество -->
+                    <div class="bitrateVideo1">
+                      <div class="bitrateVideo1_one">Качество</div>
+                      <input class="bitrateVideo1_two" type="text" name="bitrate_video1" id="bitrate_video1"
+                        %bitrate_video1%="" value="">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wrapper_video1_block2">
+                  <!-- Матрица -->
+                  <div class="margin_matrix">
+                    <div class="Video1_matrix">
+                      <fieldset class="account_action_video1_matrix">
+                        <strong>Матрица</strong>
+                      </fieldset>
+                      <!-- Ширина матрицы -->
+                      <div class="formImg1_width">
+                        <div class="width_video1_one">Ширина</div>
+                        <input class="width_video1_two" type="text" name="matrixW_video1" id="matrixW_video1"
+                          %matrixW_video1%="" value="">
+                      </div>
+                      <!-- Высота матрицы -->
+                      <div class="formImg1_height">
+                        <div class="height_video1_one">Высота</div>
+                        <input class="height_video1_two" type="text" name="matrixH_video1" id="matrixH_video1"
+                          %matrixH_video1%="" value="">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Широкое поле зрения -->
+                  <div class="video1_maxFov">
+                    <fieldset class="account_action_video1_maxFov">
+                      <strong>Широкое поле зрения</strong>
+                    </fieldset>
+                    <!-- Широкое поле зрения по горизонтали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По горизонтали</div>
+                      <input class="video1_maxHFov_two" type="text" name="maxHFov_video1_two" id="maxHFov_video1_two"
+                        %maxHFov_video1_two%="" value="">
+                    </div>
+                    <!-- Широкое поле зрения по вертикали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По вертикали</div>
+                      <input class="video1_maxHFov_two" type="text" name="maxVFov_video1_two" id="maxVFov_video1_two"
+                        %maxVFov_video1_two%="" value="">
+                    </div>
+                  </div>
+                </div>
+
+                <!--  блок для offsetCam/queueTelem/minFov -->
+                <div class="wrapper_formvideo1_block3">
+                  <div class="wrapper_formvideo1_block4">
+                    <!-- Сдвиг при приближении -->
+                    <div class="video1_offsetCam">
+                      <div class="video1_offsetCam_one">Сдвиг при <br> приближении</div>
+                      <div class="video1_offsetCam_two"><input name="r8" type="checkbox" id="offsetCam_video1"
+                          value="offsetCam_video1"></div>
+                    </div>
+
+                    <!-- Задержка телеметрии -->
+                    <div class="video1_offsetCam">
+                      <div class="video1_offsetCam_one">Задержка <br> телеметрии</div>
+                      <input class="video1_offsetCam_two" type="text" name="queueTelem_video1" id="queueTelem_video1"
+                        %queueTelem_video1%="" value="">
+                    </div>
+                  </div>
+
+                  <!-- Узкое поле зрения -->
+                  <div class="video1_maxFov">
+
+                    <fieldset class="account_action_video1_maxFov">
+                      <strong> Узкое поле зрения</strong>
+                    </fieldset>
+                    <!-- Узкое поле зрения по горизонтали -->
+                    <div class="video1_maxHHFov">
+                      <div class="video1_maxHFov_one">По горизонтали</div>
+                      <input class="video1_maxHFov_two" type="text" name="minHFov_video1" id="minHFov_video1"
+                        %minHFov_video1%="" value="">
+                    </div>
+                    <!-- Узкое поле зрения по вертикали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По вертикали</div>
+                      <input class="video1_maxHFov_two" type="text" name="minVFov_video1" id="minVFov_video1"
+                        %minVFov_video1%="" value="">
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Масштабирование стабилизации -->
+                <div class="video1_zmStab">
+                  <div>Масштабирование стабилизации</div>
+                  <input class="video1_zmStab_two" type="text" name="zmStab_video1" id="zmStab_video1"
+                    %zmStab_video1%="" value="">
+                </div>
+              </div>
+
+
+              <!-- VIDEO_2 -->
+              <div class="formVideo2">
+
+                <fieldset class="account_action_video2">
+                  <strong>video2</strong>
+                </fieldset>
+                <div class="wrapper_formVideo1_device_fps">
+                  <!-- Устройство -->
+                  <div class="formVideo1_device">
+                    <div class="formVideo1_device_one">Устройство</div>
+                    <input class="formVideo1_device_two test_video2" type="text" name="device_video2" id="device_video2"
+                      %device_video2%="" value="">
+                  </div>
+                  <!-- fps -->
+                  <div class="formVideo1_fps">
+                    <div class="formVideo1_fps_one">fps</div>
+                    <input class="formVideo1_fps_two test_video2" type="text" name="fps_video2" id="fps_video2"
+                      %fps_video2%="" value="25">
+                  </div>
+                </div>
+
+                <div class="wrapper_video1_block_1">
+                  <!-- Изображение -->
+                  <div class="Video1_img">
+                    <fieldset class="account_action_video1_img">
+                      <strong>Изображение</strong>
+                    </fieldset>
+                    <!-- Ширина изображения -->
+                    <div class="formImg1_width">
+                      <div class="width_video1_one">Ширина</div>
+                      <input class="width_video1_two test_video2" type="text" name="width_video2_two"
+                        id="width_video2_two" %width_video2_two%="" value="1920">
+                    </div>
+                    <!-- Высота изображения -->
+                    <div class="formImg1_height">
+                      <div class="height_video1_one">Высота</div>
+                      <input class="height_video1_two test_video2" type="text" name="height_video2_two"
+                        id="height_video2_two" %height_video2_two%="" value="1080">
+                    </div>
+                  </div>
+
+                  <div class="wrapper_formVideo1_format_bitrate">
+                    <!-- Формат изображения -->
+                    <div class="formatVideo1">
+                      <div class="formatVideo1_one">Формат <br> изображения</div>
+                      <input class="formatVideo1_two test_video2" type="text" name="formantImg_video2"
+                        id="formatImg_video2" %formatImg_video2%="" value="yuyv">
+                    </div>
+
+                    <!-- Качество -->
+                    <div class="bitrateVideo1">
+                      <div class="bitrateVideo1_one">Качество</div>
+                      <input class="bitrateVideo1_two test_video2" type="text" name="bitrate_video2" id="bitrate_video2"
+                        %bitrate_video2%="" value="8000000">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wrapper_video1_block2">
+                  <!-- Матрица -->
+                  <div class="margin_matrix">
+                    <div class="Video1_matrix">
+                      <fieldset class="account_action_video1_matrix">
+                        <strong>Матрица</strong>
+                      </fieldset>
+                      <!-- Ширина матрицы -->
+                      <div class="formImg1_width">
+                        <div class="width_video1_one">Ширина</div>
+                        <input class="width_video1_two test_video2" type="text" name="matrixW_video2"
+                          id="matrixW_video2" %matrixW_video2%="" value="9.0714285678">
+                      </div>
+                      <!-- Высота матрицы -->
+                      <div class="formImg1_height">
+                        <div class="height_video1_one">Высота</div>
+                        <input class="height_video1_two test_video2" type="text" name="matrixH_video2"
+                          id="matrixH_video2" %matrixH_video2%="" value="5.102678569">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Широкое поле зрения -->
+                  <div class="video1_maxFov">
+                    <fieldset class="account_action_video1_maxFov">
+                      <strong>Широкое поле зрения</strong>
+                    </fieldset>
+                    <!-- Широкое поле зрения по горизонтали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По горизонтали</div>
+                      <input class="video1_maxHFov_two test_video2" type="text" name="maxHFov_video2_two"
+                        id="maxHFov_video2_two" %maxHFov_video2_two%="" value="63.7">
+                    </div>
+                    <!-- Широкое поле зрения по вертикали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По вертикали</div>
+                      <input class="video1_maxHFov_two test_video2" type="text" name="maxVFov_video2_two"
+                        id="maxVFov_video2_two" %maxVFov_video2_two%="" value="35.83">
+                    </div>
+                  </div>
+                </div>
+
+                <!--  блок для offsetCam/queueTelem/minFov -->
+                <div class="wrapper_formvideo1_block3">
+                  <div class="wrapper_formvideo1_block4">
+                    <!-- Сдвиг при приближении -->
+                    <div class="video1_offsetCam">
+                      <div class="video1_offsetCam_one">Сдвиг при <br> приближении</div>
+                      <div class="video1_offsetCam_two"><input name="r7" type="checkbox" id="offsetCam_video2"
+                          value="offsetCam_video2"></div>
+                    </div>
+
+                    <!-- Задержка телеметрии -->
+                    <div class="video1_offsetCam">
+                      <div class="video1_offsetCam_one">Задержка <br> телеметрии</div>
+                      <input class="video1_offsetCam_two test_video2" type="text" name="queueTelem_video2"
+                        id="queueTelem_video2" %queueTelem_video2%="" value="8">
+                    </div>
+                  </div>
+
+                  <!-- Узкое поле зрения -->
+                  <div class="video1_maxFov">
+                    <fieldset class="account_action_video1_maxFov">
+                      <strong> Узкое поле зрения</strong>
+                    </fieldset>
+                    <!-- Узкое поле зрения по горизонтали -->
+                    <div class="video1_maxHHFov">
+                      <div class="video1_maxHFov_one">По горизонтали</div>
+                      <input class="video1_maxHFov_two test_video2" type="text" name="minHFov_video2"
+                        id="minHFov_video2" %minHFov_video2%="" value="2.3">
+                    </div>
+                    <!-- Узкое поле зрения по вертикали -->
+                    <div class="video1_maxHFov">
+                      <div class="video1_maxHFov_one">По вертикали</div>
+                      <input class="video1_maxHFov_two test_video2" type="text" name="minVFov_video2"
+                        id="minVFov_video2" %minVFov_video2%="" value="1.294">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Масштабирование стабилизации -->
+                <div class="video1_zmStab">
+                  <div>Масштабирование стабилизации</div>
+                  <input class="video1_zmStab_two test_video2" type="text" name="zmStab_video2" id="zmStab_video2"
+                    %zmStab_video2%="" value="1">
+                </div>
+
+                <div class="wrapper_video2_softAF_Zoom">
+                  <!-- Программный автофокус -->
+                  <div class="video2_soft">
+                    <div class="video2_soft_one">Программный <br> автофокус</div>
+                    <div class="video2_soft_two"><input name="r4" type="checkbox" id="softAF_video2"
+                        value="softAF_video2" checked></div>
+                  </div>
+
+                  <!-- Программный зум -->
+                  <div class="video2_soft">
+                    <div class="video2_soft_one">Программный <br> зум</div>
+                    <div class="video2_soft_two"><input name="r5" type="checkbox" id="softZoom_video2"
+                        value="softZoom_video2"></div>
+                  </div>
+                </div>
+
+                <!-- Программное отражение -->
+                <div class="video1_zmStab">
+                  <div>Программное отражение</div>
+                  <div class="video1_zmStab_two"><input name="r6" type="checkbox" id="softFlips_video2"
+                      value="softFlips_video2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="box-three">
+      <div>
+        <!-- Форма для редактирования IPconfig -->
+        <form class="formIP" name="ips">
+          <fieldset class="account-action-two">
+            <strong>Настройка сети</strong>
+          </fieldset>
+          <div>
+            <div class="formIP-margin">
+              <p class="margin-ip"> Адрес 1</p>
+              <input type="text" id="ip1" name="ip1" %address1%="" value=" ">
+            </div>
+          </div>
+          <div>
+            <div class="formIP-margin">
+              <p class="margin-ip"> Адрес 2</p>
+              <input type="text" id="ip2" name="ip2" %address2%="" value=" ">
+            </div>
+          </div>
+          <div>
+            <div class="formIP-margin">
+              <p class="margin-ip"> Шлюз</p>
+              <input type="text" id="gtw" name="gtw" %gateway1%="" value=" ">
+            </div>
+          </div>
+          <div>
+            <button class="btnIp" name="btn">Сохранить</button>
+          </div>
+        </form>
+      </div>
+      <div>
+        <!-- camera config -->
+        <form name="select" class="CamConf">
+          <fieldset class="account-action-three">
+            <b>Камеры</b>
+          </fieldset>
+          <select name="OES" id="select" required>
+            <option id="OES1" value="OES1">sony ev7520</option>
+            <option id="OES2" value="OES2">sony ev2700 + Noxant</option>
+            <option id="OES3" value="OES3">sony ev2700 + la6110</option>
+            <option id="OES4" value="OES4">sony ev7520 + tfm 1024</option>
+            <option id="OES5" value="OES5">tfm mx640</option>
+            <option id="OES6" value="OES6">savgood sg2090</option>
+            <option id="OES7" value="OES7">sony ev7520 + nit275</option>
+            <option id="OES8" value="OES8">sony ev7520 + Xcore Micro III</option>
+            <option id="OES9" value="OES9">Зарезервировано</option>
+          </select>
+          <button type="submit" class="btn-conf" name="btnConf" id="btnConf">Применить</button>
+        </form>
+        <div>
+          <button class="btn-reboot" name="btnReboot" id="btnReboot">Перезагрузка</button>
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btnSvConfig" name="btnSvConfig" id="btnSvConfig"
+          onclick="saveConfig()">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    let element = document.getElementById('select');
+    let valueToSelect = httpGetCamera('/getSelectedCam');
+    element.value = valueToSelect;
+    alert(element.value);
+
+    function httpGetCamera(theUrl) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", theUrl, false); // false for synchronous request
+      xmlHttp.send(null);
+      return xmlHttp.responseText;
+    }
+
+    // Сохранение данных на сервер
+    function saveConfig() {
+      var form = document.forms.Configs;
+      var r4 = document.getElementById('softAF_video2');
+      var r5 = document.getElementById('softZoom_video2');
+      var r6 = document.getElementById('softFlips_video2');
+      var r7 = document.getElementById('offsetCam_video2');
+      var r8 = document.getElementById('offsetCam_video1');
+      var r1 = document.getElementsByName('r1');
+      var r3 = document.getElementById('stop');
+      event.preventDefault();
+      var rtsp_video1 = form.rtsp_video1.value;
+      if (form.r1[0].disabled && form.r1[1].disabled) {
+
+      } else {
+        for (var i = 0; i < r1.length; i++) {
+          if (r1[0].checked) {
+            var mode = 'parallel';
+          } else {
+            var mode = 'single';
+          }
+        }
+      }
+      if (form.r3.disabled) {
+
+      } else {
+        var pause = form.r3.checked;
+      }
+      var control_video1 = form.control_video1.value;
+      var TCP_video1 = form.TCP_video1.value;
+      var gyro_video1 = form.gyro_video1.value;
+      var width_img_video1 = form.width_img_video1.value;
+      var height_img_video1 = form.height_img_video1.value;
+      var tracker_video1 = form.tracker_video1.value;
+      var device_video1 = form.device_video1.value;
+      var fps_video1 = form.fps_video1.value;
+      var width_video1_two = form.width_video1_two.value;
+      var height_video1_two = form.height_video1_two.value;
+      var formatImg_video1 = form.formatImg_video1.value;
+      var bitrate_video1 = form.bitrate_video1.value;
+      var matrixW_video1 = form.matrixW_video1.value;
+      var matrixH_video1 = form.matrixH_video1.value;
+      var maxHFov_video1_two = form.maxHFov_video1_two.value;
+      var maxVFov_video1_two = form.maxVFov_video1_two.value;
+      var offsetCam_video1 = form.r8.checked;
+      var queueTelem_video1 = form.queueTelem_video1.value;
+      var minHFov_video1 = form.minHFov_video1.value;
+      var minVFov_video1 = form.minVFov_video1.value;
+      var zmStab_video1 = form.zmStab_video1.value;
+
+      var inputs = document.querySelectorAll('.test_video2');
+      for (var i = 0; i < inputs.length; i++) {
+        if (!inputs[i].disabled) {
+          var device_video2 = form.device_video2.value;
+          var fps_video2 = form.fps_video2.value;
+          var width_video2_two = form.width_video2_two.value;
+          var height_video2_two = form.height_video2_two.value;
+          var formatImg_video2 = form.formatImg_video2.value;
+          var bitrate_video2 = form.bitrate_video2.value;
+          var matrixW_video2 = form.matrixW_video2.value;
+          var matrixH_video2 = form.matrixH_video2.value;
+          var maxHFov_video2_two = form.maxHFov_video2_two.value;
+          var maxVFov_video2_two = form.maxVFov_video2_two.value;
+          var queueTelem_video2 = form.queueTelem_video2.value;
+          var minHFov_video2 = form.minHFov_video2.value;
+          var minVFov_video2 = form.minVFov_video2.value;
+          var zmStab_video2 = form.zmStab_video2.value;
+        } else {
+
+        }
+      }
+      if (form.r7.disabled) {
+
+      } else {
+        var offsetCam_video2 = form.r7.checked;
+      }
+
+      if (form.r4.disabled) {
+
+      } else {
+        var softAF_video2 = form.r4.checked;
+      }
+
+      if (form.r5.disabled) {
+
+      } else {
+        var softZomm_video2 = form.r5.checked;
+      }
+
+      if (form.r6.disabled) {
+
+      } else {
+        var softFlips_video2 = form.r6.checked;
+      }
+
+      if (rtsp_video1 && mode && control_video1 && TCP_video1 && gyro_video1 && width_img_video1 && height_img_video1 && tracker_video1 && device_video1 && fps_video1 && width_video1_two && height_video1_two && formatImg_video1 && bitrate_video1 && matrixW_video1 && matrixH_video1 && maxHFov_video1_two && maxVFov_video1_two && queueTelem_video1 && minHFov_video1 && minVFov_video1 && zmStab_video1 && device_video2 && fps_video2 && width_video2_two && height_video2_two && formatImg_video2 && bitrate_video2 && matrixW_video2 && matrixH_video2 && maxHFov_video2_two && maxVFov_video2_two && queueTelem_video2 && minHFov_video2 && minVFov_video2 && zmStab_video2) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              alert(json.msg);
+            }
+            else if (xhr.status >= 500) {
+              alert(json.msg);
+            }
+          }
+        };
+        xhr.responseType = 'json';
+        xhr.open("PATCH", "/api/set-config", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+          "rtsp": {
+            "port": rtsp_video1,
+            "mode": mode,
+            "pause": pause
+          },
+
+
+          "video": [
+            {
+              "device": device_video1,
+              "width": width_video1_two,
+              "height": height_video1_two,
+              "format": formatImg_video1,
+              "bitrate": bitrate_video1,
+              "fps": fps_video1,
+              "matrixW": matrixW_video1,
+              "matrixH": matrixH_video1,
+              "maxHFov": maxHFov_video1_two,
+              "maxVFov": maxVFov_video1_two,
+              "minHFov": minHFov_video1,
+              "minVFov": minVFov_video1,
+              "zmStab": zmStab_video1,
+              "offsetCam": offsetCam_video1,
+              "queueTelem": queueTelem_video1,
+            },
+            {
+              "device": device_video2,
+              "width": width_video2_two,
+              "height": height_video2_two,
+              "format": formatImg_video2,
+              "bitrate": bitrate_video2,
+              "fps": fps_video1,
+              "matrixW": matrixW_video2,
+              "matrixH": matrixH_video2,
+              "maxHFov": maxHFov_video2_two,
+              "maxVFov": maxVFov_video2_two,
+              "minHFov": minHFov_video2,
+              "minVFov": minVFov_video2,
+              "softAF": softAF_video2,
+              "softZoom": softZomm_video2,
+              "softFlips": softFlips_video2,
+              "zmStab": zmStab_video2,
+              "offsetCam": offsetCam_video2,
+              "queueTelem": queueTelem_video2
+            }
+          ],
+
+
+          "control": {
+            "uart": {
+              "device": control_video1,
+            },
+            "tcp": {
+              "port": TCP_video1,
+            }
+          },
+
+          "gyro": {
+            "port": gyro_video1,
+          },
+
+          "processing": {
+            "width": width_img_video1,
+            "height": height_img_video1,
+            "script": tracker_video1,
+          }
+        }));
+      } else if (rtsp_video1 && control_video1 && TCP_video1 && gyro_video1 && width_img_video1 && height_img_video1 && tracker_video1 && device_video1 && fps_video1 && width_video1_two && height_video1_two && formatImg_video1 && bitrate_video1 && matrixW_video1 && matrixH_video1 && maxHFov_video1_two && maxVFov_video1_two && queueTelem_video1 && minHFov_video1 && minVFov_video1 && zmStab_video1) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              alert(json.msg);
+            }
+            else if (xhr.status >= 500) {
+              alert(json.msg);
+            }
+          }
+        };
+        xhr.responseType = 'json';
+        xhr.open("PATCH", "/api/set-config", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+          "rtsp": {
+            "port": rtsp_video1,
+          },
+
+
+          "video": [
+            {
+              "device": device_video1,
+              "width": width_video1_two,
+              "height": height_video1_two,
+              "format": formatImg_video1,
+              "bitrate": bitrate_video1,
+              "fps": fps_video1,
+              "matrixW": matrixW_video1,
+              "matrixH": matrixH_video1,
+              "maxHFov": maxHFov_video1_two,
+              "maxVFov": maxVFov_video1_two,
+              "minHFov": minHFov_video1,
+              "minVFov": minVFov_video1,
+              "zmStab": zmStab_video1,
+              "offsetCam": offsetCam_video1,
+              "queueTelem": queueTelem_video1,
+            }
+          ],
+
+          "control": {
+            "uart": {
+              "device": control_video1,
+            },
+            "tcp": {
+              "port": TCP_video1,
+            }
+          },
+
+          "gyro": {
+            "port": gyro_video1,
+          },
+
+          "processing": {
+            "width": width_img_video1,
+            "height": height_img_video1,
+            "script": tracker_video1,
+          }
+        }));
+      }
+    };
+
+
+
+    window.addEventListener("load", function (event) {
+      var form = document.forms.Configs;
+      if (form) {
+        // Получение данных с сервера
+        var xhr = new XMLHttpRequest(); // инициализируем переменную новым объектом XMLHttpRequest
+        xhr.onreadystatechange = function () {   // добавляем обработчик события
+          // проверяем состояние запроса и числовой код состояния HTTP ответа
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+            var json = xhr.response;
+            var dataJson = JSON.parse(json);
+            var r1 = document.getElementsByName('r1');
+            var r3 = document.getElementById('stop');
+            var r4 = document.getElementById('softAF_video2');
+            var r5 = document.getElementById('softZoom_video2');
+            var r6 = document.getElementById('softFlips_video2');
+            var r7 = document.getElementById('offsetCam_video2');
+            var r8 = document.getElementById('offsetCam_video1');
+            if (xhr.status >= 200 && xhr.status < 300) {
+              if (dataJson.hasOwnProperty('rtsp')) {
+                if (dataJson.rtsp.hasOwnProperty('port')) {
+                  form.rtsp_video1.value = dataJson.rtsp.port;
+                } else form.rtsp_video1.value = 554;
+                if (dataJson.rtsp.hasOwnProperty('mode')) {
+                  if (dataJson.rtsp.mode == 'parallel') {
+                    form.r1[0].checked = dataJson.rtsp.port;
+                  } else if (dataJson.rtsp.mode == 'single') {
+                    form.r1[1].checked = dataJson.rtsp.mode;
+                  }
+                } else {
+                  dataJson.rtsp.mode == 'parallel';
+                  // form.r1[0].disabled = true;
+                  // form.r1[1].disabled = true;
+                }
+                if (dataJson.rtsp.hasOwnProperty('pause')) {
+                  form.r3.checked = dataJson.rtsp.pause;
+                } else {
+                  form.r3.checked = false;
+                }
+              }
+
+              if (dataJson.hasOwnProperty('control')) {
+                if (dataJson.control.hasOwnProperty('uart')) {
+                  if (dataJson.control.uart.hasOwnProperty('device')) {
+                    form.control_video1.value = dataJson.control.uart.device;
+                  }else {
+                    form.control_video1.value = "/dev/ttyS0";
+                  }
+                }
+
+                if (dataJson.control.hasOwnProperty('tcp')) {
+                  if (dataJson.control.tcp.hasOwnProperty('port')) {
+                    form.TCP_video1.value = dataJson.control.tcp.port;
+                  }
+                  else {
+                    form.TCP_video1.value = "5555";
+                  }
+                }
+              }
+
+              if (dataJson.hasOwnProperty('gyro')) {
+                if (dataJson.gyro.hasOwnProperty('port')) {
+                  form.gyro_video1.value = dataJson.gyro.port;
+                }else {
+                  form.gyro_video1.value = "/dev/ttyS7";
+                }
+              }
+
+              if (dataJson.hasOwnProperty('processing')) {
+                if (dataJson.processing.hasOwnProperty('width')){
+                  form.width_img_video1.value = dataJson.processing.width;
+                } else {
+                  form.width_img_video1.value = "640";
+                }
+                 if (dataJson.processing.hasOwnProperty('height')) {
+                   form.height_img_video1.value = dataJson.processing.height;
+                 } else {
+                  form.height_img_video1.value = "512";
+                 } 
+                 if (dataJson.processing.hasOwnProperty('script')) {
+                  form.tracker_video1.value = dataJson.processing.script;
+                } else {
+                  form.tracker_video1.value = "/home/root/MergedTracker";
+                }
+              }
+
+              if (dataJson.hasOwnProperty('video')) {
+                if (dataJson.video && dataJson.video.length == 1) {
+                  if (dataJson.video[0].hasOwnProperty('device')) {
+                    form.device_video1.value = dataJson.video[0].device;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('fps')) {
+                    form.fps_video1.value = dataJson.video[0].fps;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('width')) {
+                    form.width_video1_two.value = dataJson.video[0].width;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('height')) {
+                    form.height_video1_two.value = dataJson.video[0].height;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('format')) {
+                    form.formatImg_video1.value = dataJson.video[0].format;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('bitrate')) {
+                    form.bitrate_video1.value = dataJson.video[0].bitrate;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('matrixW')) {
+                    form.matrixW_video1.value = dataJson.video[0].matrixW;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('matrixH')) {
+                    form.matrixH_video1.value = dataJson.video[0].matrixH;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('maxHFov')) {
+                    form.maxHFov_video1_two.value = dataJson.video[0].maxHFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('maxVFov')) {
+                    form.maxVFov_video1_two.value = dataJson.video[0].maxVFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('offsetCam')) {
+                    form.r8.checked = dataJson.video[0].offsetCam;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('minHFov')) {
+                    form.minHFov_video1.value = dataJson.video[0].minHFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('minVFov')) {
+                    form.minVFov_video1.value = dataJson.video[0].minVFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('zmStab')) {
+                    form.zmStab_video1.value = dataJson.video[0].zmStab;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('queueTelem')) {
+                    form.queueTelem_video1.value = dataJson.video[0].queueTelem;
+                  }
+
+
+                  
+                  form.fps_video2.style.background = 'lightgray';
+                  form.width_video2_two.style.background = 'lightgray';
+                  form.height_video2_two.style.background = 'lightgray';
+                  form.formatImg_video2.style.background = 'lightgray';
+                  form.bitrate_video2.style.background = 'lightgray';
+                  form.matrixW_video2.style.background = 'lightgray';
+                  form.matrixH_video2.style.background = 'lightgray';
+                  form.maxHFov_video2_two.style.background = 'lightgray';
+                  form.maxVFov_video2_two.style.background = 'lightgray';
+                  form.r7.style.background = 'lightgray';
+                  form.minHFov_video2.style.background = 'lightgray';
+                  form.minVFov_video2.style.background = 'lightgray';
+                  form.zmStab_video2.style.background = 'lightgray';
+                  form.r4.style.background = 'lightgray';
+                  form.r5.style.background = 'lightgray';
+                  form.r6.style.background = 'lightgray';
+                  form.queueTelem_video2.style.background = 'lightgray';
+                } else if (dataJson.video && dataJson.video.length == 2) {
+
+                  if (dataJson.video[0].hasOwnProperty('device')) {
+                    form.device_video1.value = dataJson.video[0].device;
+                  }   
+
+                  if (dataJson.video[0].hasOwnProperty('fps')) {
+                    form.fps_video1.value = dataJson.video[0].fps;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('width')) {
+                    form.width_video1_two.value = dataJson.video[0].width;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('height')) {
+                    form.height_video1_two.value = dataJson.video[0].height;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('format')) {
+                    form.formatImg_video1.value = dataJson.video[0].format;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('bitrate')) {
+                    form.bitrate_video1.value = dataJson.video[0].bitrate;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('matrixW')) {
+                    form.matrixW_video1.value = dataJson.video[0].matrixW;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('matrixH')) {
+                    form.matrixH_video1.value = dataJson.video[0].matrixH;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('maxHFov')) {
+                    form.maxHFov_video1_two.value = dataJson.video[0].maxHFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('maxVFov')) {
+                    form.maxVFov_video1_two.value = dataJson.video[0].maxVFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('offsetCam')) {
+                    form.r8.checked = dataJson.video[0].offsetCam;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('minHFov')) {
+                    form.minHFov_video1.value = dataJson.video[0].minHFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('minVFov')) {
+                    form.minVFov_video1.value = dataJson.video[0].minVFov;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('zmStab')) {
+                    form.zmStab_video1.value = dataJson.video[0].zmStab;
+                  }
+
+                  if (dataJson.video[0].hasOwnProperty('queueTelem')) {
+                    form.queueTelem_video1.value = dataJson.video[0].queueTelem;
+                  }
+                  if (dataJson.video[1].hasOwnProperty('device')) {
+                    form.device_video2.value = dataJson.video[1].device;
+                  } 
+
+                  if (dataJson.video[1].hasOwnProperty('fps')) {
+                    form.fps_video2.value = dataJson.video[1].fps;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('width')) {
+                    form.width_video2_two.value = dataJson.video[1].width;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('height')) {
+                    form.height_video2_two.value = dataJson.video[1].height;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('format')) {
+                    form.formatImg_video2.value = dataJson.video[1].format;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('bitrate')) {
+                    form.bitrate_video2.value = dataJson.video[1].bitrate;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('matrixW')) {
+                    form.matrixW_video2.value = dataJson.video[1].matrixW;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('matrixH')) {
+                    form.matrixH_video2.value = dataJson.video[1].matrixH;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('maxHFov')) {
+                    form.maxHFov_video2_two.value = dataJson.video[1].maxHFov;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('maxVFov')) {
+                    form.maxVFov_video2_two.value = dataJson.video[1].maxVFov;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('offsetCam')) {
+                    form.r7.checked = dataJson.video[1].offsetCam;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('minHFov')) {
+                    form.minHFov_video2.value = dataJson.video[1].minHFov;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('minVFov')) {
+                    form.minVFov_video2.value = dataJson.video[1].minVFov;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('zmStab')) {
+                    form.zmStab_video2.value = dataJson.video[1].zmStab;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('softAF')) {
+                    form.r4.checked = dataJson.video[1].softAF;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('softZoom')) {
+                    form.r5.checked = dataJson.video[1].softZoom;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('softFlips')) {
+                    form.r6.checked = dataJson.video[1].softFlips;
+                  }
+
+                  if (dataJson.video[1].hasOwnProperty('queueTelem')) {
+                    form.queueTelem_video2.value = dataJson.video[1].queueTelem;
+                  }
+                }
+              }
+            }
+          }
+          else if (xhr.status >= 500) {
+            alert(json.msg);
+          }
+        }
+      };
+      xhr.responseType = 'json';
+      xhr.open("GET", "/config-data", true); // определяем параметры для запроса
+      xhr.send();
+    });
+
+    window.addEventListener("load", function (event) {
+      var form = document.forms.ips;
+      if (form) {
+        // Получение данных с сервера
+        var xhr = new XMLHttpRequest(); // инициализируем переменную новым объектом XMLHttpRequest
+        xhr.onreadystatechange = function () {   // добавляем обработчик события
+          // проверяем состояние запроса и числовой код состояния HTTP ответа
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              if (json.hasOwnProperty('ip1') && json.hasOwnProperty('ip2') && json.hasOwnProperty('gtw')) {
+                form.ip1.value = json.ip1;
+                form.ip2.value = json.ip2;
+                form.gtw.value = json.gtw;
+              }
+            }
+            else if (xhr.status >= 500) {
+              alert(json.msg);
+            }
+          }
+        };
+        xhr.responseType = 'json';
+        xhr.open("GET", "/get-data", true); // определяем параметры для запроса
+        xhr.send();
+
+        // Сохранение данных на сервер
+        form.btn.addEventListener('click', function (event) {
+          event.preventDefault();
+          var ip1 = form.ip1.value;
+          var ip2 = form.ip2.value;
+          var gtw = form.gtw.value;
+          if (ip1 && ip2 && gtw) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState == 4) {
+                var json = xhr.response;
+                if (xhr.status >= 200 && xhr.status < 300) {
+                  alert(json.msg);
+                }
+                else if (xhr.status >= 500) {
+                  alert(json.msg);
+                }
+              }
+            };
+            xhr.responseType = 'json';
+            xhr.open("PATCH", "/api/set-ips", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify({ "ip1": ip1, "ip2": ip2, "gtw": gtw }));
+          }
+        });
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+      // Находим необходимые HTML теги
+      var txtEdit = document.getElementById('txtEdit');
+      var btn = document.getElementById('btnSend');
+      var filename;
+      if (txtEdit && btn) {
+        // Получаем содержимое файла с сервера
+        ajax('GET', '/get-file?file=', null, function (resData) {
+          txtEdit.value = resData;
+        });
+
+        // Отправляем данные на сервер
+        btn.addEventListener('click', function (event) {
+          event.preventDefault();
+          ajax('POST', '/update-file', { "data": txtEdit.value }, function (result) {
+            if (result) {
+              alert('File updated');
+            }
+            else {
+              alert('Update error');
+            }
+          });
+        });
+      }
+    });
+
+    // перезагрузка
+    document.addEventListener("DOMContentLoaded", function (event) {
+      var btn = document.getElementById('btnReboot');
+      btn.addEventListener('click', function (event) {
+        event.preventDefault();
+        ajax('GET', '/btnReboot', null, function (result) {
+          alert('Success');
+        });
+      });
+    });
+
+    // выполнение консольных команд
+    document.addEventListener("DOMContentLoaded", function (event) {
+      var btnConf = document.getElementById('btnConf');
+      btnConf.addEventListener('click', function (event) {
+        event.preventDefault();
+        var xhttp = new XMLHttpRequest();
+        var slct = document.getElementById("select");
+        var strUser = slct.options[slct.selectedIndex].text;
+        alert(strUser);
+        ajax('POST', '/btnConf', { strUser }, { "Content-Type": "application/json" }, function (result) {
+          if (result) {
+            // alert(result);
+            alert('File updated');
+          }
+          else {
+            alert('Update error');
+          }
+        });
+      });
+    });
+
+    function ajax(method, url, data, cb) {
+      var xhr = new XMLHttpRequest();
+      xhr.open(method, url, true);
+      if (method == 'POST') {
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            if (method == 'GET') {
+              xhr.responseText;
+            }
+            else if (method == 'POST') {
+              return true;
+            }
+          }
+          else {
+            return false;
+          }
+        }
+      };
+      if (data) {
+        xhr.send(JSON.stringify(data));
+      }
+      else {
+        xhr.send();
+      }
+    }
+  </script>
+
+</body>
+
+</html>
