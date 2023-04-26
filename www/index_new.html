@@ -15,91 +15,98 @@
   <div class="container">
     <div class="row justify-content-center">
 
-      <!--rtsp-->
       <div class="col">
         <div class="p-3 border bg-light">
-          <h6>RTSP</h6>
-          <form>
-            <div class="form-group">
-              <label for="rtsp_port">RTSP порт:</label>
-              <input type="text" class="form-control" id="rtsp_port" placeholder="">
-            </div>
-            <div class="row justify-content-start">
-              <div class="col">
-                Передача видео
+          <h6>Конфигурация</h6>
+          <div class="row">
+            <!--rtsp-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <h6>RTSP</h6>
+                <form>
+                  <div class="form-group">
+                    <label for="rtsp_port">RTSP порт:</label>
+                    <input type="text" class="form-control" id="rtsp_port" placeholder="">
+                  </div>
+                  <div class="row justify-content-start">
+                    <div class="col">
+                      Передача видео
+                    </div>
+                    <div class="col">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                          value="option1">
+                        <label class="form-check-label" for="inlineRadio1">parallel</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                          value="option2">
+                        <label class="form-check-label" for="inlineRadio2">single</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox" style="margin-right: 5px" id="pauseVid">Останавливать неактивное
+                      видео</label>
+                  </div>
+                </form>
               </div>
-              <div class="col">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                    value="option1">
-                  <label class="form-check-label" for="inlineRadio1">parallel</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                    value="option2">
-                  <label class="form-check-label" for="inlineRadio2">single</label>
-                </div>
+            </div>
+
+            <!--control-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <h6>CONTROL</h6>
+                <form>
+                  <div class="form-group">
+                    <label for="control_port">Порт управления</label>
+                    <input type="text" class="form-control" id="ontrol_port" placeholder="">
+                  </div>
+                  <div class="form-group">
+                    <label for="tcp_port">TCP-порт управления</label>
+                    <input type="text" class="form-control" id="tcp_port" placeholder="">
+                  </div>
+                </form>
+              </div>
+
+              <!--gyro-->
+              <div class="p-3 border bg-light" style="margin-top: 14px">
+                <h6>GYRO</h6>
+                <form>
+                  <div class="form-group">
+                    <label for="gyro_adress">Порт управления</label>
+                    <input type="text" class="form-control" id="gyro_adress" placeholder="">
+                  </div>
+                </form>
               </div>
             </div>
-            <div class="checkbox">
-              <label><input type="checkbox" style="margin-right: 5px" id="pauseVid">Останавливать неактивное
-                видео</label>
-            </div>
-          </form>
-        </div>
-      </div>
 
-      <!--control-->
-      <div class="col">
-        <div class="p-3 border bg-light">
-          <h6>CONTROL</h6>
-          <form>
-            <div class="form-group">
-              <label for="control_port">Порт управления</label>
-              <input type="text" class="form-control" id="ontrol_port" placeholder="">
+            <!--processing-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <h6>PROCESSING</h6>
+                <form>
+                  <div class="form-group">
+                    <label for="width_proc">Ширина</label>
+                    <input type="text" class="form-control" id="width_proc" placeholder="">
+                  </div>
+                  <div class="form-group">
+                    <label for="height_proc">Высота</label>
+                    <input type="text" class="form-control" id="height_proc" placeholder="">
+                  </div>
+                  <div class="form-group">
+                    <label for="tracker_proc">TCP-порт управления</label>
+                    <input type="text" class="form-control" id="tracker_proc" placeholder="">
+                  </div>
+                </form>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="tcp_port">TCP-порт управления</label>
-              <input type="text" class="form-control" id="tcp_port" placeholder="">
-            </div>
-          </form>
-        </div>
-
-        <!--gyro-->
-        <div class="p-3 border bg-light" style="margin-top: 14px">
-          <h6>GYRO</h6>
-          <form>
-            <div class="form-group">
-              <label for="gyro_adress">Порт управления</label>
-              <input type="text" class="form-control" id="gyro_adress" placeholder="">
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!--processing-->
-      <div class="col">
-        <div class="p-3 border bg-light">
-          <h6>PROCESSING</h6>
-          <form>
-            <div class="form-group">
-              <label for="width_proc">Ширина</label>
-              <input type="text" class="form-control" id="width_proc" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="height_proc">Высота</label>
-              <input type="text" class="form-control" id="height_proc" placeholder="">
-            </div>
-            <div class="form-group">
-              <label for="tracker_proc">TCP-порт управления</label>
-              <input type="text" class="form-control" id="tracker_proc" placeholder="">
-            </div>
-          </form>
+          </div>
         </div>
       </div>
 
       <!--network-->
-      <div class="col">
+      <div class="col-2">
         <div class="p-3 border bg-light">
           <h6>NETWORK SETTINGS</h6>
           <form>
@@ -122,14 +129,15 @@
           </form>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px" id="btnNet">Сохранить</button>
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px"
+                id="btnNet">Сохранить</button>
             </div>
           </div>
         </div>
       </div>
 
       <!--CAMS-->
-      <div class="col">
+      <div class="col-2">
         <div class="p-3 border bg-light">
           <h6>Камеры</h6>
           <select class="form-select" aria-label="Default select example">
@@ -145,17 +153,20 @@
           </select>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px" id="btnConfLoad">Выбрать</button>
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px"
+                id="btnConfLoad">Выбрать</button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px" id="btnConfSave">Сохранить</button>
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px"
+                id="btnConfSave">Сохранить</button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px" id="btnReboot">Перезагрузка</button>
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 14px"
+                id="btnReboot">Перезагрузка</button>
             </div>
           </div>
         </div>
