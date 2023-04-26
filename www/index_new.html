@@ -5,7 +5,7 @@
   <title>Config</title>
   <meta charset="utf-8" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
   <link href="static/bootstrap.min.css" rel="stylesheet">
   <script src="static/bootstrap.bundle.min.js"></script>
   <script src="static/jquery.js"></script>
@@ -15,7 +15,7 @@
   <div class="container">
     <div class="row justify-content-center">
 
-      <div class="col">
+      <div class="col-sm-7" style="margin-top: 14px">
         <div class="p-3 border bg-light">
           <h6>Конфигурация</h6>
           <div class="row">
@@ -26,7 +26,7 @@
                 <form>
                   <div class="form-group">
                     <label for="rtsp_port">RTSP порт:</label>
-                    <input type="text" class="form-control" id="rtsp_port" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="rtsp_port" placeholder="">
                   </div>
                   <div class="row justify-content-start">
                     <div class="col">
@@ -60,11 +60,11 @@
                 <form>
                   <div class="form-group">
                     <label for="control_port">Порт управления</label>
-                    <input type="text" class="form-control" id="ontrol_port" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="ontrol_port" placeholder="">
                   </div>
                   <div class="form-group">
                     <label for="tcp_port">TCP-порт управления</label>
-                    <input type="text" class="form-control" id="tcp_port" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="tcp_port" placeholder="">
                   </div>
                 </form>
               </div>
@@ -75,7 +75,7 @@
                 <form>
                   <div class="form-group">
                     <label for="gyro_adress">Порт управления</label>
-                    <input type="text" class="form-control" id="gyro_adress" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="gyro_adress" placeholder="">
                   </div>
                 </form>
               </div>
@@ -88,19 +88,20 @@
                 <form>
                   <div class="form-group">
                     <label for="width_proc">Ширина</label>
-                    <input type="text" class="form-control" id="width_proc" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="width_proc" placeholder="">
                   </div>
                   <div class="form-group">
                     <label for="height_proc">Высота</label>
-                    <input type="text" class="form-control" id="height_proc" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="height_proc" placeholder="">
                   </div>
                   <div class="form-group">
                     <label for="tracker_proc">TCP-порт управления</label>
-                    <input type="text" class="form-control" id="tracker_proc" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="tracker_proc" placeholder="">
                   </div>
                 </form>
               </div>
             </div>
+
           </div>
         </div>
         <div class="row">
@@ -111,11 +112,11 @@
               <div class="row">
                 <div class="col">
                   <label for="vid1_device">Устройство</label>
-                  <input type="text" class="form-control" id="vid1_device" placeholder="">
+                  <input type="text" class="form-control form-control-sm" id="vid1_device" placeholder="">
                 </div>
                 <div class="col">
                   <label for="vid1_fps">fps</label>
-                  <input type="text" class="form-control" id="vid1_fps" placeholder="">
+                  <input type="text" class="form-control form-control-sm" id="vid1_fps" placeholder="">
                 </div>
               </div>
               <div class="p-3 border bg-light" style="margin-top: 14px">
@@ -123,21 +124,21 @@
                 <div class="row">
                   <div class="col">
                     <label for="vid1_width">Ширина</label>
-                    <input type="text" class="form-control" id="vid1_width" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_width" placeholder="">
                   </div>
                   <div class="col">
                     <label for="vid1_format">Формат</label>
-                    <input type="text" class="form-control" id="vid1_format" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_format" placeholder="">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
                     <label for="vid1_height">Высота</label>
-                    <input type="text" class="form-control" id="vid1_height" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_height" placeholder="">
                   </div>
                   <div class="col">
                     <label for="vid1_bitrate">Битрейт</label>
-                    <input type="text" class="form-control" id="vid1_bitrate" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_bitrate" placeholder="">
                   </div>
                 </div>
               </div>
@@ -148,11 +149,11 @@
                     <form>
                       <div class="form-group">
                         <label for="vid1_Mwidth">Ширина</label>
-                        <input type="text" class="form-control" id="vid1_Mwidth" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_Mwidth" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid1_Mheight">Высота</label>
-                        <input type="text" class="form-control" id="vid1_Mheight" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_Mheight" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -162,11 +163,11 @@
                     <form>
                       <div class="form-group">
                         <label for="vid1_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control" id="vid1_maxHFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_maxHFOV" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid1_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control" id="vid1_maxVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_maxVFOV" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -179,11 +180,11 @@
                   </div>
                   <div class="form-group" style="margin-top: 14px">
                     <label for="vid1_delay">Задержка телеметрии</label>
-                    <input type="text" class="form-control" id="vid1_delay" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_delay" placeholder="">
                   </div>
                   <div class="form-group" style="margin-top: 14px">
                     <label for="vid1_stabScale">Масштабирование стабилизации</label>
-                    <input type="text" class="form-control" id="vid1_stabScale" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid1_stabScale" placeholder="">
                   </div>
                 </div>
                 <div class="col">
@@ -192,17 +193,18 @@
                     <form>
                       <div class="form-group">
                         <label for="vid1_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control" id="vid1_minHFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_minHFOV" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid1_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control" id="vid1_minVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid1_minVFOV" placeholder="">
                       </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <!--video 2-->
           <div class="col">
             <div class="p-3 border bg-light" style="margin-top: 14px">
@@ -210,11 +212,11 @@
               <div class="row">
                 <div class="col">
                   <label for="vid2_device">Устройство</label>
-                  <input type="text" class="form-control" id="vid2_device" placeholder="">
+                  <input type="text" class="form-control form-control-sm" id="vid2_device" placeholder="">
                 </div>
                 <div class="col">
                   <label for="vid2_fps">fps</label>
-                  <input type="text" class="form-control" id="vid2_fps" placeholder="">
+                  <input type="text" class="form-control form-control-sm" id="vid2_fps" placeholder="">
                 </div>
               </div>
               <div class="p-3 border bg-light" style="margin-top: 14px">
@@ -222,21 +224,21 @@
                 <div class="row">
                   <div class="col">
                     <label for="vid2_width">Ширина</label>
-                    <input type="text" class="form-control" id="vid2_width" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_width" placeholder="">
                   </div>
                   <div class="col">
                     <label for="vid2_format">Формат</label>
-                    <input type="text" class="form-control" id="vid2_format" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_format" placeholder="">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
                     <label for="vid2_height">Высота</label>
-                    <input type="text" class="form-control" id="vid2_height" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_height" placeholder="">
                   </div>
                   <div class="col">
                     <label for="vid2_bitrate">Битрейт</label>
-                    <input type="text" class="form-control" id="vid2_bitrate" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_bitrate" placeholder="">
                   </div>
                 </div>
               </div>
@@ -247,11 +249,11 @@
                     <form>
                       <div class="form-group">
                         <label for="vid2_Mwidth">Ширина</label>
-                        <input type="text" class="form-control" id="vid2_Mwidth" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_Mwidth" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid2_Mheight">Высота</label>
-                        <input type="text" class="form-control" id="vid2_Mheight" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_Mheight" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -261,11 +263,11 @@
                     <form>
                       <div class="form-group">
                         <label for="vid2_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control" id="vid2_maxHFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_maxHFOV" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid2_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control" id="vid2_maxVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_maxVFOV" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -278,11 +280,11 @@
                   </div>
                   <div class="form-group" style="margin-top: 14px">
                     <label for="vid2_delay">Задержка телеметрии</label>
-                    <input type="text" class="form-control" id="vid2_delay" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_delay" placeholder="">
                   </div>
                   <div class="form-group" style="margin-top: 14px">
                     <label for="vid2_stabScale">Масштабирование стабилизации</label>
-                    <input type="text" class="form-control" id="vid2_stabScale" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="vid2_stabScale" placeholder="">
                   </div>
                 </div>
                 <div class="col">
@@ -291,11 +293,11 @@
                     <form>
                       <div class="form-group">
                         <label for="vid2_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control" id="vid2_minHFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_minHFOV" placeholder="">
                       </div>
                       <div class="form-group">
                         <label for="vid2_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control" id="vid2_minVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" id="vid2_minVFOV" placeholder="">
                       </div>
                   </div>
                 </div>
@@ -323,25 +325,25 @@
       </div>
 
       <!--network-->
-      <div class="col-2">
+      <div class="col-2" style="margin-top: 14px">
         <div class="p-3 border bg-light">
           <h6>NETWORK SETTINGS</h6>
           <form>
             <div class="form-group">
               <label for="ip1">Адрес 1</label>
-              <input type="text" class="form-control" id="ip1" placeholder="">
+              <input type="text" class="form-control form-control-sm" id="ip1" placeholder="">
             </div>
             <div class="form-group">
               <label for="ip2">Адрес 2</label>
-              <input type="text" class="form-control" id="ip2" placeholder="">
+              <input type="text" class="form-control form-control-sm" id="ip2" placeholder="">
             </div>
             <div class="form-group">
               <label for="ip3">Адрес 3</label>
-              <input type="text" class="form-control" id="ip3" placeholder="">
+              <input type="text" class="form-control form-control-sm" id="ip3" placeholder="">
             </div>
             <div class="form-group">
               <label for="gtw">Шлюз</label>
-              <input type="text" class="form-control" id="gtw" placeholder="">
+              <input type="text" class="form-control form-control-sm" id="gtw" placeholder="">
             </div>
           </form>
           <div class="container overflow-hidden">
