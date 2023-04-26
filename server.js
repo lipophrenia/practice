@@ -20,7 +20,8 @@ app.get('/index', function (req, res) {
 
 app.patch("/api/update", function (request, response) {
 
-  var fileName = '/home/practice/practice/test/practice/test.json';
+  //var fileName = '/home/practice/practice/test/practice/test.json'; //home
+  var fileName = '/home/practice/practice/test.json'; //practice
   var data = JSON.stringify(request.body);
 
   fs.writeFile(fileName, data, function (err) {
