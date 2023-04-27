@@ -37,6 +37,50 @@ app.get("/index", function (req, res) {
 //   //response.json(request.body);
 // });
 
+//получение конфигурации сети
+app.get('/api/net-get', function (req, res) {
+	var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
+	fs.readFile(fileName, 'utf8', function (err, fileData) {
+		if (err) {
+			res.status(500).json({ "msg": "Something went wrong." });
+			console.error(err);
+		}
+		else {
+			var json = {
+				"ip1": "",
+				"ip2": "",
+				"ip3": "",
+				"gate": ""
+			};
+			var arrStr = fileData.split(/\r\n|\r|\n/g);
+			for (var i = 0; i < arrStr.length; i++) {
+				arrStr[i].trim();
+				if (arrStr[i][0] != '#') {
+					if (arrStr[i].indexOf('Address') >= 0) {
+						var arr = arrStr[i].split('=');
+						if (json.ip1 == '') {
+							json.ip1 = arr[1];
+						}
+						else if (json.ip2 == '') {
+							json.ip2 = arr[1];
+						}
+						else {
+							json.ip3 = arr[1];
+						}
+					}
+					if (arrStr[i].indexOf('Gateway') >= 0) {
+						var arr = arrStr[i].split('=');
+						json.gate = arr[1];
+						break;
+					}
+				}
+			}
+			res.json(json);
+		}
+	});
+});
+
+//сохранение конфигурации сети
 app.patch('/api/net-save', function (req, res) {
 	if (req.body.hasOwnProperty('ip1') && req.body.hasOwnProperty('ip2') && req.body.hasOwnProperty('ip3') && req.body.hasOwnProperty('gate')) {
 		var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network

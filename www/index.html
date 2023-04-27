@@ -382,6 +382,31 @@
   </div>
 
   <script>
+    window.addEventListener("load", () => {
+        // Получение данных с сервера
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {// добавляем обработчик события
+          // проверяем состояние запроса и числовой код состояния HTTP ответа
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              if (json.hasOwnProperty('ip1') && json.hasOwnProperty('ip2') && json.hasOwnProperty('ip3') && json.hasOwnProperty('gate')) {
+                ip1.value = json.ip1;
+                ip2.value = json.ip2;
+                ip3.value = json.ip3;
+                gtw.value = json.gate;
+              }
+            }
+            else if (xhr.status >= 500) {
+              alert(json.msg);
+            }
+          }
+        };
+        xhr.responseType = 'json';
+        xhr.open("GET", "api/net-get", true); // определяем параметры для запроса
+        xhr.send();
+      });
+
     document.getElementById("btnNet").addEventListener("click", function (e) {
             e.preventDefault();
             var adr1= ip1.value;
