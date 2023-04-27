@@ -1,5 +1,5 @@
 const host = 'localhost';
-const port = 8080;
+const port = 8000;
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser')
@@ -14,32 +14,31 @@ app.use(bodyParser.json());
 //   response.sendFile(__dirname + "/www/index.html");
 // });
 
+app.use(express.static(__dirname + "/www/static/"));
+
 app.get('/index', function (req, res) {
 	res.sendFile(path.join(__dirname, 'www', 'index.html'));
 });
 
-app.patch("/api/update", function (request, response) {
+// app.patch("/api/update", function (request, response) {
 
-  //var fileName = '/home/practice/practice/test/practice/test.json'; //home
-  var fileName = '/home/practice/practice/test.json'; //practice
-  var data = JSON.stringify(request.body);
+//   var fileName = '/home/practice/practice/test/practice/test.json'; //home
+//   //var fileName = '/home/practice/practice/test.json'; //practice
+//   var data = JSON.stringify(request.body);
 
-  fs.writeFile(fileName, data, function (err) {
-    if (err) {
-      response.json({ "msg": "Update error" });
-      console.error(err);
-    }
-    else {
-      response.json({ "msg": "File updated" });
-    }
-  });
-
-  
-  //console.log(request.body);
-  if(!request.body) return response.sendStatus(400);
-  
-  //response.json(request.body);
-});
+//   fs.writeFile(fileName, data, function (err) {
+//     if (err) {
+//       response.json({ "msg": "Update error" });
+//       console.error(err);
+//     }
+//     else {
+//       response.json({ "msg": "File updated" });
+//     }
+//   });
+//   //console.log(request.body);
+//   if(!request.body) return response.sendStatus(400);
+//   //response.json(request.body);
+// });
 
 app.get('/api/net-save', function (req, res) {
 	var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
