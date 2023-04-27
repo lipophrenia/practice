@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Config</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Введите данные</h1>
+    <form name="testForm">
+        <label>Ширина</label></br>
+        <input type="number" name="vidWidth" /></br></br>
+        <label>Высота</label></br>
+        <input type="number" name="vidHeight" /></br></br>
+        <button type="submit" id="submit">Сохранить</button>
+    </form>
+
+    <script>
+        document.getElementById("submit").addEventListener("click", function (e) {
+            e.preventDefault();
+            var testForm = document.forms["testForm"];
+            var width = testForm.elements["vidWidth"].value;
+            var height = testForm.elements["vidHeight"].value;
+            var data = JSON.stringify({Width: width, Height: height});
+            //console.log(data);
+            var xhr = new XMLHttpRequest();
+            // xhr.responseType = 'json';
+            xhr.open("PATCH", "/api/update", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.upload.onprogress = function(event) {
+                console.log(`Отправлено ${event.loaded} из ${event.total}`);
+            };
+            xhr.addEventListener("load", function () {
+                // получаем и парсим ответ сервера
+                 var receivedData = xhr.response;;
+                 console.log(receivedData); 
+             });
+            xhr.send(data);
+            xhr.onloadend = function() {
+                if (xhr.status == 200) {
+                    console.log("Успешно");
+                } else {
+                    console.log("Ошибка " + this.status);
+                }
+            };
+        });
+    </script>
+    
+</body>
+<html>

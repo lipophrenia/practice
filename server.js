@@ -40,7 +40,47 @@ app.patch("/api/update", function (request, response) {
   
   //response.json(request.body);
 });
-  
+
+app.get('/api/net-save', function (req, res) {
+	var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
+	fs.readFile(fileName, 'utf8', function (err, fileData) {
+		if (err) {
+			res.status(500).json({ "msg": "Something went wrong." });
+			console.error(err);
+		}
+		else {
+			var json = {
+				"ip1": "",
+				"ip2": "",
+        "ip3": "",
+				"gtw": ""
+			};
+			var arrStr = fileData.split(/\r\n|\r|\n/g);
+			for (var i = 0; i < arrStr.length; i++) {
+				arrStr[i].trim();
+				if (arrStr[i][0] != '#') {
+					if (arrStr[i].indexOf('Address') >= 0) {
+						var arr = arrStr[i].split('=');
+						if (json.ip1 == '') {
+							json.ip1 = arr[1];
+              console.log(arr[1]);
+						}
+						else {
+							json.ip2 = arr[1];
+              console.log(arr[1]);
+						}
+					}
+					if (arrStr[i].indexOf('Gateway') >= 0) {
+						var arr = arrStr[i].split('=');
+						json.gtw = arr[1];
+						break;
+					}
+				}
+			}
+			res.json(json);
+		}
+	});
+});
 
 app.listen((port),()=>{
   console.log(`Server is running on http://${host}:${port}/index`);
