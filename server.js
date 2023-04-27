@@ -1,23 +1,20 @@
-const host = 'localhost';
+const host = "localhost";
 const port = 8000;
-const fs = require('fs');
-const path = require('path');
-const bodyParser = require('body-parser')
+const fs = require("fs");
+const os = require('node:os');
+const path = require("path");
+const bodyParser = require("body-parser");
 
 const express = require("express");
 const app = express();
- 
+
 app.use(express.json());
 app.use(bodyParser.json());
 
-// app.use(function (request, response) {
-//   response.sendFile(__dirname + "/www/index.html");
-// });
+app.use("/static", express.static(__dirname + "/www/static"));
 
-app.use(express.static(__dirname + "/www/static/"));
-
-app.get('/index', function (req, res) {
-	res.sendFile(path.join(__dirname, 'www', 'index.html'));
+app.get("/index", function (req, res) {
+  res.sendFile(path.join(__dirname, "www", "index.html"));
 });
 
 // app.patch("/api/update", function (request, response) {
@@ -40,47 +37,61 @@ app.get('/index', function (req, res) {
 //   //response.json(request.body);
 // });
 
-app.get('/api/net-save', function (req, res) {
-	var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
-	fs.readFile(fileName, 'utf8', function (err, fileData) {
-		if (err) {
-			res.status(500).json({ "msg": "Something went wrong." });
-			console.error(err);
-		}
-		else {
-			var json = {
-				"ip1": "",
-				"ip2": "",
-        "ip3": "",
-				"gtw": ""
-			};
-			var arrStr = fileData.split(/\r\n|\r|\n/g);
-			for (var i = 0; i < arrStr.length; i++) {
-				arrStr[i].trim();
-				if (arrStr[i][0] != '#') {
-					if (arrStr[i].indexOf('Address') >= 0) {
-						var arr = arrStr[i].split('=');
-						if (json.ip1 == '') {
-							json.ip1 = arr[1];
-              console.log(arr[1]);
+app.patch('/api/net-save', function (req, res) {
+	if (req.body.hasOwnProperty('ip1') && req.body.hasOwnProperty('ip2') && req.body.hasOwnProperty('ip3') && req.body.hasOwnProperty('gate')) {
+		var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
+		fs.readFile(fileName, 'utf8', function (err, fileData) {
+			if (err) {
+				res.status(500).json({ "msg": "Something went wrong." });
+				console.error(err);
+			}
+			else {
+				addrCounter = 0;
+				var arrStr = fileData.split(/\r\n|\r|\n/g);
+				for (var i = 0; i < arrStr.length; i++) {
+					arrStr[i].trim();
+					if (arrStr[i][0] != '#') {
+						if (arrStr[i].indexOf('Address') >= 0) {
+							var arr = arrStr[i].split('=');
+							if (addrCounter == 0) {
+								arr[1] = req.body.ip1;
+								addrCounter++;
+							}
+							else if (addrCounter == 1) {
+								arr[1] = req.body.ip2;
+								addrCounter++;
+							}
+							else {
+								arr[1] = req.body.ip3;
+							}
+							arrStr[i] = arr.join('=');
 						}
-						else {
-							json.ip2 = arr[1];
-              console.log(arr[1]);
+						if (arrStr[i].indexOf('Gateway') >= 0) {
+							var arr = arrStr[i].split('=');
+							arr[1] = req.body.gate;
+							arrStr[i] = arr.join('=');
+							break;
 						}
-					}
-					if (arrStr[i].indexOf('Gateway') >= 0) {
-						var arr = arrStr[i].split('=');
-						json.gtw = arr[1];
-						break;
 					}
 				}
+				var str = arrStr.join(os.EOL);
+				fs.writeFile(fileName, str, function (err) {
+					if (err) {
+						res.status(500).json({ "msg": "Update error" });
+						console.error(err);
+					}
+					else {
+						res.json({ "msg": "File updated" });
+					}
+				});
 			}
-			res.json(json);
-		}
-	});
+		});
+	}
+	else {
+		res.status(409).json({ "msg": "Wrong parameters." });
+	}
 });
 
-app.listen((port),()=>{
+app.listen(port, () => {
   console.log(`Server is running on http://${host}:${port}/index`);
 });

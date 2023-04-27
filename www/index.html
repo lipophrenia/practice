@@ -6,9 +6,9 @@
   <meta charset="utf-8" />
 
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-  <link href="static/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <script type="text/javascript" src="static/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" src="static/jquery.js"></script>
+  <link href="static/bootstrap.min.css" rel="stylesheet">
+  <script src="static/bootstrap.bundle.min.js"></script>
+  <script src="static/jquery.js"></script>
 </head>
 
 <body>
@@ -322,19 +322,19 @@
           <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">NETWORK SETTINGS</p>
           <div class="form-group">
             <label for="ip1">Адрес 1</label>
-            <input type="text" class="form-control form-control-sm" id="ip1" placeholder="">
+            <input type="text" class="form-control form-control-sm" id="ip1" value="">
           </div>
           <div class="form-group">
             <label for="ip2">Адрес 2</label>
-            <input type="text" class="form-control form-control-sm" id="ip2" placeholder="">
+            <input type="text" class="form-control form-control-sm" id="ip2" value="">
           </div>
           <div class="form-group">
             <label for="ip3">Адрес 3</label>
-            <input type="text" class="form-control form-control-sm" id="ip3" placeholder="">
+            <input type="text" class="form-control form-control-sm" id="ip3" value="">
           </div>
           <div class="form-group">
             <label for="gtw">Шлюз</label>
-            <input type="text" class="form-control form-control-sm" id="gtw" placeholder="">
+            <input type="text" class="form-control form-control-sm" id="gtw" value="">
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
@@ -384,11 +384,11 @@
   <script>
     document.getElementById("btnNet").addEventListener("click", function (e) {
             e.preventDefault();
-            var ip1= ip1.value;
-            var ip2 = ip2.value;
-            var ip3 = ip3.value;
-            var gtw = gtw.value;
-            if (ip1 && ip2 && ip3 && gtw) {
+            var adr1= ip1.value;
+            var adr2 = ip2.value;
+            var adr3 = ip3.value;
+            var gate = gtw.value;
+            if (adr1 && adr2 && adr3 && gate) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
               if (xhr.readyState == 4) {
@@ -404,7 +404,7 @@
             xhr.responseType = 'json';
             xhr.open("PATCH", "/api/net-save", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({ "ip1": ip1, "ip2": ip2, "ip3": ip3, "gtw": gtw }));
+            xhr.send(JSON.stringify({ "ip1": adr1, "ip2": adr2, "ip3": adr3, "gate": gate }));
           }
         });
   </script>
