@@ -13,6 +13,16 @@
 
 <body>
   <div class="container">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Status</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+        <div class="toast-body" id="toasttext">
+        </div>
+      </div>
+    </div>
     <div class="row gx-2 justify-content-center">
       <div class="col" style="margin-top: 6px">
         <div class="p-3 border bg-light">
@@ -30,17 +40,19 @@
                   <div class="col">
                     Передача видео
                   </div>
-                  <div class="col">
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                        value="option1">
-                      <label class="form-check-label" for="inlineRadio1">parallel</label>
+                </div>
+                <div class="row">
+                  <div class="col-auto">
+                    parallel
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" style="margin-top: 5px; padding-right: 40px;"
+                        id="rtsp_mode">
                     </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                        value="option2">
-                      <label class="form-check-label" for="inlineRadio2">single</label>
-                    </div>
+                  </div>
+                  <div class="col-auto">
+                    single
                   </div>
                 </div>
                 <div class="checkbox" style="margin-bottom: -8px">
@@ -56,7 +68,7 @@
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">CONTROL</p>
                 <div class="form-group">
                   <label for="control_port">Порт управления</label>
-                  <input type="text" class="form-control form-control-sm" id="ontrol_port" placeholder="">
+                  <input type="text" class="form-control form-control-sm" id="control_port" placeholder="">
                 </div>
                 <div class="form-group">
                   <label for="tcp_port">TCP-порт управления</label>
@@ -129,11 +141,13 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid1_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_height" placeholder="">
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_height" placeholder="">
                     </div>
                     <div class="col">
                       <label for="vid1_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_bitrate" placeholder="">
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_bitrate" placeholder="">
                     </div>
                   </div>
                 </div>
@@ -147,7 +161,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid1_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_Mheight" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_Mheight" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -161,7 +176,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid1_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_maxVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_maxVFOV" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -190,7 +206,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid1_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_minVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_minVFOV" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -227,11 +244,13 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid2_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_height" placeholder="">
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_height" placeholder="">
                     </div>
                     <div class="col">
                       <label for="vid2_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_bitrate" placeholder="">
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_bitrate" placeholder="">
                     </div>
                   </div>
                 </div>
@@ -245,7 +264,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid2_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_Mheight" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid2_Mheight" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -259,7 +279,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid2_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_maxVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid2_maxVFOV" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -288,7 +309,8 @@
                       </div>
                       <div class="form-group">
                         <label for="vid2_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -6px" id="vid2_minVFOV" placeholder="">
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -6px"
+                          id="vid2_minVFOV" placeholder="">
                       </div>
                     </div>
                   </div>
@@ -383,56 +405,325 @@
   </div>
 
   <script>
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl)
+    });
+
+    //network data
     window.addEventListener("load", () => {
-        // Получение данных с сервера
+      // Получение данных с сервера
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {// добавляем обработчик события
+        // проверяем состояние запроса и числовой код состояния HTTP ответа
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          var json = xhr.response;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            if (json.hasOwnProperty('ip1') && json.hasOwnProperty('ip2') && json.hasOwnProperty('ip3') && json.hasOwnProperty('gate')) {
+              ip1.value = json.ip1;
+              ip2.value = json.ip2;
+              ip3.value = json.ip3;
+              gtw.value = json.gate;
+            }
+          }
+          else if (xhr.status >= 500) {
+            alert(json.msg);
+          }
+        }
+      };
+      xhr.responseType = 'json';
+      xhr.open("GET", "api/net-get", true);
+      xhr.send();
+    });
+
+    document.getElementById("btnNet").addEventListener("click", function (e) {
+      e.preventDefault();
+      var adr1 = ip1.value;
+      var adr2 = ip2.value;
+      var adr3 = ip3.value;
+      var gate = gtw.value;
+      if (adr1 && adr2 && adr3 && gate) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {// добавляем обработчик события
-          // проверяем состояние запроса и числовой код состояния HTTP ответа
-          if (xhr.readyState == XMLHttpRequest.DONE) {
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
             var json = xhr.response;
             if (xhr.status >= 200 && xhr.status < 300) {
-              if (json.hasOwnProperty('ip1') && json.hasOwnProperty('ip2') && json.hasOwnProperty('ip3') && json.hasOwnProperty('gate')) {
-                ip1.value = json.ip1;
-                ip2.value = json.ip2;
-                ip3.value = json.ip3;
-                gtw.value = json.gate;
-              }
+                $("#toasttext").html('Конфигурация сети обновлена!');
+              toastList.forEach(toast => toast.show());
+            }
+          }
+          else if (xhr.status >= 500) {
+            $("#toasttext").html('Ошибка!');
+            toastList.forEach(toast => toast.show());
+          }
+        }
+      };
+      xhr.responseType = 'json';
+      xhr.open("PATCH", "/api/net-save", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify({ "ip1": adr1, "ip2": adr2, "ip3": adr3, "gate": gate }));
+    }
+    );
+
+    //config data save
+    document.getElementById("btnConfSave").addEventListener("click", function (e) {
+      e.preventDefault();
+      //rtsp values
+      var rtsp_p = rtsp_port.value;
+      if (rtsp_mode.checked) {
+        var rtsp_m = 'single'
+      } else {
+        var rtsp_m = 'parallel'
+      }
+      if (pauseVid.checked) {
+        var pause = 'true'
+      } else {
+        var pause = 'false'
+      }
+      //control values
+      var ctrl_p = control_port.value;
+      var tcp_p = tcp_port.value;
+      //gyro value
+      var gyro_p = gyro_adress.value;
+      //processing values
+      var proc_w = width_proc.value;
+      var proc_h = height_proc.value;
+      var proc_t = tracker_proc.value;
+
+      //VIDEO 1 values
+      var v1_dev = vid1_device.value;
+      var v1_fps = vid1_fps.value;
+      //vid1 picture values
+      var v1_w = vid1_width.value;
+      var v1_h = vid1_height.value;
+      var v1_format = vid1_format.value;
+      var v1_bitrate = vid1_bitrate.value;
+      //vid1 matrix values
+      var v1_m_w = vid1_Mwidth.value;
+      var v1_m_h = vid1_Mheight.value;
+      //big FOV values
+      var v1_bhfov = vid1_maxHFOV.value;
+      var v1_bvfov = vid1_maxVFOV.value;
+      //small FOV values
+      var v1_shfov = vid1_minHFOV.value;
+      var v1_svfov = vid1_minVFOV.value;
+      //
+      if (vid1_zoomShift.checked) {
+        var v1_zshift = 'true'
+      } else {
+        var v1_zshift = 'false'
+      }
+      var v1_delay = vid1_delay.value;
+      var v1_sscale = vid1_stabScale.value;
+
+      //VIDEO 2 values
+      var v2_dev = vid2_device.value;
+      var v2_fps = vid2_fps.value;
+      //vid1 picture values
+      var v2_w = vid2_width.value;
+      var v2_h = vid2_height.value;
+      var v2_format = vid2_format.value;
+      var v2_bitrate = vid2_bitrate.value;
+      //vid1 matrix values
+      var v2_m_w = vid2_Mwidth.value;
+      var v2_m_h = vid2_Mheight.value;
+      //big FOV values
+      var v2_bhfov = vid2_maxHFOV.value;
+      var v2_bvfov = vid2_maxVFOV.value;
+      //small FOV values
+      var v2_shfov = vid2_minHFOV.value;
+      var v2_svfov = vid2_minVFOV.value;
+      //
+      if (vid2_zoomShift.checked) {
+        var v2_zshift = 'true'
+      } else {
+        var v2_zshift = 'false'
+      }
+      var v2_delay = vid2_delay.value;
+      var v2_sscale = vid2_stabScale.value;
+      if (vid2_progAF.checked) {
+        var v2_progAF = 'true'
+      } else {
+        var v2_progAF = 'false'
+      }
+      if (vid2_progZoom.checked) {
+        var v2_progZ = 'true'
+      } else {
+        var v2_progZ = 'false'
+      }
+      if (vid2_progReflect.checked) {
+        var v2_progR = 'true'
+      } else {
+        var v2_progR = 'false'
+      }
+      //request
+      if (rtsp_p && rtsp_m && pause && ctrl_p && tcp_p && gyro_p && proc_w && proc_h && proc_t &&
+        //v1
+        v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate && v1_m_w && v1_m_h &&
+        v1_bhfov && v1_bvfov && v1_shfov && v1_svfov && v1_zshift && v1_delay && v1_sscale &&
+        //v2
+        v2_dev && v2_fps && v2_w && v2_h && v2_format && v2_bitrate && v2_m_w && v2_m_h &&
+        v2_bhfov && v2_bvfov && v2_shfov && v2_svfov && v2_zshift && v2_delay && v2_sscale &&
+        v2_progAF && v2_progZ && v2_progR) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html('Конфигурация обновлена!');
+              toastList.forEach(toast => toast.show());
             }
             else if (xhr.status >= 500) {
-              alert(json.msg);
+              $("#toasttext").html('Ошибка!');
+              toastList.forEach(toast => toast.show());
             }
           }
         };
         xhr.responseType = 'json';
-        xhr.open("GET", "api/net-get", true); // определяем параметры для запроса
-        xhr.send();
-      });
+        xhr.open("PATCH", "/api/conf-save", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        //conf structure
+        xhr.send(JSON.stringify({
+          "rtsp": {
+            "port": rtsp_p,
+            "mode": rtsp_m,
+            "pause": pause
+          },
 
-    document.getElementById("btnNet").addEventListener("click", function (e) {
-            e.preventDefault();
-            var adr1= ip1.value;
-            var adr2 = ip2.value;
-            var adr3 = ip3.value;
-            var gate = gtw.value;
-            if (adr1 && adr2 && adr3 && gate) {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState == 4) {
-                var json = xhr.response;
-                if (xhr.status >= 200 && xhr.status < 300) {
-                  alert(json.msg);
-                }
-                else if (xhr.status >= 500) {
-                  alert(json.msg);
-                }
-              }
-            };
-            xhr.responseType = 'json';
-            xhr.open("PATCH", "/api/net-save", true);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.send(JSON.stringify({ "ip1": adr1, "ip2": adr2, "ip3": adr3, "gate": gate }));
+
+          "video": [
+            {
+              "device": v1_dev,
+              "width": v1_w,
+              "height": v1_h,
+              "format": v1_format,
+              "bitrate": v1_bitrate,
+              "fps": v1_fps,
+              "matrixW": v1_m_w,
+              "matrixH": v1_m_h,
+              "maxHFov": v1_bhfov,
+              "maxVFov": v1_bvfov,
+              "minHFov": v1_shfov,
+              "minVFov": v1_svfov,
+              "zmStab": v1_sscale,
+              "offsetCam": v1_zshift,
+              "queueTelem": v1_delay,
+            },
+            {
+              "device": v2_dev,
+              "width": v2_w,
+              "height": v2_h,
+              "format": v2_format,
+              "bitrate": v2_bitrate,
+              "fps": v2_fps,
+              "matrixW": v2_m_w,
+              "matrixH": v2_m_h,
+              "maxHFov": v2_bhfov,
+              "maxVFov": v2_bvfov,
+              "minHFov": v2_shfov,
+              "minVFov": v2_svfov,
+              "softAF": v2_progAF,
+              "softZoom": v2_progZ,
+              "softFlips": v2_progR,
+              "zmStab": v2_sscale,
+              "offsetCam": v2_zshift,
+              "queueTelem": v2_delay
+            }
+          ],
+
+
+          "control": {
+            "uart": {
+              "device": ctrl_p,
+            },
+            "tcp": {
+              "port": tcp_p,
+            }
+          },
+
+          "gyro": {
+            "port": gyro_p,
+          },
+
+          "processing": {
+            "width": proc_w,
+            "height": proc_h,
+            "script": proc_t,
           }
-        });
+        }));
+      }
+      else if (rtsp_p && rtsp_m && pause && ctrl_p && tcp_p && gyro_p && proc_w && proc_h && proc_t &&
+        //v1
+        v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate && v1_m_w && v1_m_h &&
+        v1_bhfov && v1_bvfov && v1_shfov && v1_svfov && v1_zshift && v1_delay && v1_sscale) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html('Конфигурация обновлена!');
+              toastList.forEach(toast => toast.show());
+            }
+            else if (xhr.status >= 500) {
+              $("#toasttext").html('Ошибка!');
+              toastList.forEach(toast => toast.show());
+            }
+          }
+        };
+        xhr.responseType = 'json';
+        xhr.open("PATCH", "/api/conf-save", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+          "rtsp": {
+            "port": rtsp_p,
+            "mode": rtsp_m,
+            "pause": pause
+          },
+
+
+          "video": [
+            {
+              "device": v1_dev,
+              "width": v1_w,
+              "height": v1_h,
+              "format": v1_format,
+              "bitrate": v1_bitrate,
+              "fps": v1_fps,
+              "matrixW": v1_m_w,
+              "matrixH": v1_m_h,
+              "maxHFov": v1_bhfov,
+              "maxVFov": v1_bvfov,
+              "minHFov": v1_shfov,
+              "minVFov": v1_svfov,
+              "zmStab": v1_sscale,
+              "offsetCam": v1_zshift,
+              "queueTelem": v1_delay
+            }
+          ],
+
+
+          "control": {
+            "uart": {
+              "device": ctrl_p,
+            },
+            "tcp": {
+              "port": tcp_p,
+            }
+          },
+
+          "gyro": {
+            "port": gyro_p,
+          },
+
+          "processing": {
+            "width": proc_w,
+            "height": proc_h,
+            "script": proc_t,
+          }
+        }));
+      }
+    });
+
   </script>
 
 </body>

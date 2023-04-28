@@ -1,9 +1,10 @@
 const host = "localhost";
-const port = 8000;
+const port = 8080;
 const fs = require("fs");
 const os = require('node:os');
 const path = require("path");
 const bodyParser = require("body-parser");
+var path_to_config = 'video.conf';
 
 const express = require("express");
 const app = express();
@@ -134,6 +135,23 @@ app.patch('/api/net-save', function (req, res) {
 	else {
 		res.status(409).json({ "msg": "Wrong parameters." });
 	}
+});
+
+//сохранение конфига
+app.patch('/api/conf-save', function (req, res) {
+	var fileJson = path.join('/home/practice/practice/files/', path_to_config); // папка, в которой лежат файлы video.config
+	var dataJson = JSON.stringify(req.body, null, 4);
+	// console.log(dataJson);
+	fs.writeFile(fileJson, dataJson, function (err) {
+		if (err) {
+			res.status(500).json({ "msg": "Update error" });
+			console.error(err);
+		}
+		else {
+			res.json({ "msg": "Upload completed." });
+		}
+
+	})
 });
 
 app.listen(port, () => {
