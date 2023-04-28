@@ -18,26 +18,6 @@ app.get("/index", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
 });
 
-// app.patch("/api/update", function (request, response) {
-
-//   var fileName = '/home/practice/practice/test/practice/files/test.json'; //home
-//   //var fileName = '/home/practice/practice/files/test.json'; //practice
-//   var data = JSON.stringify(request.body);
-
-//   fs.writeFile(fileName, data, function (err) {
-//     if (err) {
-//       response.json({ "msg": "Update error" });
-//       console.error(err);
-//     }
-//     else {
-//       response.json({ "msg": "File updated" });
-//     }
-//   });
-//   //console.log(request.body);
-//   if(!request.body) return response.sendStatus(400);
-//   //response.json(request.body);
-// });
-
 //получение конфигурации сети
 app.get('/api/net-get', function (req, res) {
 	var fileName = path.resolve('/home/practice/practice/files/', 'ip.network'); // путь до файла ip.network
