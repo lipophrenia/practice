@@ -36,7 +36,7 @@ function selectedConf() {
 }
 
 app.patch("/api/conf-select", function (req, res) {
-//   console.log(lastSelect);
+//   console.log(lastSelect);selectedConf();
 //   console.log(lastSelectID);
   console.log(req.body);
 //   var file = path.join("/home/practice/practice/", "selected.txt");
