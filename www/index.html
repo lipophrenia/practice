@@ -1482,11 +1482,7 @@
         xhr.responseType = "json";
         xhr.open("PATCH", "/api/conf-select", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(
-          JSON.stringify({
-            id: selected,
-          })
-        );
+        xhr.send(JSON.stringify({id: selected}));
         conf_load();
       }
 
@@ -1519,14 +1515,19 @@
       });
 
       //перезагрузка
-      document.addEventListener("DOMContentLoaded", function (event) {
-        var btn = document.getElementById("btnReboot");
-        btn.addEventListener("click", function (event) {
-          event.preventDefault();
-          ajax("GET", "/reboot", null, function (result) {
-            alert("Success");
-          });
-        });
+      document.getElementById("btnReboot").addEventListener("click", function (e) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/reboot", true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html("Перезагрузка!");
+              toastList.forEach((toast) => toast.show());
+            }
+          }
+        }
+        xhr.send("reboot");
       });
     </script>
   </body>

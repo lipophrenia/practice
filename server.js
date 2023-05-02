@@ -4,6 +4,7 @@ const fs = require("fs");
 const os = require("node:os");
 const path = require("path");
 const bodyParser = require("body-parser");
+const execFile = require('child_process').execFile;
 var path_to_config = "";
 var SelectedID = "";
 var confs;
@@ -36,7 +37,6 @@ function Select(SelectedID){
 }
 
 app.use(express.json());
-//app.use(bodyParser.json());
 var jsonParser = bodyParser.json()
 
 app.use("/static", express.static(__dirname + "/www/static"));
