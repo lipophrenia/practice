@@ -1,16 +1,39 @@
 const host = "localhost";
-const port = 8000;
+const port = 8080;
 const fs = require("fs");
 const os = require("node:os");
 const path = require("path");
 const bodyParser = require("body-parser");
 var path_to_config = "";
-var lastSelectID = "";
+var SelectedID = "";
 var confs;
-var select;
 
 const express = require("express");
 const app = express();
+
+function Init(){
+  var selectedCam = fs.readFileSync("selected.txt", "utf8");
+  var configsList = fs.readFileSync("configs.json", "utf8");
+  confs = JSON.parse(configsList);
+  for (var i = 0; i < confs.length; i++) {
+    if (selectedCam == confs[i].name) {
+      lastSelectID = confs[i].id;
+      path_to_config = confs[i].path;
+    }
+  }
+}
+
+function Select(SelectedID){
+  var configsList = fs.readFileSync("configs.json", "utf8");
+  confs = JSON.parse(configsList);
+  for (var i = 0; i < confs.length; i++) {
+    if (SelectedID == confs[i].id) {
+      selectedCam = confs[i].name;
+      path_to_config = confs[i].path;
+    }
+  }
+  return selectedCam;
+}
 
 app.use(express.json());
 //app.use(bodyParser.json());
@@ -20,33 +43,26 @@ app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
+  Init();
 });
 
+//выбор конфига
 app.patch("/api/conf-select", jsonParser, function (req, res) {
-  lastSelectID = req.body.id;
-  var configsList = fs.readFileSync("configs.json", "utf8");
-  confs = JSON.parse(configsList);
-  for (var i = 0; i < confs.length; i++) {
-    if (lastSelectID == confs[i].id) {
-      var selectedCam = confs[i].name;
-      path_to_config = confs[i].path;
-    }
-  }
+  SelectedID = req.body.id;
+  Select(SelectedID);
   fs.writeFile("selected.txt", selectedCam, function (err) {
     if (err) {
-      res.status(500).json({ msg: "Update error" });
+      res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Upload completed." });
+      res.json({ msg: "Selected!" });
     }
   });
 });
 
 //получение конфигурации камер
 app.get("/api/conf-get", function (req, res) {
-  var confFile = fs.readFileSync(
-    "/home/practice/practice/files/" + path_to_config
-  ); // путь до файла
+  var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
   var content = confFile.toString("utf8");
   res.send(JSON.stringify(content));
 });
