@@ -1,0 +1,56 @@
+[
+    {
+        "id":0,
+        "name":"OES1",
+        "text":"sony ev7520",
+        "path":"video1.conf"
+    },
+    {
+        "id":1,
+        "name":"OES2",
+        "text":"sony ev2700 + Noxant",
+        "path":"video2.conf"
+    },
+    {
+        "id":2,
+        "name":"OES3",
+        "text":"sony ev2700 + la6110",
+        "path":"video3.conf"
+    },
+    {
+        "id":3,
+        "name":"OES4",
+        "text":"sony ev7520 + tfm 1024",
+        "path":"video4.conf"
+    },
+    {
+        "id":4,
+        "name":"OES5",
+        "text":"tfm mx640",
+        "path":"video5.conf"
+    },
+    {
+        "id":5,
+        "name":"OES6",
+        "text":"savgood sg2090",
+        "path":"video6.conf"
+    },
+    {
+        "id":6,
+        "name":"OES7",
+        "text":"sony ev7520 + nit275",
+        "path":"video7.conf"
+    },
+    {
+        "id":7,
+        "name":"OES8",
+        "text":"sony ev7520 + Xcore Micro III",
+        "path":"video8.conf"
+    },
+    {
+        "id":8,
+        "name":"OES9",
+        "text":"Зарезервировано",
+        "path":"video9.conf"
+    }
+]
