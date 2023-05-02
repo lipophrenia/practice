@@ -18,12 +18,28 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
 });
 
-//получение конфигурации камеры
+//получение конфигурации камер
 app.get('/api/conf-get', function (req, res) {
 	var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла 
 	var content = confFile.toString('utf8');
 	// console.log(content);
 	res.send(JSON.stringify(content));
+});
+
+//сохранение конфигурации камер
+app.patch('/api/conf-save', function (req, res) {
+	var fileJson = path.join('/home/practice/practice/files/', path_to_config); // папка, в которой лежат файлы video.config
+	var dataJson = JSON.stringify(req.body, null, 4);
+	fs.writeFile(fileJson, dataJson, function (err) {
+		if (err) {
+			res.status(500).json({ "msg": "Update error" });
+			console.error(err);
+		}
+		else {
+			res.json({ "msg": "Upload completed." });
+		}
+
+	})
 });
 
 //получение конфигурации сети
@@ -125,22 +141,19 @@ app.patch('/api/net-save', function (req, res) {
 	}
 });
 
-//сохранение конфига
-app.patch('/api/conf-save', function (req, res) {
-	var fileJson = path.join('/home/practice/practice/files/', path_to_config); // папка, в которой лежат файлы video.config
-	var dataJson = JSON.stringify(req.body, null, 4);
-	// console.log(dataJson);
-	fs.writeFile(fileJson, dataJson, function (err) {
+//перезагрузка
+app.get('/reboot', function (req, res) {
+	execFile('./reboot.sh', { shell: '/bin/bash' }, (err, stdout, stderr) => {
 		if (err) {
-			res.status(500).json({ "msg": "Update error" });
-			console.error(err);
+			console.error(err)
+		} else {
+			console.log(stdout);
+			console.log(stderr);
+			res.send(stdout);
 		}
-		else {
-			res.json({ "msg": "Upload completed." });
-		}
-
-	})
+	});
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://${host}:${port}/`);

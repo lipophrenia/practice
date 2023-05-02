@@ -1027,6 +1027,17 @@
       }
     });
 
+    //перезагрузка
+    document.addEventListener("DOMContentLoaded", function (event) {
+      var btn = document.getElementById('btnReboot');
+      btn.addEventListener('click', function (event) {
+        event.preventDefault();
+        ajax('GET', '/reboot', null, function (result) {
+          alert('Success');
+        });
+      });
+    });
+
   </script>
 
 </body>

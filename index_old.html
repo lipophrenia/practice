@@ -38,17 +38,6 @@
     }
   });
 
-  // перезагрузка
-  document.addEventListener("DOMContentLoaded", function (event) {
-    var btn = document.getElementById('btnReboot');
-    btn.addEventListener('click', function (event) {
-      event.preventDefault();
-      ajax('GET', '/btnReboot', null, function (result) {
-        alert('Success');
-      });
-    });
-  });
-
   // выполнение консольных команд
   document.addEventListener("DOMContentLoaded", function (event) {
     var btnConf = document.getElementById('btnConf');
