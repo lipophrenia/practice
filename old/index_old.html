@@ -1,17 +1,4 @@
 <script>
-
-  let element = document.getElementById('select');
-  let valueToSelect = httpGetCamera('/getSelectedCam');
-  element.value = valueToSelect;
-  alert(element.value);
-
-  function httpGetCamera(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-  }
-
   document.addEventListener("DOMContentLoaded", function (event) {
     // Находим необходимые HTML теги
     var txtEdit = document.getElementById('txtEdit');
