@@ -370,7 +370,7 @@
         <!--CAMS-->
         <div class="p-3 border bg-light" style="margin-top: 8px">
           <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">Камеры</p>
-          <select class="form-select" aria-label="Default select example">
+          <select class="form-select" id="selection">
             <option id="OES1" value="OES1">sony ev7520</option>
             <option id="OES2" value="OES2">sony ev2700 + Noxant</option>
             <option id="OES3" value="OES3">sony ev2700 + la6110</option>
@@ -749,7 +749,6 @@
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
           if (xhr.readyState == 4) {
-            var json = xhr.response;
             if (xhr.status >= 200 && xhr.status < 300) {
               $("#toasttext").html('Конфигурация сети обновлена!');
               toastList.forEach(toast => toast.show());
@@ -1025,6 +1024,30 @@
           }
         }));
       }
+    });
+
+    //select
+    document.getElementById("btnConfLoad").addEventListener("click", function (e) {
+      e.preventDefault();
+      var selected = selection.selectedIndex;
+      console.log(toString(selected));
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html('Конфигурация выбрана!');
+              toastList.forEach(toast => toast.show());
+            }
+          }
+          else if (xhr.status >= 500) {
+            $("#toasttext").html('Ошибка!');
+            toastList.forEach(toast => toast.show());
+          }
+        }
+        xhr.responseType = 'json';
+        xhr.open("PATCH", "/api/conf-select", true);
+        xhr.setRequestHeader("Content-Type", "application/text;charset=UTF-8");
+        xhr.send(selected);
     });
 
     //перезагрузка
