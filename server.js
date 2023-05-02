@@ -1,5 +1,5 @@
 const host = "localhost";
-const port = 8080;
+const port = 8000;
 const fs = require("fs");
 const os = require("node:os");
 const path = require("path");
@@ -37,30 +37,28 @@ function selectedConf() {
 
 app.patch("/api/conf-select", function (req, res) {
   selectedConf();
-  console.log(lastSelect);
-  console.log(lastSelectID);
+//   console.log(lastSelect);
+//   console.log(lastSelectID);
   console.log(req.body);
-  var file = path.join("/home/practice/practice/", "selected.txt");
-  for (var i = 0; i < confs.length; i++) {
-    if (req.body == lastSelectID) {
-      var data = lastSelect.toString;
-    }
-  }
-  fs.writeFile(file, data, function (err) {
-    if (err) {
-      res.status(500).json({ msg: "Update error" });
-      console.error(err);
-    } else {
-      res.json({ msg: "Upload completed." });
-    }
-  });
+//   var file = path.join("/home/practice/practice/", "selected.txt");
+//   for (var i = 0; i < confs.length; i++) {
+//     if (req.body == lastSelectID) {
+//       var data = lastSelect.toString;
+//     }
+//   }
+//   fs.writeFile(file, data, function (err) {
+//     if (err) {
+//       res.status(500).json({ msg: "Update error" });
+//       console.error(err);
+//     } else {
+//       res.json({ msg: "Upload completed." });
+//     }
+//   });
 });
 
 //получение конфигурации камер
 app.get("/api/conf-get", function (req, res) {
-  var confFile = fs.readFileSync(
-    "/home/practice/practice/files/" + path_to_config
-  ); // путь до файла
+  var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
   var content = confFile.toString("utf8");
   res.send(JSON.stringify(content));
 });

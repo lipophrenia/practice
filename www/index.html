@@ -1030,7 +1030,7 @@
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
       var selected = selection.selectedIndex;
-      console.log(toString(selected));
+      console.log(selected);
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4) {
@@ -1046,8 +1046,8 @@
         }
         xhr.responseType = 'json';
         xhr.open("PATCH", "/api/conf-select", true);
-        xhr.setRequestHeader("Content-Type", "application/text;charset=UTF-8");
-        xhr.send(selected);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({"id": selected}));
     });
 
     //перезагрузка
