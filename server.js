@@ -4,7 +4,7 @@ const fs = require("fs");
 const os = require('node:os');
 const path = require("path");
 const bodyParser = require("body-parser");
-var path_to_config = 'video.conf';
+var path_to_config = 'video3.conf';
 
 const express = require("express");
 const app = express();
@@ -14,8 +14,16 @@ app.use(bodyParser.json());
 
 app.use("/static", express.static(__dirname + "/www/static"));
 
-app.get("/index", function (req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
+});
+
+//получение конфигурации камеры
+app.get('/api/conf-get', function (req, res) {
+	var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла 
+	var content = confFile.toString('utf8');
+	// console.log(content);
+	res.send(JSON.stringify(content));
 });
 
 //получение конфигурации сети
@@ -135,5 +143,5 @@ app.patch('/api/conf-save', function (req, res) {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://${host}:${port}/index`);
+  console.log(`Server is running on http://${host}:${port}/`);
 });
