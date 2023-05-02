@@ -5,59 +5,48 @@ const os = require("node:os");
 const path = require("path");
 const bodyParser = require("body-parser");
 var path_to_config = "";
-var lastSelect = "";
 var lastSelectID = "";
 var confs;
+var select;
 
 const express = require("express");
 const app = express();
 
 app.use(express.json());
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+var jsonParser = bodyParser.json()
 
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
-  selectedConf();
 });
 
-function selectedConf() {
-  var currentCam = fs.readFileSync("selected.txt", "utf8");
+app.patch("/api/conf-select", jsonParser, function (req, res) {
+  lastSelectID = req.body.id;
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (currentCam == confs[i].name) {
-      lastSelectID = confs[i].id;
+    if (lastSelectID == confs[i].id) {
+      var selectedCam = confs[i].name;
       path_to_config = confs[i].path;
-      lastSelect = confs[i].name;
     }
   }
-}
-
-app.patch("/api/conf-select", function (req, res) {
-//   console.log(lastSelect);selectedConf();
-//   console.log(lastSelectID);
-  console.log(req.body);
-//   var file = path.join("/home/practice/practice/", "selected.txt");
-//   for (var i = 0; i < confs.length; i++) {
-//     if (req.body == lastSelectID) {
-//       var data = lastSelect.toString;
-//     }
-//   }
-//   fs.writeFile(file, data, function (err) {
-//     if (err) {
-//       res.status(500).json({ msg: "Update error" });
-//       console.error(err);
-//     } else {
-//       res.json({ msg: "Upload completed." });
-//     }
-//   });
+  fs.writeFile("selected.txt", selectedCam, function (err) {
+    if (err) {
+      res.status(500).json({ msg: "Update error" });
+      console.error(err);
+    } else {
+      res.json({ msg: "Upload completed." });
+    }
+  });
 });
 
 //получение конфигурации камер
 app.get("/api/conf-get", function (req, res) {
-  var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
+  var confFile = fs.readFileSync(
+    "/home/practice/practice/files/" + path_to_config
+  ); // путь до файла
   var content = confFile.toString("utf8");
   res.send(JSON.stringify(content));
 });

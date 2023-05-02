@@ -594,6 +594,25 @@
                 vid2_progReflect.disabled = true;
                 vid2_progZoom.disabled = true;
               } else if (confJson.video && confJson.video.length == 2) {//если камер две
+
+                vid2_device.disabled = false;
+                vid2_fps.disabled = false;
+                vid2_width.disabled = false;
+                vid2_height.disabled = false;
+                vid2_format.disabled = false;
+                vid2_bitrate.disabled = false;
+                vid2_Mwidth.disabled = false;
+                vid2_Mheight.disabled = false;
+                vid2_maxHFOV.disabled = false;
+                vid2_maxVFOV.disabled = false;
+                vid2_minHFOV.disabled = false;
+                vid2_minVFOV.disabled = false;
+                vid2_zoomShift.disabled = false;
+                vid2_delay.disabled = false;
+                vid2_stabScale.disabled = false;
+                vid2_progAF.disabled = false;
+                vid2_progReflect.disabled = false;
+                vid2_progZoom.disabled = false;
                 //vid1
                 if (confJson.video[0].hasOwnProperty('device')) {
                   vid1_device.value = confJson.video[0].device;
@@ -1046,7 +1065,9 @@
         xhr.responseType = 'json';
         xhr.open("PATCH", "/api/conf-select", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify({"id": selected}));
+        xhr.send(JSON.stringify({
+          "id":selected
+        }));
     });
 
     //перезагрузка
