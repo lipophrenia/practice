@@ -412,7 +412,6 @@
 
     //network data
     window.addEventListener("load", () => {
-      // Получение данных с сервера
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -436,8 +435,8 @@
       xhr.send();
     });
 
+    //config data
     window.addEventListener("load", () => {
-      // Получение данных с сервера
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -730,7 +729,7 @@
               }
             }
           } else if (xhr.status >= 500) {
-            $("#toasttext").html('Ошибка загрузки файла конфигурации камер!');
+            $("#toasttext").html('Ошибка загрузки файла конфигурации!');
             toastList.forEach(toast => toast.show());
           }
         }
