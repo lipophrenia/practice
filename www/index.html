@@ -1030,7 +1030,6 @@
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
       var selected = selection.selectedIndex;
-      console.log(selected);
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4) {

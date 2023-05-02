@@ -36,7 +36,6 @@ function selectedConf() {
 }
 
 app.patch("/api/conf-select", function (req, res) {
-  selectedConf();
 //   console.log(lastSelect);
 //   console.log(lastSelectID);
   console.log(req.body);
