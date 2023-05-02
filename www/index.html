@@ -1486,6 +1486,20 @@
         conf_load();
       }
 
+      function reboot(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/reboot", true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html("Перезагрузка!");
+              toastList.forEach((toast) => toast.show());
+            }
+          }
+        }
+        xhr.send("reboot");
+      }
+
       //network data get
       window.addEventListener("load", () => {
         netconf_load();
@@ -1516,18 +1530,8 @@
 
       //перезагрузка
       document.getElementById("btnReboot").addEventListener("click", function (e) {
-        event.preventDefault();
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/reboot", true);
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == 4) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              $("#toasttext").html("Перезагрузка!");
-              toastList.forEach((toast) => toast.show());
-            }
-          }
-        }
-        xhr.send("reboot");
+        e.preventDefault();
+        reboot();
       });
     </script>
   </body>
