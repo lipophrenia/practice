@@ -15,12 +15,12 @@ var SelectedID = "";
 var confs;
 
 function Init(){
-  var selectedCam = fs.readFileSync("selected.txt", "utf8");
+  var selectedCam = fs.readFileSync("model", "utf8");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
     if (selectedCam == confs[i].name) {
-      lastSelectID = confs[i].id;
+      SelectedID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
@@ -47,21 +47,25 @@ app.get("/", function (req, res) {
 
 //get config list
 app.get("/api/conflist-get",function (req, res) {
-  var configsList = fs.readFileSync("configs.json", "utf8");
-  confs = JSON.parse(configsList);
   res.json(confs);
+});
+
+//get selection
+app.get("/api/selection",function (req, res) {
+  selectedCam = fs.readFileSync('model', "utf8");
+  res.json({ selected: selectedCam });
 });
 
 //config select
 app.patch("/api/conf-select", jsonParser, function (req, res) {
   SelectedID = req.body.id;
   Select(SelectedID);
-  fs.writeFile("selected.txt", selectedCam, function (err) {
+  fs.writeFile("model", selectedCam, function (err) {
     if (err) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Selected!" });
+      res.json({ msg: "Upload completed." });
     }
   });
 });
@@ -69,8 +73,7 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
 //get video config
 app.get("/api/conf-get", function (req, res) {
   var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
-  var content = confFile.toString("utf8");
-  res.send(JSON.stringify(content));
+  res.json(JSON.parse(confFile));
 });
 
 //save video config
