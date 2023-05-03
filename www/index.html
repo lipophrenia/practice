@@ -1,1538 +1,1228 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Config</title>
-    <meta charset="utf-8" />
 
-    <meta
-      name="viewport"
-      content="width=device-width, height=device-height, initial-scale=1"
-    />
-    <link href="static/bootstrap.min.css" rel="stylesheet" />
-    <script src="static/bootstrap.bundle.min.js"></script>
-    <script src="static/jquery.js"></script>
-  </head>
+<head>
+  <title>Config</title>
+  <meta charset="utf-8" />
 
-  <body>
-    <div class="container">
-      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div
-          id="toast"
-          class="toast hide"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div class="toast-header">
-            <strong class="me-auto">Status</strong>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="toast"
-              aria-label="Закрыть"
-            ></button>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
+  <link href="static/bootstrap.min.css" rel="stylesheet" />
+  <script src="static/bootstrap.bundle.min.js"></script>
+  <script src="static/jquery.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">Status</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+        <div class="toast-body" id="toasttext"></div>
+      </div>
+    </div>
+    <div class="row gx-2 justify-content-center">
+      <div class="col" style="margin-top: 6px">
+        <div class="p-3 border bg-light">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px">
+            Конфигурация
+          </p>
+          <div class="row gx-2">
+            <!--rtsp-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  RTSP
+                </p>
+                <div class="form-group">
+                  <label for="rtsp_port">RTSP порт:</label>
+                  <input type="text" class="form-control form-control-sm" id="rtsp_port" placeholder="" />
+                </div>
+                <div class="row justify-content-start">
+                  <div class="col">Передача видео</div>
+                </div>
+                <div class="row">
+                  <div class="col-auto">parallel</div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" style="margin-top: 5px; padding-right: 40px"
+                        id="rtsp_mode" />
+                    </div>
+                  </div>
+                  <div class="col-auto">single</div>
+                </div>
+                <div class="checkbox" style="margin-bottom: -8px">
+                  <label><input type="checkbox" style="margin-right: 5px" id="pauseVid" />Останавливать неактивное
+                    видео</label>
+                </div>
+              </div>
+            </div>
+
+            <!--control-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  CONTROL
+                </p>
+                <div class="form-group">
+                  <label for="control_port">Порт управления</label>
+                  <input type="text" class="form-control form-control-sm" id="control_port" placeholder="" />
+                </div>
+                <div class="form-group">
+                  <label for="tcp_port">TCP-порт управления</label>
+                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tcp_port"
+                    placeholder="" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <!--gyro-->
+              <div class="p-3 border bg-light">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  GYRO
+                </p>
+                <div class="form-group">
+                  <label for="gyro_address">Порт управления</label>
+                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="gyro_address"
+                    placeholder="" />
+                </div>
+              </div>
+            </div>
+
+            <!--processing-->
+            <div class="col">
+              <div class="p-3 border bg-light">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  PROCESSING
+                </p>
+                <div class="form-group">
+                  <label for="width_proc">Ширина</label>
+                  <input type="text" class="form-control form-control-sm" id="width_proc" placeholder="" />
+                </div>
+                <div class="form-group">
+                  <label for="height_proc">Высота</label>
+                  <input type="text" class="form-control form-control-sm" id="height_proc" placeholder="" />
+                </div>
+                <div class="form-group">
+                  <label for="tracker_proc">TCP-порт управления</label>
+                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tracker_proc"
+                    placeholder="" />
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="toast-body" id="toasttext"></div>
+
+          <div class="row gx-2" style="margin-top: -2px">
+            <!--video1-->
+            <div class="col">
+              <div class="p-3 border bg-light" style="margin-top: 10px">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  VIDEO 1
+                </p>
+                <div class="row">
+                  <div class="col">
+                    <label for="vid1_device">Устройство</label>
+                    <input type="text" class="form-control form-control-sm" id="vid1_device" placeholder="" />
+                  </div>
+                  <div class="col">
+                    <label for="vid1_fps">fps</label>
+                    <input type="text" class="form-control form-control-sm" id="vid1_fps" placeholder="" />
+                  </div>
+                </div>
+                <div class="p-3 border bg-light" style="margin-top: 8px">
+                  <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                    Изображение
+                  </p>
+                  <div class="row gx-2">
+                    <div class="col">
+                      <label for="vid1_width">Ширина</label>
+                      <input type="text" class="form-control form-control-sm" id="vid1_width" placeholder="" />
+                    </div>
+                    <div class="col">
+                      <label for="vid1_format">Формат</label>
+                      <input type="text" class="form-control form-control-sm" id="vid1_format" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="row gx-2">
+                    <div class="col">
+                      <label for="vid1_height">Высота</label>
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_height" placeholder="" />
+                    </div>
+                    <div class="col">
+                      <label for="vid1_bitrate">Битрейт</label>
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_bitrate" placeholder="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row gx-2" style="margin-top: 14px">
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Матрица
+                      </p>
+                      <div class="form-group">
+                        <label for="vid1_Mwidth">Ширина</label>
+                        <input type="text" class="form-control form-control-sm" id="vid1_Mwidth" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid1_Mheight">Высота</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_Mheight" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Широкий FOV
+                      </p>
+                      <div class="form-group">
+                        <label for="vid1_maxHFOV">По горизонтали</label>
+                        <input type="text" class="form-control form-control-sm" id="vid1_maxHFOV" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid1_maxVFOV">По вертикали</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_maxVFOV" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gx-2" style="margin-top: 14px; margin-bottom: -8px">
+                  <div class="col">
+                    <div class="checkbox" style="margin-top: -6px">
+                      <label><input type="checkbox" id="vid1_zoomShift" style="margin-right: 5px" />Сдвиг при
+                        приближении</label>
+                    </div>
+                    <div class="form-group" style="margin-top: 2px">
+                      <label for="vid1_delay">Задержка телеметрии</label>
+                      <input type="text" class="form-control form-control-sm" id="vid1_delay" placeholder="" />
+                    </div>
+                    <div class="form-group" style="margin-top: 2px">
+                      <label for="vid1_stabScale">Масштабирование стабилизации</label>
+                      <input type="text" class="form-control form-control-sm" id="vid1_stabScale" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Узкий FOV
+                      </p>
+                      <div class="form-group">
+                        <label for="vid1_minHFOV">По горизонтали</label>
+                        <input type="text" class="form-control form-control-sm" id="vid1_minHFOV" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid1_minVFOV">По вертикали</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid1_minVFOV" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--video 2-->
+            <div class="col" id="vid2_col">
+              <div class="p-3 border bg-light" style="margin-top: 10px; margin-bottom: -8px">
+                <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                  VIDEO 2
+                </p>
+                <div class="row">
+                  <div class="col">
+                    <label for="vid2_device">Устройство</label>
+                    <input type="text" class="form-control form-control-sm" id="vid2_device" placeholder="" />
+                  </div>
+                  <div class="col">
+                    <label for="vid2_fps">fps</label>
+                    <input type="text" class="form-control form-control-sm" id="vid2_fps" placeholder="" />
+                  </div>
+                </div>
+                <div class="p-3 border bg-light" style="margin-top: 8px">
+                  <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                    Изображение
+                  </p>
+                  <div class="row gx-2">
+                    <div class="col">
+                      <label for="vid2_width">Ширина</label>
+                      <input type="text" class="form-control form-control-sm" id="vid2_width" placeholder="" />
+                    </div>
+                    <div class="col">
+                      <label for="vid2_format">Формат</label>
+                      <input type="text" class="form-control form-control-sm" id="vid2_format" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="row gx-2">
+                    <div class="col">
+                      <label for="vid2_height">Высота</label>
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_height" placeholder="" />
+                    </div>
+                    <div class="col">
+                      <label for="vid2_bitrate">Битрейт</label>
+                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_bitrate" placeholder="" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row gx-2" style="margin-top: 14px">
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Матрица
+                      </p>
+                      <div class="form-group">
+                        <label for="vid2_Mwidth">Ширина</label>
+                        <input type="text" class="form-control form-control-sm" id="vid2_Mwidth" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid2_Mheight">Высота</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid2_Mheight" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Широкий FOV
+                      </p>
+                      <div class="form-group">
+                        <label for="vid2_maxHFOV">По горизонтали</label>
+                        <input type="text" class="form-control form-control-sm" id="vid2_maxHFOV" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid2_maxVFOV">По вертикали</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                          id="vid2_maxVFOV" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gx-2" style="margin-top: 14px">
+                  <div class="col">
+                    <div class="checkbox" style="margin-top: -6px">
+                      <label><input type="checkbox" id="vid2_zoomShift" style="margin-right: 5px" />Сдвиг при
+                        приближении</label>
+                    </div>
+                    <div class="form-group" style="margin-top: 2px">
+                      <label for="vid2_delay">Задержка телеметрии</label>
+                      <input type="text" class="form-control form-control-sm" id="vid2_delay" placeholder="" />
+                    </div>
+                    <div class="form-group" style="margin-top: 2px">
+                      <label for="vid2_stabScale">Масштабирование стабилизации</label>
+                      <input type="text" class="form-control form-control-sm" id="vid2_stabScale" placeholder="" />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
+                      <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
+                        Узкий FOV
+                      </p>
+                      <div class="form-group">
+                        <label for="vid2_minHFOV">По горизонтали</label>
+                        <input type="text" class="form-control form-control-sm" id="vid2_minHFOV" placeholder="" />
+                      </div>
+                      <div class="form-group">
+                        <label for="vid2_minVFOV">По вертикали</label>
+                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -6px"
+                          id="vid2_minVFOV" placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="checkbox">
+                      <label><input type="checkbox" id="vid2_progAF" style="margin-right: 5px" />Программный
+                        автофокус</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="checkbox">
+                      <label><input type="checkbox" id="vid2_progReflect" style="margin-right: 5px" />Программное
+                        отражение</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="checkbox" style="margin-bottom: -10px">
+                  <label><input type="checkbox" id="vid2_progZoom" style="margin-right: 5px" />Программный зум</label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row gx-2 justify-content-center">
-        <div class="col" style="margin-top: 6px">
-          <div class="p-3 border bg-light">
-            <p
-              class="fs-6 lh-1 fw-bolder"
-              style="margin-bottom: 8px; margin-top: -8px"
-            >
-              Конфигурация
-            </p>
-            <div class="row gx-2">
-              <!--rtsp-->
-              <div class="col">
-                <div class="p-3 border bg-light">
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    RTSP
-                  </p>
-                  <div class="form-group">
-                    <label for="rtsp_port">RTSP порт:</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      id="rtsp_port"
-                      placeholder=""
-                    />
-                  </div>
-                  <div class="row justify-content-start">
-                    <div class="col">Передача видео</div>
-                  </div>
-                  <div class="row">
-                    <div class="col-auto">parallel</div>
-                    <div class="col-auto">
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          style="margin-top: 5px; padding-right: 40px"
-                          id="rtsp_mode"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-auto">single</div>
-                  </div>
-                  <div class="checkbox" style="margin-bottom: -8px">
-                    <label
-                      ><input
-                        type="checkbox"
-                        style="margin-right: 5px"
-                        id="pauseVid"
-                      />Останавливать неактивное видео</label
-                    >
-                  </div>
-                </div>
-              </div>
 
-              <!--control-->
-              <div class="col">
-                <div class="p-3 border bg-light">
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    CONTROL
-                  </p>
-                  <div class="form-group">
-                    <label for="control_port">Порт управления</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      id="control_port"
-                      placeholder=""
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="tcp_port">TCP-порт управления</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      style="margin-bottom: -8px"
-                      id="tcp_port"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="col">
-                <!--gyro-->
-                <div class="p-3 border bg-light">
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    GYRO
-                  </p>
-                  <div class="form-group">
-                    <label for="gyro_address">Порт управления</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      style="margin-bottom: -8px"
-                      id="gyro_address"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <!--processing-->
-              <div class="col">
-                <div class="p-3 border bg-light">
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    PROCESSING
-                  </p>
-                  <div class="form-group">
-                    <label for="width_proc">Ширина</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      id="width_proc"
-                      placeholder=""
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="height_proc">Высота</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      id="height_proc"
-                      placeholder=""
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="tracker_proc">TCP-порт управления</label>
-                    <input
-                      type="text"
-                      class="form-control form-control-sm"
-                      style="margin-bottom: -8px"
-                      id="tracker_proc"
-                      placeholder=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row gx-2" style="margin-top: -2px">
-              <!--video1-->
-              <div class="col">
-                <div class="p-3 border bg-light" style="margin-top: 10px">
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    VIDEO 1
-                  </p>
-                  <div class="row">
-                    <div class="col">
-                      <label for="vid1_device">Устройство</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="vid1_device"
-                        placeholder=""
-                      />
-                    </div>
-                    <div class="col">
-                      <label for="vid1_fps">fps</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="vid1_fps"
-                        placeholder=""
-                      />
-                    </div>
-                  </div>
-                  <div class="p-3 border bg-light" style="margin-top: 8px">
-                    <p
-                      class="fs-6 lh-1 fw-bolder"
-                      style="margin-bottom: 0px; margin-top: -8px"
-                    >
-                      Изображение
-                    </p>
-                    <div class="row gx-2">
-                      <div class="col">
-                        <label for="vid1_width">Ширина</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid1_width"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="col">
-                        <label for="vid1_format">Формат</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid1_format"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                    <div class="row gx-2">
-                      <div class="col">
-                        <label for="vid1_height">Высота</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          style="margin-bottom: -8px"
-                          id="vid1_height"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="col">
-                        <label for="vid1_bitrate">Битрейт</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          style="margin-bottom: -8px"
-                          id="vid1_bitrate"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row gx-2" style="margin-top: 14px">
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Матрица
-                        </p>
-                        <div class="form-group">
-                          <label for="vid1_Mwidth">Ширина</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid1_Mwidth"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid1_Mheight">Высота</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -8px"
-                            id="vid1_Mheight"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Широкий FOV
-                        </p>
-                        <div class="form-group">
-                          <label for="vid1_maxHFOV">По горизонтали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid1_maxHFOV"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid1_maxVFOV">По вертикали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -8px"
-                            id="vid1_maxVFOV"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="row gx-2"
-                    style="margin-top: 14px; margin-bottom: -8px"
-                  >
-                    <div class="col">
-                      <div class="checkbox" style="margin-top: -6px">
-                        <label
-                          ><input
-                            type="checkbox"
-                            id="vid1_zoomShift"
-                            style="margin-right: 5px"
-                          />Сдвиг при приближении</label
-                        >
-                      </div>
-                      <div class="form-group" style="margin-top: 2px">
-                        <label for="vid1_delay">Задержка телеметрии</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid1_delay"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="form-group" style="margin-top: 2px">
-                        <label for="vid1_stabScale"
-                          >Масштабирование стабилизации</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid1_stabScale"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Узкий FOV
-                        </p>
-                        <div class="form-group">
-                          <label for="vid1_minHFOV">По горизонтали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid1_minHFOV"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid1_minVFOV">По вертикали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -8px"
-                            id="vid1_minVFOV"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!--video 2-->
-              <div class="col" id="vid2_col">
-                <div
-                  class="p-3 border bg-light"
-                  style="margin-top: 10px; margin-bottom: -8px"
-                >
-                  <p
-                    class="fs-6 lh-1 fw-bolder"
-                    style="margin-bottom: 0px; margin-top: -8px"
-                  >
-                    VIDEO 2
-                  </p>
-                  <div class="row">
-                    <div class="col">
-                      <label for="vid2_device">Устройство</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="vid2_device"
-                        placeholder=""
-                      />
-                    </div>
-                    <div class="col">
-                      <label for="vid2_fps">fps</label>
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="vid2_fps"
-                        placeholder=""
-                      />
-                    </div>
-                  </div>
-                  <div class="p-3 border bg-light" style="margin-top: 8px">
-                    <p
-                      class="fs-6 lh-1 fw-bolder"
-                      style="margin-bottom: 0px; margin-top: -8px"
-                    >
-                      Изображение
-                    </p>
-                    <div class="row gx-2">
-                      <div class="col">
-                        <label for="vid2_width">Ширина</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid2_width"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="col">
-                        <label for="vid2_format">Формат</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid2_format"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                    <div class="row gx-2">
-                      <div class="col">
-                        <label for="vid2_height">Высота</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          style="margin-bottom: -8px"
-                          id="vid2_height"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="col">
-                        <label for="vid2_bitrate">Битрейт</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          style="margin-bottom: -8px"
-                          id="vid2_bitrate"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row gx-2" style="margin-top: 14px">
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Матрица
-                        </p>
-                        <div class="form-group">
-                          <label for="vid2_Mwidth">Ширина</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid2_Mwidth"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid2_Mheight">Высота</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -8px"
-                            id="vid2_Mheight"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Широкий FOV
-                        </p>
-                        <div class="form-group">
-                          <label for="vid2_maxHFOV">По горизонтали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid2_maxHFOV"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid2_maxVFOV">По вертикали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -8px"
-                            id="vid2_maxVFOV"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row gx-2" style="margin-top: 14px">
-                    <div class="col">
-                      <div class="checkbox" style="margin-top: -6px">
-                        <label
-                          ><input
-                            type="checkbox"
-                            id="vid2_zoomShift"
-                            style="margin-right: 5px"
-                          />Сдвиг при приближении</label
-                        >
-                      </div>
-                      <div class="form-group" style="margin-top: 2px">
-                        <label for="vid2_delay">Задержка телеметрии</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid2_delay"
-                          placeholder=""
-                        />
-                      </div>
-                      <div class="form-group" style="margin-top: 2px">
-                        <label for="vid2_stabScale"
-                          >Масштабирование стабилизации</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          id="vid2_stabScale"
-                          placeholder=""
-                        />
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="p-3 border bg-light" style="margin-top: -6px">
-                        <p
-                          class="fs-6 lh-1 fw-bolder"
-                          style="margin-bottom: 0px; margin-top: -8px"
-                        >
-                          Узкий FOV
-                        </p>
-                        <div class="form-group">
-                          <label for="vid2_minHFOV">По горизонтали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="vid2_minHFOV"
-                            placeholder=""
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label for="vid2_minVFOV">По вертикали</label>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            style="margin-bottom: -6px"
-                            id="vid2_minVFOV"
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="checkbox">
-                        <label
-                          ><input
-                            type="checkbox"
-                            id="vid2_progAF"
-                            style="margin-right: 5px"
-                          />Программный автофокус</label
-                        >
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="checkbox">
-                        <label
-                          ><input
-                            type="checkbox"
-                            id="vid2_progReflect"
-                            style="margin-right: 5px"
-                          />Программное отражение</label
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="checkbox" style="margin-bottom: -10px">
-                    <label
-                      ><input
-                        type="checkbox"
-                        id="vid2_progZoom"
-                        style="margin-right: 5px"
-                      />Программный зум</label
-                    >
-                  </div>
-                </div>
-              </div>
+      <div class="col-2" style="margin-top: 6px">
+        <!--network-->
+        <div class="p-3 border bg-light">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
+            Настройки сети
+          </p>
+          <div class="form-group">
+            <label for="ip1">Адрес 1</label>
+            <input type="text" class="form-control form-control-sm" id="ip1" value="" />
+          </div>
+          <div class="form-group">
+            <label for="ip2">Адрес 2</label>
+            <input type="text" class="form-control form-control-sm" id="ip2" value="" />
+          </div>
+          <div class="form-group">
+            <label for="ip3">Адрес 3</label>
+            <input type="text" class="form-control form-control-sm" id="ip3" value="" />
+          </div>
+          <div class="form-group">
+            <label for="gtw">Шлюз</label>
+            <input type="text" class="form-control form-control-sm" id="gtw" value="" />
+          </div>
+          <div class="container overflow-hidden">
+            <div class="row gx">
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+                id="btnNet">
+                Сохранить
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="col-2" style="margin-top: 6px">
-          <!--network-->
-          <div class="p-3 border bg-light">
-            <p
-              class="fs-6 lh-1 fw-bolder"
-              style="margin-bottom: 4px; margin-top: -8px"
-            >
-              Настройки сети
-            </p>
-            <div class="form-group">
-              <label for="ip1">Адрес 1</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                id="ip1"
-                value=""
-              />
-            </div>
-            <div class="form-group">
-              <label for="ip2">Адрес 2</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                id="ip2"
-                value=""
-              />
-            </div>
-            <div class="form-group">
-              <label for="ip3">Адрес 3</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                id="ip3"
-                value=""
-              />
-            </div>
-            <div class="form-group">
-              <label for="gtw">Шлюз</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                id="gtw"
-                value=""
-              />
-            </div>
-            <div class="container overflow-hidden">
-              <div class="row gx">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  style="margin-top: 8px; margin-bottom: 0px"
-                  id="btnNet"
-                >
-                  Сохранить
-                </button>
-              </div>
+        <!--CAMS-->
+        <div class="p-3 border bg-light" style="margin-top: 8px">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
+            Камеры
+          </p>
+          <select class="form-select" id="selection">
+          </select>
+          <div class="container overflow-hidden">
+            <div class="row gx">
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfLoad">
+                Выбрать
+              </button>
             </div>
           </div>
-
-          <!--CAMS-->
-          <div class="p-3 border bg-light" style="margin-top: 8px">
-            <p
-              class="fs-6 lh-1 fw-bolder"
-              style="margin-bottom: 4px; margin-top: -8px"
-            >
-              Камеры
-            </p>
-            <select class="form-select" id="selection">
-              <option id="OES1" value="OES1">sony ev7520</option>
-              <option id="OES2" value="OES2">sony ev2700 + Noxant</option>
-              <option id="OES3" value="OES3">sony ev2700 + la6110</option>
-              <option id="OES4" value="OES4">sony ev7520 + tfm 1024</option>
-              <option id="OES5" value="OES5">tfm mx640</option>
-              <option id="OES6" value="OES6">savgood sg2090</option>
-              <option id="OES7" value="OES7">sony ev7520 + nit275</option>
-              <option id="OES8" value="OES8">
-                sony ev7520 + Xcore Micro III
-              </option>
-              <option id="OES9" value="OES9">Зарезервировано</option>
-            </select>
-            <div class="container overflow-hidden">
-              <div class="row gx">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  style="margin-top: 8px"
-                  id="btnConfLoad"
-                >
-                  Выбрать
-                </button>
-              </div>
+          <div class="container overflow-hidden">
+            <div class="row gx">
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfSave">
+                Сохранить
+              </button>
             </div>
-            <div class="container overflow-hidden">
-              <div class="row gx">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  style="margin-top: 8px"
-                  id="btnConfSave"
-                >
-                  Сохранить
-                </button>
-              </div>
-            </div>
-            <div class="container overflow-hidden">
-              <div class="row gx">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  style="margin-top: 8px; margin-bottom: 0px"
-                  id="btnReboot"
-                >
-                  Перезагрузка
-                </button>
-              </div>
+          </div>
+          <div class="container overflow-hidden">
+            <div class="row gx">
+              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+                id="btnReboot">
+                Перезагрузка
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-      var toastList = toastElList.map(function (toastEl) {
-        return new bootstrap.Toast(toastEl);
-      });
+  <script>
+    var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl);
+    });
 
-      function netconf_load() {
+    function select_load() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          var json = xhr.response;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            Object.entries(json).map(([key, value]) => { $("#selection").append('<option id="' + value.name + '" value="' + value.name + '">' + value.text + '</option>') })
+          }
+        } else if (xhr.status >= 500) {
+          $("#toasttext").html("Ошибка загрузки списка конфигураций!");
+          toastList.forEach((toast) => toast.show());
+        }
+      };
+      xhr.responseType = "json";
+      xhr.open("GET", "api/conflist-get", true);
+      xhr.send();
+    }
+
+    function netconf_load() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          var json = xhr.response;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            if (
+              json.hasOwnProperty("ip1") &&
+              json.hasOwnProperty("ip2") &&
+              json.hasOwnProperty("ip3") &&
+              json.hasOwnProperty("gate")
+            ) {
+              ip1.value = json.ip1;
+              ip2.value = json.ip2;
+              ip3.value = json.ip3;
+              gtw.value = json.gate;
+            }
+          } else if (xhr.status >= 500) {
+            $("#toasttext").html("Ошибка загрузки файла конфигурации сети!");
+            toastList.forEach((toast) => toast.show());
+          }
+        }
+      };
+      xhr.responseType = "json";
+      xhr.open("GET", "api/net-get", true);
+      xhr.send();
+    }
+
+    function netconf_save() {
+      var adr1 = ip1.value;
+      var adr2 = ip2.value;
+      var adr3 = ip3.value;
+      var gate = gtw.value;
+      if (adr1 && adr2 && adr3 && gate) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
-          if (xhr.readyState == XMLHttpRequest.DONE) {
-            var json = xhr.response;
+          if (xhr.readyState == 4) {
             if (xhr.status >= 200 && xhr.status < 300) {
-              if (
-                json.hasOwnProperty("ip1") &&
-                json.hasOwnProperty("ip2") &&
-                json.hasOwnProperty("ip3") &&
-                json.hasOwnProperty("gate")
-              ) {
-                ip1.value = json.ip1;
-                ip2.value = json.ip2;
-                ip3.value = json.ip3;
-                gtw.value = json.gate;
-              }
-            } else if (xhr.status >= 500) {
-              $("#toasttext").html("Ошибка загрузки файла конфигурации сети!");
+              $("#toasttext").html("Конфигурация сети обновлена!");
               toastList.forEach((toast) => toast.show());
             }
+          } else if (xhr.status >= 500) {
+            $("#toasttext").html("Ошибка!");
+            toastList.forEach((toast) => toast.show());
           }
         };
-        xhr.responseType = "json";
-        xhr.open("GET", "api/net-get", true);
-        xhr.send();
       }
+      xhr.responseType = "json";
+      xhr.open("PATCH", "/api/net-save", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(
+        JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate })
+      );
+    }
 
-      function netconf_save() {
-        var adr1 = ip1.value;
-        var adr2 = ip2.value;
-        var adr3 = ip3.value;
-        var gate = gtw.value;
-        if (adr1 && adr2 && adr3 && gate) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                $("#toasttext").html("Конфигурация сети обновлена!");
-                toastList.forEach((toast) => toast.show());
+    function conf_load() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          var json = xhr.response;
+          var confJson = JSON.parse(json);
+          if (xhr.status >= 200 && xhr.status < 300) {
+            //rtsp get
+            if (confJson.hasOwnProperty("rtsp")) {
+              if (confJson.rtsp.hasOwnProperty("port")) {
+                rtsp_port.value = confJson.rtsp.port;
+              } else rtsp_port.value = 554;
+
+              if (confJson.rtsp.hasOwnProperty("mode")) {
+                if (confJson.rtsp.mode == "parallel") {
+                  rtsp_mode.checked = false;
+                } else if (confJson.rtsp.mode == "single") {
+                  rtsp_mode.checked = true;
+                }
               }
+
+              if (confJson.rtsp.hasOwnProperty("pause")) {
+                pauseVid.checked = confJson.rtsp.pause;
+              } else {
+                pauseVid = false;
+              }
+            }
+
+            //control get
+            if (confJson.hasOwnProperty("control")) {
+              if (confJson.control.hasOwnProperty("uart")) {
+                if (confJson.control.uart.hasOwnProperty("device")) {
+                  control_port.value = confJson.control.uart.device;
+                } else {
+                  control_port.value = "/dev/ttyS0";
+                }
+              }
+
+              if (confJson.control.hasOwnProperty("tcp")) {
+                if (confJson.control.tcp.hasOwnProperty("port")) {
+                  tcp_port.value = confJson.control.tcp.port;
+                } else {
+                  tcp_port.value = "5555";
+                }
+              }
+            }
+
+            //gyro get
+            if (confJson.hasOwnProperty("gyro")) {
+              if (confJson.gyro.hasOwnProperty("port")) {
+                gyro_address.value = confJson.gyro.port;
+              } else {
+                gyro_address.value = "/dev/ttyS7";
+              }
+            }
+
+            //processing get
+            if (confJson.hasOwnProperty("processing")) {
+              if (confJson.processing.hasOwnProperty("width")) {
+                width_proc.value = confJson.processing.width;
+              } else {
+                width_proc.value = "640";
+              }
+              if (confJson.processing.hasOwnProperty("height")) {
+                height_proc.value = confJson.processing.height;
+              } else {
+                height_proc.value = "512";
+              }
+              if (confJson.processing.hasOwnProperty("script")) {
+                tracker_proc.value = confJson.processing.script;
+              } else {
+                tracker_proc.value = "/home/root/MergedTracker";
+              }
+            }
+
+            //video get
+            if (confJson.hasOwnProperty("video")) {
+              if (confJson.video && confJson.video.length == 1) {
+                //если камера одна
+                if (confJson.video[0].hasOwnProperty("device")) {
+                  vid1_device.value = confJson.video[0].device;
+                }
+
+                if (confJson.video[0].hasOwnProperty("fps")) {
+                  vid1_fps.value = confJson.video[0].fps;
+                }
+
+                if (confJson.video[0].hasOwnProperty("width")) {
+                  vid1_width.value = confJson.video[0].width;
+                }
+
+                if (confJson.video[0].hasOwnProperty("height")) {
+                  vid1_height.value = confJson.video[0].height;
+                }
+
+                if (confJson.video[0].hasOwnProperty("format")) {
+                  vid1_format.value = confJson.video[0].format;
+                }
+
+                if (confJson.video[0].hasOwnProperty("bitrate")) {
+                  vid1_bitrate.value = confJson.video[0].bitrate;
+                }
+
+                if (confJson.video[0].hasOwnProperty("matrixW")) {
+                  vid1_Mwidth.value = confJson.video[0].matrixW;
+                }
+
+                if (confJson.video[0].hasOwnProperty("matrixH")) {
+                  vid1_Mheight.value = confJson.video[0].matrixH;
+                }
+
+                if (confJson.video[0].hasOwnProperty("maxHFov")) {
+                  vid1_maxHFOV.value = confJson.video[0].maxHFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("maxVFov")) {
+                  vid1_maxVFOV.value = confJson.video[0].maxVFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("offsetCam")) {
+                  vid1_zoomShift.checked = confJson.video[0].offsetCam;
+                }
+
+                if (confJson.video[0].hasOwnProperty("minHFov")) {
+                  vid1_minHFOV.value = confJson.video[0].minHFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("minVFov")) {
+                  vid1_minVFOV.value = confJson.video[0].minVFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("zmStab")) {
+                  vid1_stabScale.value = confJson.video[0].zmStab;
+                }
+
+                if (confJson.video[0].hasOwnProperty("queueTelem")) {
+                  vid1_delay.value = confJson.video[0].queueTelem;
+                }
+
+                vid2_device.disabled = true; vid2_device.value = "";
+                vid2_fps.disabled = true; vid2_fps.value = "";
+                vid2_width.disabled = true; vid2_width.value = "";
+                vid2_height.disabled = true; vid2_height.value = "";
+                vid2_format.disabled = true; vid2_format.value = "";
+                vid2_bitrate.disabled = true; vid2_bitrate.value = "";
+                vid2_Mwidth.disabled = true; vid2_Mwidth.value = "";
+                vid2_Mheight.disabled = true; vid2_Mheight.value = "";
+                vid2_maxHFOV.disabled = true; vid2_maxHFOV.value = "";
+                vid2_maxVFOV.disabled = true; vid2_maxVFOV.value = "";
+                vid2_minHFOV.disabled = true; vid2_minHFOV.value = "";
+                vid2_minVFOV.disabled = true; vid2_minVFOV.value = "";
+                vid2_zoomShift.disabled = true; vid2_zoomShift.checked = false;
+                vid2_delay.disabled = true; vid2_delay.value = "";
+                vid2_stabScale.disabled = true; vid2_stabScale.value = "";
+                vid2_progAF.disabled = true; vid2_progAF.checked = false;
+                vid2_progReflect.disabled = true; vid2_progReflect.checked = false;
+                vid2_progZoom.disabled = true; vid2_progZoom.checked = false;
+              } else if (confJson.video && confJson.video.length == 2) {//если камер две
+                vid2_col.show = false;
+                vid2_device.disabled = false;
+                vid2_fps.disabled = false;
+                vid2_width.disabled = false;
+                vid2_height.disabled = false;
+                vid2_format.disabled = false;
+                vid2_bitrate.disabled = false;
+                vid2_Mwidth.disabled = false;
+                vid2_Mheight.disabled = false;
+                vid2_maxHFOV.disabled = false;
+                vid2_maxVFOV.disabled = false;
+                vid2_minHFOV.disabled = false;
+                vid2_minVFOV.disabled = false;
+                vid2_zoomShift.disabled = false;
+                vid2_delay.disabled = false;
+                vid2_stabScale.disabled = false;
+                vid2_progAF.disabled = false;
+                vid2_progReflect.disabled = false;
+                vid2_progZoom.disabled = false;
+                //vid1
+                if (confJson.video[0].hasOwnProperty("device")) {
+                  vid1_device.value = confJson.video[0].device;
+                }
+
+                if (confJson.video[0].hasOwnProperty("fps")) {
+                  vid1_fps.value = confJson.video[0].fps;
+                }
+
+                if (confJson.video[0].hasOwnProperty("width")) {
+                  vid1_width.value = confJson.video[0].width;
+                }
+
+                if (confJson.video[0].hasOwnProperty("height")) {
+                  vid1_height.value = confJson.video[0].height;
+                }
+
+                if (confJson.video[0].hasOwnProperty("format")) {
+                  vid1_format.value = confJson.video[0].format;
+                }
+
+                if (confJson.video[0].hasOwnProperty("bitrate")) {
+                  vid1_bitrate.value = confJson.video[0].bitrate;
+                }
+
+                if (confJson.video[0].hasOwnProperty("matrixW")) {
+                  vid1_Mwidth.value = confJson.video[0].matrixW;
+                }
+
+                if (confJson.video[0].hasOwnProperty("matrixH")) {
+                  vid1_Mheight.value = confJson.video[0].matrixH;
+                }
+
+                if (confJson.video[0].hasOwnProperty("maxHFov")) {
+                  vid1_maxHFOV.value = confJson.video[0].maxHFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("maxVFov")) {
+                  vid1_maxVFOV.value = confJson.video[0].maxVFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("offsetCam")) {
+                  vid1_zoomShift.checked = confJson.video[0].offsetCam;
+                }
+
+                if (confJson.video[0].hasOwnProperty("minHFov")) {
+                  vid1_minHFOV.value = confJson.video[0].minHFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("minVFov")) {
+                  vid1_minVFOV.value = confJson.video[0].minVFov;
+                }
+
+                if (confJson.video[0].hasOwnProperty("zmStab")) {
+                  vid1_stabScale.value = confJson.video[0].zmStab;
+                }
+
+                if (confJson.video[0].hasOwnProperty("queueTelem")) {
+                  vid1_delay.value = confJson.video[0].queueTelem;
+                }
+                //vid2
+                if (confJson.video[1].hasOwnProperty("device")) {
+                  vid2_device.value = confJson.video[1].device;
+                }
+
+                if (confJson.video[1].hasOwnProperty("fps")) {
+                  vid2_fps.value = confJson.video[1].fps;
+                }
+
+                if (confJson.video[1].hasOwnProperty("width")) {
+                  vid2_width.value = confJson.video[1].width;
+                }
+
+                if (confJson.video[1].hasOwnProperty("height")) {
+                  vid2_height.value = confJson.video[1].height;
+                }
+
+                if (confJson.video[1].hasOwnProperty("format")) {
+                  vid2_format.value = confJson.video[1].format;
+                }
+
+                if (confJson.video[1].hasOwnProperty("bitrate")) {
+                  vid2_bitrate.value = confJson.video[1].bitrate;
+                }
+
+                if (confJson.video[1].hasOwnProperty("matrixW")) {
+                  vid2_Mwidth.value = confJson.video[1].matrixW;
+                }
+
+                if (confJson.video[1].hasOwnProperty("matrixH")) {
+                  vid2_Mheight.value = confJson.video[1].matrixH;
+                }
+
+                if (confJson.video[1].hasOwnProperty("maxHFov")) {
+                  vid2_maxHFOV.value = confJson.video[1].maxHFov;
+                }
+
+                if (confJson.video[1].hasOwnProperty("maxVFov")) {
+                  vid2_maxVFOV.value = confJson.video[1].maxVFov;
+                }
+
+                if (confJson.video[1].hasOwnProperty("offsetCam")) {
+                  vid2_zoomShift.checked = confJson.video[1].offsetCam;
+                }
+
+                if (confJson.video[1].hasOwnProperty("minHFov")) {
+                  vid2_minHFOV.value = confJson.video[1].minHFov;
+                }
+
+                if (confJson.video[1].hasOwnProperty("minVFov")) {
+                  vid2_minVFOV.value = confJson.video[1].minVFov;
+                }
+
+                if (confJson.video[1].hasOwnProperty("zmStab")) {
+                  vid2_stabScale.value = confJson.video[1].zmStab;
+                }
+
+                if (confJson.video[1].hasOwnProperty("softAF")) {
+                  vid2_progAF.checked = confJson.video[1].softAF;
+                }
+
+                if (confJson.video[1].hasOwnProperty("softZoom")) {
+                  vid2_progZoom.checked = confJson.video[1].softZoom;
+                }
+
+                if (confJson.video[1].hasOwnProperty("softFlips")) {
+                  vid2_progReflect.checked = confJson.video[1].softFlips;
+                }
+
+                if (confJson.video[1].hasOwnProperty("queueTelem")) {
+                  vid2_delay.value = confJson.video[1].queueTelem;
+                }
+              }
+            }
+            $("#toasttext").html("Выбранная конфигурация установлена!");
+            toastList.forEach((toast) => toast.show());
+          } else if (xhr.status >= 500) {
+            $("#toasttext").html("Ошибка чтения файла!");
+            toastList.forEach((toast) => toast.show());
+          }
+        }
+      };
+      xhr.responseType = "json";
+      xhr.open("GET", "api/conf-get", true);
+      xhr.send();
+    }
+
+    function conf_save() {
+      //rtsp values
+      var rtsp_p = rtsp_port.value;
+      if (rtsp_mode.checked) {
+        var rtsp_m = "single";
+      } else {
+        var rtsp_m = "parallel";
+      }
+      if (pauseVid.checked) {
+        var pause = "true";
+      } else {
+        var pause = "false";
+      }
+      //control values
+      var ctrl_p = control_port.value;
+      var tcp_p = tcp_port.value;
+      //gyro value
+      var gyro_p = gyro_address.value;
+      //processing values
+      var proc_w = width_proc.value;
+      var proc_h = height_proc.value;
+      var proc_t = tracker_proc.value;
+
+      //VIDEO 1 values
+      var v1_dev = vid1_device.value;
+      var v1_fps = vid1_fps.value;
+      //vid1 picture values
+      var v1_w = vid1_width.value;
+      var v1_h = vid1_height.value;
+      var v1_format = vid1_format.value;
+      var v1_bitrate = vid1_bitrate.value;
+      //vid1 matrix values
+      var v1_m_w = vid1_Mwidth.value;
+      var v1_m_h = vid1_Mheight.value;
+      //big FOV values
+      var v1_bhfov = vid1_maxHFOV.value;
+      var v1_bvfov = vid1_maxVFOV.value;
+      //small FOV values
+      var v1_shfov = vid1_minHFOV.value;
+      var v1_svfov = vid1_minVFOV.value;
+      //
+      if (vid1_zoomShift.checked) {
+        var v1_zshift = "true";
+      } else {
+        var v1_zshift = "false";
+      }
+      var v1_delay = vid1_delay.value;
+      var v1_sscale = vid1_stabScale.value;
+
+      //VIDEO 2 values
+      var v2_dev = vid2_device.value;
+      var v2_fps = vid2_fps.value;
+      //vid1 picture values
+      var v2_w = vid2_width.value;
+      var v2_h = vid2_height.value;
+      var v2_format = vid2_format.value;
+      var v2_bitrate = vid2_bitrate.value;
+      //vid1 matrix values
+      var v2_m_w = vid2_Mwidth.value;
+      var v2_m_h = vid2_Mheight.value;
+      //big FOV values
+      var v2_bhfov = vid2_maxHFOV.value;
+      var v2_bvfov = vid2_maxVFOV.value;
+      //small FOV values
+      var v2_shfov = vid2_minHFOV.value;
+      var v2_svfov = vid2_minVFOV.value;
+      //
+      if (vid2_zoomShift.checked) {
+        var v2_zshift = "true";
+      } else {
+        var v2_zshift = "false";
+      }
+      var v2_delay = vid2_delay.value;
+      var v2_sscale = vid2_stabScale.value;
+      if (vid2_progAF.checked) {
+        var v2_progAF = "true";
+      } else {
+        var v2_progAF = "false";
+      }
+      if (vid2_progZoom.checked) {
+        var v2_progZ = "true";
+      } else {
+        var v2_progZ = "false";
+      }
+      if (vid2_progReflect.checked) {
+        var v2_progR = "true";
+      } else {
+        var v2_progR = "false";
+      }
+      //request
+      if (
+        rtsp_p &&
+        rtsp_m &&
+        pause &&
+        ctrl_p &&
+        tcp_p &&
+        gyro_p &&
+        proc_w &&
+        proc_h &&
+        proc_t &&
+        //v1
+        v1_dev &&
+        v1_fps &&
+        v1_w &&
+        v1_h &&
+        v1_format &&
+        v1_bitrate &&
+        v1_m_w &&
+        v1_m_h &&
+        v1_bhfov &&
+        v1_bvfov &&
+        v1_shfov &&
+        v1_svfov &&
+        v1_zshift &&
+        v1_delay &&
+        v1_sscale &&
+        //v2
+        v2_dev &&
+        v2_fps &&
+        v2_w &&
+        v2_h &&
+        v2_format &&
+        v2_bitrate &&
+        v2_m_w &&
+        v2_m_h &&
+        v2_bhfov &&
+        v2_bvfov &&
+        v2_shfov &&
+        v2_svfov &&
+        v2_zshift &&
+        v2_delay &&
+        v2_sscale &&
+        v2_progAF &&
+        v2_progZ &&
+        v2_progR
+      ) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+            var json = xhr.response;
+            if (xhr.status >= 200 && xhr.status < 300) {
+              $("#toasttext").html("Конфигурация обновлена!");
+              toastList.forEach((toast) => toast.show());
             } else if (xhr.status >= 500) {
               $("#toasttext").html("Ошибка!");
               toastList.forEach((toast) => toast.show());
             }
-          };
-        }
+          }
+        };
         xhr.responseType = "json";
-        xhr.open("PATCH", "/api/net-save", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(
-          JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate })
+        xhr.open("PATCH", "/api/conf-save", true);
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/json;charset=UTF-8"
         );
-      }
+        //conf structure
+        xhr.send(
+          JSON.stringify({
+            rtsp: {
+              port: rtsp_p,
+              mode: rtsp_m,
+              pause: pause,
+            },
 
-      function conf_load() {
+            video: [
+              {
+                device: v1_dev,
+                width: v1_w,
+                height: v1_h,
+                format: v1_format,
+                bitrate: v1_bitrate,
+                fps: v1_fps,
+                matrixW: v1_m_w,
+                matrixH: v1_m_h,
+                maxHFov: v1_bhfov,
+                maxVFov: v1_bvfov,
+                minHFov: v1_shfov,
+                minVFov: v1_svfov,
+                zmStab: v1_sscale,
+                offsetCam: v1_zshift,
+                queueTelem: v1_delay,
+              },
+              {
+                device: v2_dev,
+                width: v2_w,
+                height: v2_h,
+                format: v2_format,
+                bitrate: v2_bitrate,
+                fps: v2_fps,
+                matrixW: v2_m_w,
+                matrixH: v2_m_h,
+                maxHFov: v2_bhfov,
+                maxVFov: v2_bvfov,
+                minHFov: v2_shfov,
+                minVFov: v2_svfov,
+                softAF: v2_progAF,
+                softZoom: v2_progZ,
+                softFlips: v2_progR,
+                zmStab: v2_sscale,
+                offsetCam: v2_zshift,
+                queueTelem: v2_delay,
+              },
+            ],
+
+            control: {
+              uart: {
+                device: ctrl_p,
+              },
+              tcp: {
+                port: tcp_p,
+              },
+            },
+
+            gyro: {
+              port: gyro_p,
+            },
+
+            processing: {
+              width: proc_w,
+              height: proc_h,
+              script: proc_t,
+            },
+          })
+        );
+      } else if (
+        rtsp_p &&
+        rtsp_m &&
+        pause &&
+        ctrl_p &&
+        tcp_p &&
+        gyro_p &&
+        proc_w &&
+        proc_h &&
+        proc_t &&
+        //v1
+        v1_dev &&
+        v1_fps &&
+        v1_w &&
+        v1_h &&
+        v1_format &&
+        v1_bitrate &&
+        v1_m_w &&
+        v1_m_h &&
+        v1_bhfov &&
+        v1_bvfov &&
+        v1_shfov &&
+        v1_svfov &&
+        v1_zshift &&
+        v1_delay &&
+        v1_sscale
+      ) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == XMLHttpRequest.DONE) {
-            var json = xhr.response;
-            var confJson = JSON.parse(json);
-            if (xhr.status >= 200 && xhr.status < 300) {
-              //rtsp get
-              if (confJson.hasOwnProperty("rtsp")) {
-                if (confJson.rtsp.hasOwnProperty("port")) {
-                  rtsp_port.value = confJson.rtsp.port;
-                } else rtsp_port.value = 554;
-
-                if (confJson.rtsp.hasOwnProperty("mode")) {
-                  if (confJson.rtsp.mode == "parallel") {
-                    rtsp_mode.checked = false;
-                  } else if (confJson.rtsp.mode == "single") {
-                    rtsp_mode.checked = true;
-                  }
-                }
-
-                if (confJson.rtsp.hasOwnProperty("pause")) {
-                  pauseVid.checked = confJson.rtsp.pause;
-                } else {
-                  pauseVid = false;
-                }
-              }
-
-              //control get
-              if (confJson.hasOwnProperty("control")) {
-                if (confJson.control.hasOwnProperty("uart")) {
-                  if (confJson.control.uart.hasOwnProperty("device")) {
-                    control_port.value = confJson.control.uart.device;
-                  } else {
-                    control_port.value = "/dev/ttyS0";
-                  }
-                }
-
-                if (confJson.control.hasOwnProperty("tcp")) {
-                  if (confJson.control.tcp.hasOwnProperty("port")) {
-                    tcp_port.value = confJson.control.tcp.port;
-                  } else {
-                    tcp_port.value = "5555";
-                  }
-                }
-              }
-
-              //gyro get
-              if (confJson.hasOwnProperty("gyro")) {
-                if (confJson.gyro.hasOwnProperty("port")) {
-                  gyro_address.value = confJson.gyro.port;
-                } else {
-                  gyro_address.value = "/dev/ttyS7";
-                }
-              }
-
-              //processing get
-              if (confJson.hasOwnProperty("processing")) {
-                if (confJson.processing.hasOwnProperty("width")) {
-                  width_proc.value = confJson.processing.width;
-                } else {
-                  width_proc.value = "640";
-                }
-                if (confJson.processing.hasOwnProperty("height")) {
-                  height_proc.value = confJson.processing.height;
-                } else {
-                  height_proc.value = "512";
-                }
-                if (confJson.processing.hasOwnProperty("script")) {
-                  tracker_proc.value = confJson.processing.script;
-                } else {
-                  tracker_proc.value = "/home/root/MergedTracker";
-                }
-              }
-
-              //video get
-              if (confJson.hasOwnProperty("video")) {
-                if (confJson.video && confJson.video.length == 1) {
-                  //если камера одна
-                  if (confJson.video[0].hasOwnProperty("device")) {
-                    vid1_device.value = confJson.video[0].device;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("fps")) {
-                    vid1_fps.value = confJson.video[0].fps;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("width")) {
-                    vid1_width.value = confJson.video[0].width;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("height")) {
-                    vid1_height.value = confJson.video[0].height;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("format")) {
-                    vid1_format.value = confJson.video[0].format;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("bitrate")) {
-                    vid1_bitrate.value = confJson.video[0].bitrate;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("matrixW")) {
-                    vid1_Mwidth.value = confJson.video[0].matrixW;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("matrixH")) {
-                    vid1_Mheight.value = confJson.video[0].matrixH;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("maxHFov")) {
-                    vid1_maxHFOV.value = confJson.video[0].maxHFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("maxVFov")) {
-                    vid1_maxVFOV.value = confJson.video[0].maxVFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("offsetCam")) {
-                    vid1_zoomShift.checked = confJson.video[0].offsetCam;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("minHFov")) {
-                    vid1_minHFOV.value = confJson.video[0].minHFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("minVFov")) {
-                    vid1_minVFOV.value = confJson.video[0].minVFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("zmStab")) {
-                    vid1_stabScale.value = confJson.video[0].zmStab;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("queueTelem")) {
-                    vid1_delay.value = confJson.video[0].queueTelem;
-                  }
-
-                  vid2_device.disabled = true;vid2_device.value="";
-                  vid2_fps.disabled = true;vid2_fps.value="";
-                  vid2_width.disabled = true;vid2_width.value="";
-                  vid2_height.disabled = true;vid2_height.value="";
-                  vid2_format.disabled = true;vid2_format.value="";
-                  vid2_bitrate.disabled = true;vid2_bitrate.value="";
-                  vid2_Mwidth.disabled = true;vid2_Mwidth.value="";
-                  vid2_Mheight.disabled = true;vid2_Mheight.value="";
-                  vid2_maxHFOV.disabled = true;vid2_maxHFOV.value="";
-                  vid2_maxVFOV.disabled = true;vid2_maxVFOV.value="";
-                  vid2_minHFOV.disabled = true;vid2_minHFOV.value="";
-                  vid2_minVFOV.disabled = true;vid2_minVFOV.value="";
-                  vid2_zoomShift.disabled = true;vid2_zoomShift.checked=false;
-                  vid2_delay.disabled = true;vid2_delay.value="";
-                  vid2_stabScale.disabled = true;vid2_stabScale.value="";
-                  vid2_progAF.disabled = true;vid2_progAF.checked=false;
-                  vid2_progReflect.disabled = true;vid2_progReflect.checked=false;
-                  vid2_progZoom.disabled = true;vid2_progZoom.checked=false;
-                } else if (confJson.video && confJson.video.length == 2) {//если камер две
-                  vid2_col.show=false;
-                  vid2_device.disabled = false;
-                  vid2_fps.disabled = false;
-                  vid2_width.disabled = false;
-                  vid2_height.disabled = false;
-                  vid2_format.disabled = false;
-                  vid2_bitrate.disabled = false;
-                  vid2_Mwidth.disabled = false;
-                  vid2_Mheight.disabled = false;
-                  vid2_maxHFOV.disabled = false;
-                  vid2_maxVFOV.disabled = false;
-                  vid2_minHFOV.disabled = false;
-                  vid2_minVFOV.disabled = false;
-                  vid2_zoomShift.disabled = false;
-                  vid2_delay.disabled = false;
-                  vid2_stabScale.disabled = false;
-                  vid2_progAF.disabled = false;
-                  vid2_progReflect.disabled = false;
-                  vid2_progZoom.disabled = false;
-                  //vid1
-                  if (confJson.video[0].hasOwnProperty("device")) {
-                    vid1_device.value = confJson.video[0].device;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("fps")) {
-                    vid1_fps.value = confJson.video[0].fps;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("width")) {
-                    vid1_width.value = confJson.video[0].width;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("height")) {
-                    vid1_height.value = confJson.video[0].height;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("format")) {
-                    vid1_format.value = confJson.video[0].format;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("bitrate")) {
-                    vid1_bitrate.value = confJson.video[0].bitrate;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("matrixW")) {
-                    vid1_Mwidth.value = confJson.video[0].matrixW;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("matrixH")) {
-                    vid1_Mheight.value = confJson.video[0].matrixH;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("maxHFov")) {
-                    vid1_maxHFOV.value = confJson.video[0].maxHFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("maxVFov")) {
-                    vid1_maxVFOV.value = confJson.video[0].maxVFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("offsetCam")) {
-                    vid1_zoomShift.checked = confJson.video[0].offsetCam;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("minHFov")) {
-                    vid1_minHFOV.value = confJson.video[0].minHFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("minVFov")) {
-                    vid1_minVFOV.value = confJson.video[0].minVFov;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("zmStab")) {
-                    vid1_stabScale.value = confJson.video[0].zmStab;
-                  }
-
-                  if (confJson.video[0].hasOwnProperty("queueTelem")) {
-                    vid1_delay.value = confJson.video[0].queueTelem;
-                  }
-                  //vid2
-                  if (confJson.video[1].hasOwnProperty("device")) {
-                    vid2_device.value = confJson.video[1].device;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("fps")) {
-                    vid2_fps.value = confJson.video[1].fps;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("width")) {
-                    vid2_width.value = confJson.video[1].width;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("height")) {
-                    vid2_height.value = confJson.video[1].height;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("format")) {
-                    vid2_format.value = confJson.video[1].format;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("bitrate")) {
-                    vid2_bitrate.value = confJson.video[1].bitrate;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("matrixW")) {
-                    vid2_Mwidth.value = confJson.video[1].matrixW;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("matrixH")) {
-                    vid2_Mheight.value = confJson.video[1].matrixH;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("maxHFov")) {
-                    vid2_maxHFOV.value = confJson.video[1].maxHFov;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("maxVFov")) {
-                    vid2_maxVFOV.value = confJson.video[1].maxVFov;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("offsetCam")) {
-                    vid2_zoomShift.checked = confJson.video[1].offsetCam;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("minHFov")) {
-                    vid2_minHFOV.value = confJson.video[1].minHFov;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("minVFov")) {
-                    vid2_minVFOV.value = confJson.video[1].minVFov;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("zmStab")) {
-                    vid2_stabScale.value = confJson.video[1].zmStab;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("softAF")) {
-                    vid2_progAF.checked = confJson.video[1].softAF;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("softZoom")) {
-                    vid2_progZoom.checked = confJson.video[1].softZoom;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("softFlips")) {
-                    vid2_progReflect.checked = confJson.video[1].softFlips;
-                  }
-
-                  if (confJson.video[1].hasOwnProperty("queueTelem")) {
-                    vid2_delay.value = confJson.video[1].queueTelem;
-                  }
-                }
-              }
-              $("#toasttext").html("Выбранная конфигурация установлена!");
-              toastList.forEach((toast) => toast.show());
-            } else if (xhr.status >= 500) {
-              $("#toasttext").html("Ошибка чтения файла!");
-              toastList.forEach((toast) => toast.show());
-            }
-          }
-        };
-        xhr.responseType = "json";
-        xhr.open("GET", "api/conf-get", true);
-        xhr.send();
-      }
-
-      function conf_save() {
-        //rtsp values
-        var rtsp_p = rtsp_port.value;
-        if (rtsp_mode.checked) {
-          var rtsp_m = "single";
-        } else {
-          var rtsp_m = "parallel";
-        }
-        if (pauseVid.checked) {
-          var pause = "true";
-        } else {
-          var pause = "false";
-        }
-        //control values
-        var ctrl_p = control_port.value;
-        var tcp_p = tcp_port.value;
-        //gyro value
-        var gyro_p = gyro_address.value;
-        //processing values
-        var proc_w = width_proc.value;
-        var proc_h = height_proc.value;
-        var proc_t = tracker_proc.value;
-
-        //VIDEO 1 values
-        var v1_dev = vid1_device.value;
-        var v1_fps = vid1_fps.value;
-        //vid1 picture values
-        var v1_w = vid1_width.value;
-        var v1_h = vid1_height.value;
-        var v1_format = vid1_format.value;
-        var v1_bitrate = vid1_bitrate.value;
-        //vid1 matrix values
-        var v1_m_w = vid1_Mwidth.value;
-        var v1_m_h = vid1_Mheight.value;
-        //big FOV values
-        var v1_bhfov = vid1_maxHFOV.value;
-        var v1_bvfov = vid1_maxVFOV.value;
-        //small FOV values
-        var v1_shfov = vid1_minHFOV.value;
-        var v1_svfov = vid1_minVFOV.value;
-        //
-        if (vid1_zoomShift.checked) {
-          var v1_zshift = "true";
-        } else {
-          var v1_zshift = "false";
-        }
-        var v1_delay = vid1_delay.value;
-        var v1_sscale = vid1_stabScale.value;
-
-        //VIDEO 2 values
-        var v2_dev = vid2_device.value;
-        var v2_fps = vid2_fps.value;
-        //vid1 picture values
-        var v2_w = vid2_width.value;
-        var v2_h = vid2_height.value;
-        var v2_format = vid2_format.value;
-        var v2_bitrate = vid2_bitrate.value;
-        //vid1 matrix values
-        var v2_m_w = vid2_Mwidth.value;
-        var v2_m_h = vid2_Mheight.value;
-        //big FOV values
-        var v2_bhfov = vid2_maxHFOV.value;
-        var v2_bvfov = vid2_maxVFOV.value;
-        //small FOV values
-        var v2_shfov = vid2_minHFOV.value;
-        var v2_svfov = vid2_minVFOV.value;
-        //
-        if (vid2_zoomShift.checked) {
-          var v2_zshift = "true";
-        } else {
-          var v2_zshift = "false";
-        }
-        var v2_delay = vid2_delay.value;
-        var v2_sscale = vid2_stabScale.value;
-        if (vid2_progAF.checked) {
-          var v2_progAF = "true";
-        } else {
-          var v2_progAF = "false";
-        }
-        if (vid2_progZoom.checked) {
-          var v2_progZ = "true";
-        } else {
-          var v2_progZ = "false";
-        }
-        if (vid2_progReflect.checked) {
-          var v2_progR = "true";
-        } else {
-          var v2_progR = "false";
-        }
-        //request
-        if (
-          rtsp_p &&
-          rtsp_m &&
-          pause &&
-          ctrl_p &&
-          tcp_p &&
-          gyro_p &&
-          proc_w &&
-          proc_h &&
-          proc_t &&
-          //v1
-          v1_dev &&
-          v1_fps &&
-          v1_w &&
-          v1_h &&
-          v1_format &&
-          v1_bitrate &&
-          v1_m_w &&
-          v1_m_h &&
-          v1_bhfov &&
-          v1_bvfov &&
-          v1_shfov &&
-          v1_svfov &&
-          v1_zshift &&
-          v1_delay &&
-          v1_sscale &&
-          //v2
-          v2_dev &&
-          v2_fps &&
-          v2_w &&
-          v2_h &&
-          v2_format &&
-          v2_bitrate &&
-          v2_m_w &&
-          v2_m_h &&
-          v2_bhfov &&
-          v2_bvfov &&
-          v2_shfov &&
-          v2_svfov &&
-          v2_zshift &&
-          v2_delay &&
-          v2_sscale &&
-          v2_progAF &&
-          v2_progZ &&
-          v2_progR
-        ) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-              var json = xhr.response;
-              if (xhr.status >= 200 && xhr.status < 300) {
-                $("#toasttext").html("Конфигурация обновлена!");
-                toastList.forEach((toast) => toast.show());
-              } else if (xhr.status >= 500) {
-                $("#toasttext").html("Ошибка!");
-                toastList.forEach((toast) => toast.show());
-              }
-            }
-          };
-          xhr.responseType = "json";
-          xhr.open("PATCH", "/api/conf-save", true);
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=UTF-8"
-          );
-          //conf structure
-          xhr.send(
-            JSON.stringify({
-              rtsp: {
-                port: rtsp_p,
-                mode: rtsp_m,
-                pause: pause,
-              },
-
-              video: [
-                {
-                  device: v1_dev,
-                  width: v1_w,
-                  height: v1_h,
-                  format: v1_format,
-                  bitrate: v1_bitrate,
-                  fps: v1_fps,
-                  matrixW: v1_m_w,
-                  matrixH: v1_m_h,
-                  maxHFov: v1_bhfov,
-                  maxVFov: v1_bvfov,
-                  minHFov: v1_shfov,
-                  minVFov: v1_svfov,
-                  zmStab: v1_sscale,
-                  offsetCam: v1_zshift,
-                  queueTelem: v1_delay,
-                },
-                {
-                  device: v2_dev,
-                  width: v2_w,
-                  height: v2_h,
-                  format: v2_format,
-                  bitrate: v2_bitrate,
-                  fps: v2_fps,
-                  matrixW: v2_m_w,
-                  matrixH: v2_m_h,
-                  maxHFov: v2_bhfov,
-                  maxVFov: v2_bvfov,
-                  minHFov: v2_shfov,
-                  minVFov: v2_svfov,
-                  softAF: v2_progAF,
-                  softZoom: v2_progZ,
-                  softFlips: v2_progR,
-                  zmStab: v2_sscale,
-                  offsetCam: v2_zshift,
-                  queueTelem: v2_delay,
-                },
-              ],
-
-              control: {
-                uart: {
-                  device: ctrl_p,
-                },
-                tcp: {
-                  port: tcp_p,
-                },
-              },
-
-              gyro: {
-                port: gyro_p,
-              },
-
-              processing: {
-                width: proc_w,
-                height: proc_h,
-                script: proc_t,
-              },
-            })
-          );
-        } else if (
-          rtsp_p &&
-          rtsp_m &&
-          pause &&
-          ctrl_p &&
-          tcp_p &&
-          gyro_p &&
-          proc_w &&
-          proc_h &&
-          proc_t &&
-          //v1
-          v1_dev &&
-          v1_fps &&
-          v1_w &&
-          v1_h &&
-          v1_format &&
-          v1_bitrate &&
-          v1_m_w &&
-          v1_m_h &&
-          v1_bhfov &&
-          v1_bvfov &&
-          v1_shfov &&
-          v1_svfov &&
-          v1_zshift &&
-          v1_delay &&
-          v1_sscale
-        ) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-              var json = xhr.response;
-              if (xhr.status >= 200 && xhr.status < 300) {
-                $("#toasttext").html("Конфигурация обновлена!");
-                toastList.forEach((toast) => toast.show());
-              } else if (xhr.status >= 500) {
-                $("#toasttext").html("Ошибка!");
-                toastList.forEach((toast) => toast.show());
-              }
-            }
-          };
-          xhr.responseType = "json";
-          xhr.open("PATCH", "/api/conf-save", true);
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=UTF-8"
-          );
-          xhr.send(
-            JSON.stringify({
-              rtsp: {
-                port: rtsp_p,
-                mode: rtsp_m,
-                pause: pause,
-              },
-
-              video: [
-                {
-                  device: v1_dev,
-                  width: v1_w,
-                  height: v1_h,
-                  format: v1_format,
-                  bitrate: v1_bitrate,
-                  fps: v1_fps,
-                  matrixW: v1_m_w,
-                  matrixH: v1_m_h,
-                  maxHFov: v1_bhfov,
-                  maxVFov: v1_bvfov,
-                  minHFov: v1_shfov,
-                  minVFov: v1_svfov,
-                  zmStab: v1_sscale,
-                  offsetCam: v1_zshift,
-                  queueTelem: v1_delay,
-                },
-              ],
-
-              control: {
-                uart: {
-                  device: ctrl_p,
-                },
-                tcp: {
-                  port: tcp_p,
-                },
-              },
-
-              gyro: {
-                port: gyro_p,
-              },
-
-              processing: {
-                width: proc_w,
-                height: proc_h,
-                script: proc_t,
-              },
-            })
-          );
-        }
-      }
-
-      function conf_select() {
-        var selected = selection.selectedIndex;
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-          // if (xhr.readyState == 4) {
-          //   if (xhr.status >= 200 && xhr.status < 300) {
-          //     $("#toasttext").html("Конфигурация выбрана!");
-          //     toastList.forEach((toast) => toast.show());
-          //   }
-          // } else
-          if (xhr.status >= 500) {
-            $("#toasttext").html("Ошибка! Данной конфигурации не существует!");
-            toastList.forEach((toast) => toast.show());
-          }
-        };
-        xhr.responseType = "json";
-        xhr.open("PATCH", "/api/conf-select", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify({id: selected}));
-        conf_load();
-      }
-
-      function reboot(){
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/reboot", true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState == 4) {
+            var json = xhr.response;
             if (xhr.status >= 200 && xhr.status < 300) {
-              $("#toasttext").html("Перезагрузка!");
+              $("#toasttext").html("Конфигурация обновлена!");
+              toastList.forEach((toast) => toast.show());
+            } else if (xhr.status >= 500) {
+              $("#toasttext").html("Ошибка!");
               toastList.forEach((toast) => toast.show());
             }
           }
-        }
-        xhr.send("reboot");
+        };
+        xhr.responseType = "json";
+        xhr.open("PATCH", "/api/conf-save", true);
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/json;charset=UTF-8"
+        );
+        xhr.send(
+          JSON.stringify({
+            rtsp: {
+              port: rtsp_p,
+              mode: rtsp_m,
+              pause: pause,
+            },
+
+            video: [
+              {
+                device: v1_dev,
+                width: v1_w,
+                height: v1_h,
+                format: v1_format,
+                bitrate: v1_bitrate,
+                fps: v1_fps,
+                matrixW: v1_m_w,
+                matrixH: v1_m_h,
+                maxHFov: v1_bhfov,
+                maxVFov: v1_bvfov,
+                minHFov: v1_shfov,
+                minVFov: v1_svfov,
+                zmStab: v1_sscale,
+                offsetCam: v1_zshift,
+                queueTelem: v1_delay,
+              },
+            ],
+
+            control: {
+              uart: {
+                device: ctrl_p,
+              },
+              tcp: {
+                port: tcp_p,
+              },
+            },
+
+            gyro: {
+              port: gyro_p,
+            },
+
+            processing: {
+              width: proc_w,
+              height: proc_h,
+              script: proc_t,
+            },
+          })
+        );
       }
+    }
 
-      //network data get
-      window.addEventListener("load", () => {
-        netconf_load();
-      });
+    function conf_select() {
+      var selected = selection.selectedIndex;
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        // if (xhr.readyState == 4) {
+        //   if (xhr.status >= 200 && xhr.status < 300) {
+        //     $("#toasttext").html("Конфигурация выбрана!");
+        //     toastList.forEach((toast) => toast.show());
+        //   }
+        // } else
+        if (xhr.status >= 500) {
+          $("#toasttext").html("Ошибка! Данной конфигурации не существует!");
+          toastList.forEach((toast) => toast.show());
+        }
+      };
+      xhr.responseType = "json";
+      xhr.open("PATCH", "/api/conf-select", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify({ id: selected }));
+      conf_load();
+    }
 
-      //config data get
-      window.addEventListener("load", () => {
-        conf_load();
-      });
+    function reboot() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/reboot", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            $("#toasttext").html("Перезагрузка!");
+            toastList.forEach((toast) => toast.show());
+          }
+        }
+      }
+      xhr.send("reboot");
+    }
 
-      //net conf save
-      document.getElementById("btnNet").addEventListener("click", function (e) {
-        e.preventDefault();
-        netconf_save();
-      });
+    //select get
+    window.addEventListener("load", () => {
+      select_load();
+    });
+    //network data get
+    window.addEventListener("load", () => {
+      netconf_load();
+    });
 
-      //config data save
-      document.getElementById("btnConfSave").addEventListener("click", function (e) {
-        e.preventDefault();
-        conf_save();
-      });
+    //config data get
+    window.addEventListener("load", () => {
+      conf_load();
+    });
 
-      //select conf
-      document.getElementById("btnConfLoad").addEventListener("click", function (e) {
-        e.preventDefault();
-        conf_select();
-      });
+    //net conf save
+    document.getElementById("btnNet").addEventListener("click", function (e) {
+      e.preventDefault();
+      netconf_save();
+    });
 
-      //перезагрузка
-      document.getElementById("btnReboot").addEventListener("click", function (e) {
-        e.preventDefault();
-        reboot();
-      });
-    </script>
-  </body>
+    //config data save
+    document.getElementById("btnConfSave").addEventListener("click", function (e) {
+      e.preventDefault();
+      conf_save();
+    });
+
+    //select conf
+    document.getElementById("btnConfLoad").addEventListener("click", function (e) {
+      e.preventDefault();
+      conf_select();
+    });
+
+    //перезагрузка
+    document.getElementById("btnReboot").addEventListener("click", function (e) {
+      e.preventDefault();
+      reboot();
+    });
+  </script>
+</body>
+
 </html>
