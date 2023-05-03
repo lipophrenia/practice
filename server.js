@@ -10,32 +10,33 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 var jsonParser = bodyParser.json()
-var path_to_config = "";
-var SelectedID = "";
+var path_to_config;
+var lastSelectedCam;
+var Selected;
 var confs;
 
 function Init(){
-  var selectedCam = fs.readFileSync("model", "utf8");
+  lastSelectedCam = fs.readFileSync("model", "utf8");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (selectedCam == confs[i].name) {
-      SelectedID = confs[i].id;
+    if (lastSelectedCam == confs[i].name) {
+      Selected = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
 }
 
-function Select(SelectedID){
+function Select(Selected){
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (SelectedID == confs[i].id) {
-      selectedCam = confs[i].name;
+    if (Selected == confs[i].name) {
+      lastSelectedCam = confs[i].name;
       path_to_config = confs[i].path;
     }
   }
-  return selectedCam;
+  return lastSelectedCam;
 }
 
 app.use("/static", express.static(__dirname + "/www/static"));
@@ -50,22 +51,21 @@ app.get("/api/conflist-get",function (req, res) {
   res.json(confs);
 });
 
-//get selection
+//get last selection
 app.get("/api/last-selection",function (req, res) {
-  selectedCam = fs.readFileSync('model', "utf8");
-  res.json({ selected: selectedCam });
+  res.json({ selected: lastSelectedCam });
 });
 
 //config select
 app.patch("/api/conf-select", jsonParser, function (req, res) {
-  SelectedID = req.body.id;
-  Select(SelectedID);
-  fs.writeFile("model", selectedCam, function (err) {
+  Selected = req.body.id;
+  Select(Selected);
+  fs.writeFile("model", lastSelectedCam, function (err) {
     if (err) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Selected id - "+SelectedID });
+      res.json({ msg: "Selected id - "+lastSelectedCam });
     }
   });
 });

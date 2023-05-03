@@ -262,11 +262,11 @@
                   <div class="col-3" style="height: 16px">
                     <div class="form-check form-switch" style="margin-top: -4px">
                       <label for="vid2_disable">Disabled</label>
-                      <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_disable"/>
+                      <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_disable" />
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="row">
                   <div class="col">
                     <label for="vid2_device">Устройство</label>
@@ -469,23 +469,23 @@
       if (vid2_disable.checked == true) {
         var ind = true;
         vid2_device.disabled = ind;
-        vid2_fps.disabled = ind; 
-        vid2_width.disabled = ind; 
-        vid2_height.disabled = ind; 
-        vid2_format.disabled = ind; 
-        vid2_bitrate.disabled = ind; 
-        vid2_Mwidth.disabled = ind; 
-        vid2_Mheight.disabled = ind; 
-        vid2_maxHFOV.disabled = ind; 
-        vid2_maxVFOV.disabled = ind; 
-        vid2_minHFOV.disabled = ind; 
-        vid2_minVFOV.disabled = ind; 
-        vid2_zoomShift.disabled = ind; 
-        vid2_delay.disabled = ind; 
-        vid2_stabScale.disabled = ind; 
-        vid2_progAF.disabled = ind; 
+        vid2_fps.disabled = ind;
+        vid2_width.disabled = ind;
+        vid2_height.disabled = ind;
+        vid2_format.disabled = ind;
+        vid2_bitrate.disabled = ind;
+        vid2_Mwidth.disabled = ind;
+        vid2_Mheight.disabled = ind;
+        vid2_maxHFOV.disabled = ind;
+        vid2_maxVFOV.disabled = ind;
+        vid2_minHFOV.disabled = ind;
+        vid2_minVFOV.disabled = ind;
+        vid2_zoomShift.disabled = ind;
+        vid2_delay.disabled = ind;
+        vid2_stabScale.disabled = ind;
+        vid2_progAF.disabled = ind;
         vid2_progReflect.disabled = ind;
-        vid2_progZoom.disabled = ind; 
+        vid2_progZoom.disabled = ind;
       } else {
         var ind = false;
         vid2_device.disabled = ind;
@@ -508,7 +508,7 @@
         vid2_progZoom.disabled = ind;
       }
     }
-    function vid2_form_clear(){
+    function vid2_form_clear() {
       vid2_device.value = "";
       vid2_fps.value = "";
       vid2_width.value = "";
@@ -611,7 +611,8 @@
     //select conf
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
-      var selected = selection.selectedIndex;
+      var selected = selection.options[selection.selectedIndex].id;
+      //client
       fetch("api/conf-select", {
         method: 'PATCH',
         body: JSON.stringify({ id: selected }),
@@ -626,6 +627,20 @@
           toastList[1].show();
         }
       })
+      //server
+      // fetch("api/conf-switch", {
+      //   method: 'POST',
+      //   body: JSON.stringify({ selected }),
+      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      // }).then(async (response) => {
+      //   if (response.ok) {
+      //     $("#toasttext2").html("Конфигурация выбрана!");
+      //     toastList[1].show();
+      //   } else {
+      //     $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
+      //     toastList[1].show();
+      //   }
+      // })
     });
 
     function conf_load() {
