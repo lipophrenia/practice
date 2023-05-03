@@ -51,7 +51,7 @@ app.get("/api/conflist-get",function (req, res) {
 });
 
 //get selection
-app.get("/api/selection",function (req, res) {
+app.get("/api/last-selection",function (req, res) {
   selectedCam = fs.readFileSync('model', "utf8");
   res.json({ selected: selectedCam });
 });
@@ -65,7 +65,7 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Upload completed." });
+      res.json({ msg: "Selected id - "+SelectedID });
     }
   });
 });
@@ -82,10 +82,10 @@ app.patch("/api/conf-save", function (req, res) {
   var dataJson = JSON.stringify(req.body, null, 4);
   fs.writeFile(fileJson, dataJson, function (err) {
     if (err) {
-      res.status(500).json({ msg: "Update error" });
+      res.status(500).json({ msg: "VidConf save error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Upload completed." });
+      res.json({ msg: "VidConf saved!" });
     }
   });
 });
@@ -173,10 +173,10 @@ app.patch("/api/net-save", function (req, res) {
         var str = arrStr.join(os.EOL);
         fs.writeFile(fileName, str, function (err) {
           if (err) {
-            res.status(500).json({ msg: "Update error" });
+            res.status(500).json({ msg: "NetConf save error!" });
             console.error(err);
           } else {
-            res.json({ msg: "File updated" });
+            res.json({ msg: "NetConf saved!" });
           }
         });
       }
