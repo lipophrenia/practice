@@ -5,12 +5,14 @@ const os = require("node:os");
 const path = require("path");
 const bodyParser = require("body-parser");
 const execFile = require('child_process').execFile;
-var path_to_config = "";
-var SelectedID = "";
-var confs;
 
 const express = require("express");
 const app = express();
+app.use(express.json());
+var jsonParser = bodyParser.json()
+var path_to_config = "";
+var SelectedID = "";
+var confs;
 
 function Init(){
   var selectedCam = fs.readFileSync("selected.txt", "utf8");
@@ -36,9 +38,6 @@ function Select(SelectedID){
   return selectedCam;
 }
 
-app.use(express.json());
-var jsonParser = bodyParser.json()
-
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
@@ -46,7 +45,14 @@ app.get("/", function (req, res) {
   Init();
 });
 
-//выбор конфига
+//get config list
+app.get("/api/conflist-get",function (req, res) {
+  var configsList = fs.readFileSync("configs.json", "utf8");
+  confs = JSON.parse(configsList);
+  res.json(confs);
+});
+
+//config select
 app.patch("/api/conf-select", jsonParser, function (req, res) {
   SelectedID = req.body.id;
   Select(SelectedID);
@@ -60,14 +66,14 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
   });
 });
 
-//получение конфигурации камер
+//get video config
 app.get("/api/conf-get", function (req, res) {
   var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
   var content = confFile.toString("utf8");
   res.send(JSON.stringify(content));
 });
 
-//сохранение конфигурации камер
+//save video config
 app.patch("/api/conf-save", function (req, res) {
   var fileJson = path.join("/home/practice/practice/files/", path_to_config); // папка, в которой лежат файлы video.config
   var dataJson = JSON.stringify(req.body, null, 4);
@@ -81,7 +87,7 @@ app.patch("/api/conf-save", function (req, res) {
   });
 });
 
-//получение конфигурации сети
+//get net config
 app.get("/api/net-get", function (req, res) {
   var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
   fs.readFile(fileName, "utf8", function (err, fileData) {
@@ -121,7 +127,7 @@ app.get("/api/net-get", function (req, res) {
   });
 });
 
-//сохранение конфигурации сети
+//save net config
 app.patch("/api/net-save", function (req, res) {
   if (
     req.body.hasOwnProperty("ip1") &&
@@ -177,7 +183,7 @@ app.patch("/api/net-save", function (req, res) {
   }
 });
 
-//перезагрузка
+//reboot
 app.get("/reboot", function (req, res) {
   execFile("./reboot.sh", { shell: "/bin/bash" }, (err, stdout, stderr) => {
     if (err) {
