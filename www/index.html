@@ -261,7 +261,13 @@
                   </div>
                   <div class="col-3" style="height: 16px">
                     <div class="form-check form-switch" style="margin-top: -4px">
-                      <label for="vid2_disable">Disabled</label>
+                      <label for="vid2_lock">Lock</label>
+                      <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_lock" />
+                    </div>
+                  </div>
+                  <div class="col-3" style="height: 16px">
+                    <div class="form-check form-switch" style="margin-top: -4px">
+                      <label for="vid2_disable">Disable</label>
                       <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_disable" />
                     </div>
                   </div>
@@ -465,8 +471,8 @@
       return new bootstrap.Toast(toastEl);
     });
 
-    function vid2_form() {
-      if (vid2_disable.checked == true) {
+    function vid2_form_lock() {
+      if (vid2_lock.checked == true) {
         var ind = true;
         vid2_device.disabled = ind;
         vid2_fps.disabled = ind;
@@ -508,29 +514,42 @@
         vid2_progZoom.disabled = ind;
       }
     }
-    function vid2_form_clear() {
-      vid2_device.value = "";
-      vid2_fps.value = "";
-      vid2_width.value = "";
-      vid2_height.value = "";
-      vid2_format.value = "";
-      vid2_bitrate.value = "";
-      vid2_Mwidth.value = "";
-      vid2_Mheight.value = "";
-      vid2_maxHFOV.value = "";
-      vid2_maxVFOV.value = "";
-      vid2_minHFOV.value = "";
-      vid2_minVFOV.value = "";
-      vid2_zoomShift.checked = false;
-      vid2_delay.value = "";
-      vid2_stabScale.value = "";
-      vid2_progAF.checked = false;
-      vid2_progReflect.checked = false;
-      vid2_progZoom.checked = false;
+
+    function vid2_form_disable() {
+      if (vid2_disable.checked == true) {
+        vid2_lock.checked=true;
+        vid2_form_lock();
+        vid2_device.value = "";
+        vid2_fps.value = "";
+        vid2_width.value = "";
+        vid2_height.value = "";
+        vid2_format.value = "";
+        vid2_bitrate.value = "";
+        vid2_Mwidth.value = "";
+        vid2_Mheight.value = "";
+        vid2_maxHFOV.value = "";
+        vid2_maxVFOV.value = "";
+        vid2_minHFOV.value = "";
+        vid2_minVFOV.value = "";
+        vid2_zoomShift.checked = false;
+        vid2_delay.value = "";
+        vid2_stabScale.value = "";
+        vid2_progAF.checked = false;
+        vid2_progReflect.checked = false;
+        vid2_progZoom.checked = false;
+        
+      } else {
+        vid2_lock.checked=false;
+        vid2_form_lock();
+      }
     }
 
     document.getElementById("vid2_disable").addEventListener("click", function (e) {
-      vid2_form();
+      vid2_form_disable();
+    });
+
+    document.getElementById("vid2_lock").addEventListener("click", function (e) {
+      vid2_form_lock();
     });
 
     //selectList get
@@ -547,100 +566,6 @@
           toastList[1].show();
         }
       })
-    });
-
-    //last selection get
-    window.addEventListener("load", () => {
-      fetch("api/last-selection", {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("selected")) {
-            document.getElementById(json.selected).selected = true;
-          }
-        }
-      })
-    });
-
-    //network conf get
-    window.addEventListener("load", () => {
-      fetch("api/net-get", {
-        method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
-            ip1.value = json.ip1;
-            ip2.value = json.ip2;
-            ip3.value = json.ip3;
-            gtw.value = json.gate;
-          }
-        } else {
-          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
-          toastList[0].show();
-        }
-      })
-    });
-
-    //net conf save
-    document.getElementById("btnNet").addEventListener("click", function (e) {
-      e.preventDefault();
-      var adr1 = ip1.value;
-      var adr2 = ip2.value;
-      var adr3 = ip3.value;
-      var gate = gtw.value;
-      if (adr1 && adr2 && adr3 && gate) {
-        fetch("api/net-save", {
-          method: 'PATCH',
-          body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext1").html("Конфигурация сети сохранена!");
-            toastList[0].show();
-          } else {
-            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-            toastList[0].show();
-          }
-        })
-      }
-    });
-
-    //select conf
-    document.getElementById("btnConfLoad").addEventListener("click", function (e) {
-      e.preventDefault();
-      var selected = selection.options[selection.selectedIndex].id;
-      //client
-      fetch("api/conf-select", {
-        method: 'PATCH',
-        body: JSON.stringify({ id: selected }),
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      }).then(async (response) => {
-        if (response.ok) {
-          $("#toasttext2").html("Конфигурация выбрана!");
-          toastList[1].show();
-          conf_load();
-        } else {
-          $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
-          toastList[1].show();
-        }
-      })
-      //server
-      // fetch("api/conf-switch", {
-      //   method: 'POST',
-      //   body: JSON.stringify({ selected }),
-      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      // }).then(async (response) => {
-      //   if (response.ok) {
-      //     $("#toasttext2").html("Конфигурация выбрана!");
-      //     toastList[1].show();
-      //   } else {
-      //     $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
-      //     toastList[1].show();
-      //   }
-      // })
     });
 
     function conf_load() {
@@ -759,14 +684,13 @@
               if (confJson.video[0].hasOwnProperty("queueTelem")) {
                 vid1_delay.value = confJson.video[0].queueTelem;
               }
-              vid2_form_clear();
               vid2_disable.checked = true;
-              vid2_form();
+              vid2_form_disable();
 
             } else if (confJson.video && confJson.video.length == 2) {//если камер две
-              vid2_form_clear();
+
               vid2_disable.checked = false;
-              vid2_form();
+              vid2_form_disable();
 
               //vid1
               if (confJson.video[0].hasOwnProperty("device")) {
@@ -880,9 +804,98 @@
       })
     }
 
-    //config data get
+    //init
     window.addEventListener("load", () => {
+      //last selection get
+      fetch("api/last-selection", {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("selected")) {
+            document.getElementById(json.selected).selected = true;
+          }
+        }
+      })
+      //network conf get
+      fetch("api/net-get", {
+        method: 'GET',
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
+            ip1.value = json.ip1;
+            ip2.value = json.ip2;
+            ip3.value = json.ip3;
+            gtw.value = json.gate;
+          }
+        } else {
+          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
+          toastList[0].show();
+        }
+      })
+      //video config get
       conf_load();
+    });
+
+    //net conf save
+    document.getElementById("btnNet").addEventListener("click", function (e) {
+      e.preventDefault();
+      var adr1 = ip1.value;
+      var adr2 = ip2.value;
+      var adr3 = ip3.value;
+      var gate = gtw.value;
+      if (adr1 && adr2 && adr3 && gate) {
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
+      }
+    });
+
+    //select conf
+    document.getElementById("btnConfLoad").addEventListener("click", function (e) {
+      e.preventDefault();
+      var selected = selection.options[selection.selectedIndex].id;
+      //client
+      fetch("api/conf-select", {
+        method: 'PATCH',
+        body: JSON.stringify({ id: selected }),
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          $("#toasttext2").html("Конфигурация выбрана!");
+          toastList[1].show();
+          conf_load();
+        } else {
+          $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
+          toastList[1].show();
+        }
+      })
+      //server
+      // fetch("api/conf-switch", {
+      //   method: 'POST',
+      //   body: JSON.stringify({ selected }),
+      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      // }).then(async (response) => {
+      //   if (response.ok) {
+      //     $("#toasttext2").html("Конфигурация выбрана!");
+      //     toastList[1].show();
+      //   } else {
+      //     $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
+      //     toastList[1].show();
+      //   }
+      // })
     });
 
     //config data save
