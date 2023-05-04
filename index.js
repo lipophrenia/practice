@@ -16,7 +16,7 @@ var Selected;
 var confs;
 
 function Init() {
-  lastSelectedCam = fs.readFileSync("/sys/firmware/devicetree/base/model", "ascii");
+  lastSelectedCam = fs.readFileSync("selected.txt");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
@@ -62,7 +62,7 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
   Select(Selected);
   // /proc/device-tree/model
   //fs.writeFile("/home/practice/http_control/files/model", lastSelectedCam, function (err) {
-    fs.writeFile("/sys/firmware/devicetree/base/", lastSelectedCam, {encoding: 'ascii'}, function (err) {
+    fs.writeFile("selected.txt", lastSelectedCam, function (err) {
     if (err) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
