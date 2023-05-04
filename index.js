@@ -1,4 +1,4 @@
-const host = "localhost";
+const host = "172.16.99.199";
 const port = 8080;
 const fs = require("fs");
 const os = require("os");
@@ -39,7 +39,6 @@ function Select(Selected) {
   return lastSelectedCam;
 }
 
-app.use(express.static(path.join('/etc/')));
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
