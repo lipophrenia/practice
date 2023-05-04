@@ -472,6 +472,105 @@
     });
     var confJson;
 
+    function conf_load(notify) {
+      fetch("api/conf-get", {
+        method: 'GET',
+      }).then(async (response) => {
+        if (response.ok) {
+          confJson = await response.json();
+          conf_show();
+          //video get
+          if (confJson.hasOwnProperty("video")) {
+            if (confJson.video && confJson.video.length == 1) {//если камера одна
+              v1_show();
+              vid2_disable.checked = true;
+              vid2_form_disable();
+            } else if (confJson.video && confJson.video.length == 2) {//если камер две
+              vid2_disable.checked = false;
+              vid2_form_disable();
+              //vid1
+              v1_show();
+              //vid2
+              v2_show();
+            }
+          }
+          if (notify == true) {
+            $("#toasttext2").html("Выбранная конфигурация загружена!");
+            toastList[1].show();
+          }
+        } else {
+          if (notify == true) {
+            $("#toasttext2").html("Ошибка чтения файла!");
+            toastList[1].show();
+          }
+        }
+      })
+    }
+
+    function conf_show() {
+      if (confJson.hasOwnProperty("rtsp")) {
+        if (confJson.rtsp.hasOwnProperty("port")) {
+          rtsp_port.value = confJson.rtsp.port;
+        } else rtsp_port.value = 554;
+        if (confJson.rtsp.hasOwnProperty("mode")) {
+          if (confJson.rtsp.mode == "parallel") {
+            rtsp_mode.checked = false;
+          } else if (confJson.rtsp.mode == "single") {
+            rtsp_mode.checked = true;
+          }
+        }
+        if (confJson.rtsp.hasOwnProperty("pause")) {
+          pauseVid.checked = confJson.rtsp.pause;
+        } else {
+          pauseVid = false;
+        }
+      }
+      //control get
+      if (confJson.hasOwnProperty("control")) {
+        if (confJson.control.hasOwnProperty("uart")) {
+          if (confJson.control.uart.hasOwnProperty("device")) {
+            control_port.value = confJson.control.uart.device;
+          } else {
+            control_port.value = "/dev/ttyS0";
+          }
+        }
+
+        if (confJson.control.hasOwnProperty("tcp")) {
+          if (confJson.control.tcp.hasOwnProperty("port")) {
+            tcp_port.value = confJson.control.tcp.port;
+          } else {
+            tcp_port.value = "5555";
+          }
+        }
+      }
+      //gyro get
+      if (confJson.hasOwnProperty("gyro")) {
+        if (confJson.gyro.hasOwnProperty("port")) {
+          gyro_address.value = confJson.gyro.port;
+        } else {
+          gyro_address.value = "/dev/ttyS7";
+        }
+      }
+      //processing get
+      if (confJson.hasOwnProperty("processing")) {
+        if (confJson.processing.hasOwnProperty("width")) {
+          width_proc.value = confJson.processing.width;
+        } else {
+          width_proc.value = "640";
+        }
+        if (confJson.processing.hasOwnProperty("height")) {
+          height_proc.value = confJson.processing.height;
+        } else {
+          height_proc.value = "512";
+        }
+        if (confJson.processing.hasOwnProperty("script")) {
+          tracker_proc.value = confJson.processing.script;
+        } else {
+          tracker_proc.value = "/home/root/MergedTracker";
+        }
+      }
+    }
+
     function v1_show() {
       if (confJson.video[0].hasOwnProperty("device")) {
         vid1_device.value = confJson.video[0].device;
@@ -678,105 +777,6 @@
         }
       })
     });
-
-    function conf_load(notify) {
-      fetch("api/conf-get", {
-        method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          confJson = await response.json();
-          if (confJson.hasOwnProperty("rtsp")) {
-            if (confJson.rtsp.hasOwnProperty("port")) {
-              rtsp_port.value = confJson.rtsp.port;
-            } else rtsp_port.value = 554;
-            if (confJson.rtsp.hasOwnProperty("mode")) {
-              if (confJson.rtsp.mode == "parallel") {
-                rtsp_mode.checked = false;
-              } else if (confJson.rtsp.mode == "single") {
-                rtsp_mode.checked = true;
-              }
-            }
-            if (confJson.rtsp.hasOwnProperty("pause")) {
-              pauseVid.checked = confJson.rtsp.pause;
-            } else {
-              pauseVid = false;
-            }
-          }
-          //control get
-          if (confJson.hasOwnProperty("control")) {
-            if (confJson.control.hasOwnProperty("uart")) {
-              if (confJson.control.uart.hasOwnProperty("device")) {
-                control_port.value = confJson.control.uart.device;
-              } else {
-                control_port.value = "/dev/ttyS0";
-              }
-            }
-
-            if (confJson.control.hasOwnProperty("tcp")) {
-              if (confJson.control.tcp.hasOwnProperty("port")) {
-                tcp_port.value = confJson.control.tcp.port;
-              } else {
-                tcp_port.value = "5555";
-              }
-            }
-          }
-          //gyro get
-          if (confJson.hasOwnProperty("gyro")) {
-            if (confJson.gyro.hasOwnProperty("port")) {
-              gyro_address.value = confJson.gyro.port;
-            } else {
-              gyro_address.value = "/dev/ttyS7";
-            }
-          }
-          //processing get
-          if (confJson.hasOwnProperty("processing")) {
-            if (confJson.processing.hasOwnProperty("width")) {
-              width_proc.value = confJson.processing.width;
-            } else {
-              width_proc.value = "640";
-            }
-            if (confJson.processing.hasOwnProperty("height")) {
-              height_proc.value = confJson.processing.height;
-            } else {
-              height_proc.value = "512";
-            }
-            if (confJson.processing.hasOwnProperty("script")) {
-              tracker_proc.value = confJson.processing.script;
-            } else {
-              tracker_proc.value = "/home/root/MergedTracker";
-            }
-          }
-
-          //video get
-          if (confJson.hasOwnProperty("video")) {
-            if (confJson.video && confJson.video.length == 1) {//если камера одна
-              v1_show();
-              vid2_disable.checked = true;
-              vid2_form_disable();
-
-            } else if (confJson.video && confJson.video.length == 2) {//если камер две
-
-              vid2_disable.checked = false;
-              vid2_form_disable();
-
-              //vid1
-              v1_show();
-              //vid2
-              v2_show();
-            }
-          }
-          if (notify == true) {
-            $("#toasttext2").html("Выбранная конфигурация загружена!");
-            toastList[1].show();
-          }
-        } else {
-          if (notify == true) {
-            $("#toasttext2").html("Ошибка чтения файла!");
-            toastList[1].show();
-          }
-        }
-      })
-    }
 
     //init
     window.addEventListener("load", () => {
