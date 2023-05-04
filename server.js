@@ -15,7 +15,7 @@ var lastSelectedCam;
 var Selected;
 var confs;
 
-function Init(){
+function Init() {
   lastSelectedCam = fs.readFileSync("model", "utf8");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
@@ -27,7 +27,7 @@ function Init(){
   }
 }
 
-function Select(Selected){
+function Select(Selected) {
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
@@ -47,12 +47,12 @@ app.get("/", function (req, res) {
 });
 
 //get config list
-app.get("/api/conflist-get",function (req, res) {
+app.get("/api/conflist-get", function (req, res) {
   res.json(confs);
 });
 
 //get last selection
-app.get("/api/last-selection",function (req, res) {
+app.get("/api/last-selection", function (req, res) {
   res.json({ selected: lastSelectedCam });
 });
 
@@ -65,9 +65,19 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Selected id - "+lastSelectedCam });
+      res.json({ msg: "Selected id - " + lastSelectedCam });
     }
   });
+  // execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
+  //   if (err) {
+  //     // ошибка
+  //     console.error(err)
+  //   } else {
+  //     // весь стандартный вывод и стандартный поток (буферизованный)
+  //     console.log(stdout);
+  //     console.log(stderr);
+  //   }
+  // });
 });
 
 //get video config
@@ -132,59 +142,96 @@ app.get("/api/net-get", function (req, res) {
 
 //save net config
 app.patch("/api/net-save", function (req, res) {
-  if (
-    req.body.hasOwnProperty("ip1") &&
-    req.body.hasOwnProperty("ip2") &&
-    req.body.hasOwnProperty("ip3") &&
-    req.body.hasOwnProperty("gate")
-  ) {
-    var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
-    fs.readFile(fileName, "utf8", function (err, fileData) {
-      if (err) {
-        res.status(500).json({ msg: "Something went wrong." });
-        console.error(err);
-      } else {
-        addrCounter = 0;
-        var arrStr = fileData.split(/\r\n|\r|\n/g);
-        for (var i = 0; i < arrStr.length; i++) {
-          arrStr[i].trim();
-          if (arrStr[i][0] != "#") {
-            if (arrStr[i].indexOf("Address") >= 0) {
-              var arr = arrStr[i].split("=");
-              if (addrCounter == 0) {
-                arr[1] = req.body.ip1;
-                addrCounter++;
-              } else if (addrCounter == 1) {
-                arr[1] = req.body.ip2;
-                addrCounter++;
-              } else {
-                arr[1] = req.body.ip3;
-              }
-              arrStr[i] = arr.join("=");
+  var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  fs.readFile(fileName, "utf8", function (err, fileData) {
+    if (err) {
+      res.status(500).json({ msg: "Something went wrong." });
+      console.error(err);
+    } else if (req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("ip3") && req.body.hasOwnProperty("gate")) {
+      addrCounter = 0;
+      var arrStr = fileData.split(/\r\n|\r|\n/g);
+      for (var i = 0; i < arrStr.length; i++) {
+        arrStr[i].trim();
+        if (arrStr[i][0] != "#") {
+          if (arrStr[i].indexOf("Address") >= 0) {
+            var arr = arrStr[i].split("=");
+            if (addrCounter == 0) {
+              arr[1] = req.body.ip1;
+              addrCounter++;
+            } else {
+              arr[1] = req.body.ip2;
             }
-            if (arrStr[i].indexOf("Gateway") >= 0) {
-              var arr = arrStr[i].split("=");
-              arr[1] = req.body.gate;
-              arrStr[i] = arr.join("=");
-              break;
-            }
+            arrStr[i] = arr.join("=");
+          }
+          if (arrStr[i].indexOf("Gateway") >= 0) {
+            var arr = arrStr[i].split("=");
+            arr[1] = req.body.gate;
+            arrStr[i] = arr.join("=");
+          }
+        } else {
+            if (arrStr[i].indexOf("#Address") >= 0){
+            arrStr[i] = "Address="+req.body.ip3;
+            break;
           }
         }
-        var str = arrStr.join(os.EOL);
-        fs.writeFile(fileName, str, function (err) {
-          if (err) {
-            res.status(500).json({ msg: "NetConf save error!" });
-            console.error(err);
-          } else {
-            res.json({ msg: "NetConf saved!" });
-          }
-        });
       }
-    });
-  } else {
-    res.status(409).json({ msg: "Wrong parameters." });
-  }
+      var str = arrStr.join(os.EOL);
+      fs.writeFile(fileName, str, function (err) {
+        if (err) {
+          res.status(500).json({ msg: "NetConf save error!" });
+          console.error(err);
+        } else {
+          res.json({ msg: "NetConf saved!" });
+        }
+      });
+    } else if (
+      req.body.hasOwnProperty("ip1") &&
+      req.body.hasOwnProperty("ip2") &&
+      req.body.hasOwnProperty("gate")
+    ) {
+      addrCounter = 0;
+      var arrStr = fileData.split(/\r\n|\r|\n/g);
+      for (var i = 0; i < arrStr.length; i++) {
+        arrStr[i].trim();
+        if (arrStr[i][0] != "#") {
+          if (arrStr[i].indexOf("Address") >= 0) {
+            //console.log(arrStr[i]);
+            var arr = arrStr[i].split("=");
+            if (addrCounter == 0) {
+              arr[1] = req.body.ip1;
+              addrCounter++;
+              arrStr[i] = arr.join("=");
+            } else if (addrCounter == 1) {
+              arr[1] = req.body.ip2;
+              addrCounter++;
+              arrStr[i] = arr.join("=");
+            } else if (addrCounter == 2) {
+              arrStr[i] = "#Address=";
+            }
+          }
+          if (arrStr[i].indexOf("Gateway") >= 0) {
+            var arr = arrStr[i].split("=");
+            arr[1] = req.body.gate;
+            arrStr[i] = arr.join("=");
+            break;
+          }
+        }
+      }
+      var str = arrStr.join(os.EOL);
+      fs.writeFile(fileName, str, function (err) {
+        if (err) {
+          res.status(500).json({ msg: "NetConf save error!" });
+          console.error(err);
+        } else {
+          res.json({ msg: "NetConf saved!" });
+        }
+      });
+    } else {
+      res.status(409).json({ msg: "Wrong parameters." });
+    }
+  });
 });
+
 
 //reboot
 app.get("/reboot", function (req, res) {

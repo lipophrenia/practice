@@ -517,7 +517,7 @@
 
     function vid2_form_disable() {
       if (vid2_disable.checked == true) {
-        vid2_lock.checked=true;
+        vid2_lock.checked = true;
         vid2_form_lock();
         vid2_device.value = "";
         vid2_fps.value = "";
@@ -537,9 +537,9 @@
         vid2_progAF.checked = false;
         vid2_progReflect.checked = false;
         vid2_progZoom.checked = false;
-        
+
       } else {
-        vid2_lock.checked=false;
+        vid2_lock.checked = false;
         vid2_form_lock();
       }
     }
@@ -860,6 +860,48 @@
             toastList[0].show();
           }
         })
+      } else if (adr1 && adr2 && gate) {
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr1, ip2: adr2, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
+      } else if (adr1 && adr3 && gate){
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
+      } else if(adr2 && adr3 && gate){
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr2, ip2: adr3, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
       }
     });
 
@@ -867,7 +909,6 @@
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
       var selected = selection.options[selection.selectedIndex].id;
-      //client
       fetch("api/conf-select", {
         method: 'PATCH',
         body: JSON.stringify({ id: selected }),
@@ -882,20 +923,6 @@
           toastList[1].show();
         }
       })
-      //server
-      // fetch("api/conf-switch", {
-      //   method: 'POST',
-      //   body: JSON.stringify({ selected }),
-      //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      // }).then(async (response) => {
-      //   if (response.ok) {
-      //     $("#toasttext2").html("Конфигурация выбрана!");
-      //     toastList[1].show();
-      //   } else {
-      //     $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
-      //     toastList[1].show();
-      //   }
-      // })
     });
 
     //config data save
