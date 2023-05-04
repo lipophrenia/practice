@@ -16,7 +16,7 @@ var Selected;
 var confs;
 
 function Init() {
-  lastSelectedCam = fs.readFileSync("model", "utf8");
+  lastSelectedCam = fs.readFileSync("/proc/device-tree/model", "ascii");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
@@ -56,39 +56,42 @@ app.get("/api/last-selection", function (req, res) {
   res.json({ selected: lastSelectedCam });
 });
 
-//config select
+//config select+
 app.patch("/api/conf-select", jsonParser, function (req, res) {
   Selected = req.body.id;
   Select(Selected);
-  fs.writeFile("model", lastSelectedCam, function (err) {
+  //fs.writeFile("/home/practice/http_control/files/model", lastSelectedCam, function (err) {
+    fs.writeFile("/proc/device-tree/model", lastSelectedCam, {encoding: 'ascii'}, function (err) {
     if (err) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      // execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
-      //   if (err) {
-      //     // ошибка
-      //     console.error(err)
-      //   } else {
-      //     // весь стандартный вывод и стандартный поток (буферизованный)
-      //     console.log(stdout);
-      //     console.log(stderr);
-      //   }
-      // });
+      execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
+        if (err) {
+          // ошибка
+          console.error(err)
+        } else {
+          // весь стандартный вывод и стандартный поток (буферизованный)
+          console.log(stdout);
+          console.log(stderr);
+        }
+      });
       res.json({ msg: "Model id - " + lastSelectedCam +". Success!" });
     }
   });
 });
 
-//get video config
+//get video config+
 app.get("/api/conf-get", function (req, res) {
-  var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
+  //var confFile = fs.readFileSync("/home/practice/http_control/files/" + path_to_config);
+  var confFile = fs.readFileSync("/etc/" + path_to_config); // путь до файла
   res.json(JSON.parse(confFile));
 });
 
-//save video config
+//save video config+
 app.patch("/api/conf-save", function (req, res) {
-  var fileJson = path.join("/home/practice/practice/files/", path_to_config); // папка, в которой лежат файлы video.config
+  //var fileJson = path.join("/home/practice/http_control/files/", path_to_config);
+  var fileJson = path.join("/etc/", path_to_config); // папка, в которой лежат файлы video.config
   var dataJson = JSON.stringify(req.body, null, 4);
   fs.writeFile(fileJson, dataJson, function (err) {
     if (err) {
@@ -100,9 +103,10 @@ app.patch("/api/conf-save", function (req, res) {
   });
 });
 
-//get net config
+//get net config+
 app.get("/api/net-get", function (req, res) {
-  var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network");
+  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
@@ -140,9 +144,10 @@ app.get("/api/net-get", function (req, res) {
   });
 });
 
-//save net config
+//save net config+
 app.patch("/api/net-save", function (req, res) {
-  var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network");
+  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
