@@ -470,6 +470,114 @@
     var toastList = toastElList.map(function (toastEl) {
       return new bootstrap.Toast(toastEl);
     });
+    var confJson;
+
+    function v1_show() {
+      if (confJson.video[0].hasOwnProperty("device")) {
+        vid1_device.value = confJson.video[0].device;
+      }
+      if (confJson.video[0].hasOwnProperty("fps")) {
+        vid1_fps.value = confJson.video[0].fps;
+      }
+      if (confJson.video[0].hasOwnProperty("width")) {
+        vid1_width.value = confJson.video[0].width;
+      }
+      if (confJson.video[0].hasOwnProperty("height")) {
+        vid1_height.value = confJson.video[0].height;
+      }
+      if (confJson.video[0].hasOwnProperty("format")) {
+        vid1_format.value = confJson.video[0].format;
+      }
+      if (confJson.video[0].hasOwnProperty("bitrate")) {
+        vid1_bitrate.value = confJson.video[0].bitrate;
+      }
+      if (confJson.video[0].hasOwnProperty("matrixW")) {
+        vid1_Mwidth.value = confJson.video[0].matrixW;
+      }
+      if (confJson.video[0].hasOwnProperty("matrixH")) {
+        vid1_Mheight.value = confJson.video[0].matrixH;
+      }
+      if (confJson.video[0].hasOwnProperty("maxHFov")) {
+        vid1_maxHFOV.value = confJson.video[0].maxHFov;
+      }
+      if (confJson.video[0].hasOwnProperty("maxVFov")) {
+        vid1_maxVFOV.value = confJson.video[0].maxVFov;
+      }
+      if (confJson.video[0].hasOwnProperty("offsetCam")) {
+        vid1_zoomShift.checked = confJson.video[0].offsetCam;
+      }
+      if (confJson.video[0].hasOwnProperty("minHFov")) {
+        vid1_minHFOV.value = confJson.video[0].minHFov;
+      }
+      if (confJson.video[0].hasOwnProperty("minVFov")) {
+        vid1_minVFOV.value = confJson.video[0].minVFov;
+      }
+      if (confJson.video[0].hasOwnProperty("zmStab")) {
+        vid1_stabScale.value = confJson.video[0].zmStab;
+      }
+      if (confJson.video[0].hasOwnProperty("queueTelem")) {
+        vid1_delay.value = confJson.video[0].queueTelem;
+      }
+    }
+
+    function v2_show() {
+      if (confJson.video && confJson.video.length == 2) {
+        if (confJson.video[1].hasOwnProperty("device")) {
+          vid2_device.value = confJson.video[1].device;
+        }
+        if (confJson.video[1].hasOwnProperty("fps")) {
+          vid2_fps.value = confJson.video[1].fps;
+        }
+        if (confJson.video[1].hasOwnProperty("width")) {
+          vid2_width.value = confJson.video[1].width;
+        }
+        if (confJson.video[1].hasOwnProperty("height")) {
+          vid2_height.value = confJson.video[1].height;
+        }
+        if (confJson.video[1].hasOwnProperty("format")) {
+          vid2_format.value = confJson.video[1].format;
+        }
+        if (confJson.video[1].hasOwnProperty("bitrate")) {
+          vid2_bitrate.value = confJson.video[1].bitrate;
+        }
+        if (confJson.video[1].hasOwnProperty("matrixW")) {
+          vid2_Mwidth.value = confJson.video[1].matrixW;
+        }
+        if (confJson.video[1].hasOwnProperty("matrixH")) {
+          vid2_Mheight.value = confJson.video[1].matrixH;
+        }
+        if (confJson.video[1].hasOwnProperty("maxHFov")) {
+          vid2_maxHFOV.value = confJson.video[1].maxHFov;
+        }
+        if (confJson.video[1].hasOwnProperty("maxVFov")) {
+          vid2_maxVFOV.value = confJson.video[1].maxVFov;
+        }
+        if (confJson.video[1].hasOwnProperty("offsetCam")) {
+          vid2_zoomShift.checked = confJson.video[1].offsetCam;
+        }
+        if (confJson.video[1].hasOwnProperty("minHFov")) {
+          vid2_minHFOV.value = confJson.video[1].minHFov;
+        }
+        if (confJson.video[1].hasOwnProperty("minVFov")) {
+          vid2_minVFOV.value = confJson.video[1].minVFov;
+        }
+        if (confJson.video[1].hasOwnProperty("zmStab")) {
+          vid2_stabScale.value = confJson.video[1].zmStab;
+        }
+        if (confJson.video[1].hasOwnProperty("softAF")) {
+          vid2_progAF.checked = confJson.video[1].softAF;
+        }
+        if (confJson.video[1].hasOwnProperty("softZoom")) {
+          vid2_progZoom.checked = confJson.video[1].softZoom;
+        }
+        if (confJson.video[1].hasOwnProperty("softFlips")) {
+          vid2_progReflect.checked = confJson.video[1].softFlips;
+        }
+        if (confJson.video[1].hasOwnProperty("queueTelem")) {
+          vid2_delay.value = confJson.video[1].queueTelem;
+        }
+      }
+    }
 
     function vid2_form_lock() {
       if (vid2_lock.checked == true) {
@@ -546,6 +654,9 @@
 
     document.getElementById("vid2_disable").addEventListener("click", function (e) {
       vid2_form_disable();
+      if (vid2_disable.checked == false) {
+        v2_show();
+      }
     });
 
     document.getElementById("vid2_lock").addEventListener("click", function (e) {
@@ -568,12 +679,12 @@
       })
     });
 
-    function conf_load() {
+    function conf_load(notify) {
       fetch("api/conf-get", {
         method: 'GET',
       }).then(async (response) => {
         if (response.ok) {
-          var confJson = await response.json();
+          confJson = await response.json();
           if (confJson.hasOwnProperty("rtsp")) {
             if (confJson.rtsp.hasOwnProperty("port")) {
               rtsp_port.value = confJson.rtsp.port;
@@ -639,51 +750,7 @@
           //video get
           if (confJson.hasOwnProperty("video")) {
             if (confJson.video && confJson.video.length == 1) {//если камера одна
-              if (confJson.video[0].hasOwnProperty("device")) {
-                vid1_device.value = confJson.video[0].device;
-              }
-              if (confJson.video[0].hasOwnProperty("fps")) {
-                vid1_fps.value = confJson.video[0].fps;
-              }
-              if (confJson.video[0].hasOwnProperty("width")) {
-                vid1_width.value = confJson.video[0].width;
-              }
-              if (confJson.video[0].hasOwnProperty("height")) {
-                vid1_height.value = confJson.video[0].height;
-              }
-              if (confJson.video[0].hasOwnProperty("format")) {
-                vid1_format.value = confJson.video[0].format;
-              }
-              if (confJson.video[0].hasOwnProperty("bitrate")) {
-                vid1_bitrate.value = confJson.video[0].bitrate;
-              }
-              if (confJson.video[0].hasOwnProperty("matrixW")) {
-                vid1_Mwidth.value = confJson.video[0].matrixW;
-              }
-              if (confJson.video[0].hasOwnProperty("matrixH")) {
-                vid1_Mheight.value = confJson.video[0].matrixH;
-              }
-              if (confJson.video[0].hasOwnProperty("maxHFov")) {
-                vid1_maxHFOV.value = confJson.video[0].maxHFov;
-              }
-              if (confJson.video[0].hasOwnProperty("maxVFov")) {
-                vid1_maxVFOV.value = confJson.video[0].maxVFov;
-              }
-              if (confJson.video[0].hasOwnProperty("offsetCam")) {
-                vid1_zoomShift.checked = confJson.video[0].offsetCam;
-              }
-              if (confJson.video[0].hasOwnProperty("minHFov")) {
-                vid1_minHFOV.value = confJson.video[0].minHFov;
-              }
-              if (confJson.video[0].hasOwnProperty("minVFov")) {
-                vid1_minVFOV.value = confJson.video[0].minVFov;
-              }
-              if (confJson.video[0].hasOwnProperty("zmStab")) {
-                vid1_stabScale.value = confJson.video[0].zmStab;
-              }
-              if (confJson.video[0].hasOwnProperty("queueTelem")) {
-                vid1_delay.value = confJson.video[0].queueTelem;
-              }
+              v1_show();
               vid2_disable.checked = true;
               vid2_form_disable();
 
@@ -693,113 +760,20 @@
               vid2_form_disable();
 
               //vid1
-              if (confJson.video[0].hasOwnProperty("device")) {
-                vid1_device.value = confJson.video[0].device;
-              }
-              if (confJson.video[0].hasOwnProperty("fps")) {
-                vid1_fps.value = confJson.video[0].fps;
-              }
-              if (confJson.video[0].hasOwnProperty("width")) {
-                vid1_width.value = confJson.video[0].width;
-              }
-              if (confJson.video[0].hasOwnProperty("height")) {
-                vid1_height.value = confJson.video[0].height;
-              }
-              if (confJson.video[0].hasOwnProperty("format")) {
-                vid1_format.value = confJson.video[0].format;
-              }
-              if (confJson.video[0].hasOwnProperty("bitrate")) {
-                vid1_bitrate.value = confJson.video[0].bitrate;
-              }
-              if (confJson.video[0].hasOwnProperty("matrixW")) {
-                vid1_Mwidth.value = confJson.video[0].matrixW;
-              }
-              if (confJson.video[0].hasOwnProperty("matrixH")) {
-                vid1_Mheight.value = confJson.video[0].matrixH;
-              }
-              if (confJson.video[0].hasOwnProperty("maxHFov")) {
-                vid1_maxHFOV.value = confJson.video[0].maxHFov;
-              }
-              if (confJson.video[0].hasOwnProperty("maxVFov")) {
-                vid1_maxVFOV.value = confJson.video[0].maxVFov;
-              }
-              if (confJson.video[0].hasOwnProperty("offsetCam")) {
-                vid1_zoomShift.checked = confJson.video[0].offsetCam;
-              }
-              if (confJson.video[0].hasOwnProperty("minHFov")) {
-                vid1_minHFOV.value = confJson.video[0].minHFov;
-              }
-              if (confJson.video[0].hasOwnProperty("minVFov")) {
-                vid1_minVFOV.value = confJson.video[0].minVFov;
-              }
-              if (confJson.video[0].hasOwnProperty("zmStab")) {
-                vid1_stabScale.value = confJson.video[0].zmStab;
-              }
-              if (confJson.video[0].hasOwnProperty("queueTelem")) {
-                vid1_delay.value = confJson.video[0].queueTelem;
-              }
+              v1_show();
               //vid2
-              if (confJson.video[1].hasOwnProperty("device")) {
-                vid2_device.value = confJson.video[1].device;
-              }
-              if (confJson.video[1].hasOwnProperty("fps")) {
-                vid2_fps.value = confJson.video[1].fps;
-              }
-              if (confJson.video[1].hasOwnProperty("width")) {
-                vid2_width.value = confJson.video[1].width;
-              }
-              if (confJson.video[1].hasOwnProperty("height")) {
-                vid2_height.value = confJson.video[1].height;
-              }
-              if (confJson.video[1].hasOwnProperty("format")) {
-                vid2_format.value = confJson.video[1].format;
-              }
-              if (confJson.video[1].hasOwnProperty("bitrate")) {
-                vid2_bitrate.value = confJson.video[1].bitrate;
-              }
-              if (confJson.video[1].hasOwnProperty("matrixW")) {
-                vid2_Mwidth.value = confJson.video[1].matrixW;
-              }
-              if (confJson.video[1].hasOwnProperty("matrixH")) {
-                vid2_Mheight.value = confJson.video[1].matrixH;
-              }
-              if (confJson.video[1].hasOwnProperty("maxHFov")) {
-                vid2_maxHFOV.value = confJson.video[1].maxHFov;
-              }
-              if (confJson.video[1].hasOwnProperty("maxVFov")) {
-                vid2_maxVFOV.value = confJson.video[1].maxVFov;
-              }
-              if (confJson.video[1].hasOwnProperty("offsetCam")) {
-                vid2_zoomShift.checked = confJson.video[1].offsetCam;
-              }
-              if (confJson.video[1].hasOwnProperty("minHFov")) {
-                vid2_minHFOV.value = confJson.video[1].minHFov;
-              }
-              if (confJson.video[1].hasOwnProperty("minVFov")) {
-                vid2_minVFOV.value = confJson.video[1].minVFov;
-              }
-              if (confJson.video[1].hasOwnProperty("zmStab")) {
-                vid2_stabScale.value = confJson.video[1].zmStab;
-              }
-              if (confJson.video[1].hasOwnProperty("softAF")) {
-                vid2_progAF.checked = confJson.video[1].softAF;
-              }
-              if (confJson.video[1].hasOwnProperty("softZoom")) {
-                vid2_progZoom.checked = confJson.video[1].softZoom;
-              }
-              if (confJson.video[1].hasOwnProperty("softFlips")) {
-                vid2_progReflect.checked = confJson.video[1].softFlips;
-              }
-              if (confJson.video[1].hasOwnProperty("queueTelem")) {
-                vid2_delay.value = confJson.video[1].queueTelem;
-              }
+              v2_show();
             }
           }
-          $("#toasttext2").html("Выбранная конфигурация загружена!");
-          toastList[1].show();
+          if (notify == true) {
+            $("#toasttext2").html("Выбранная конфигурация загружена!");
+            toastList[1].show();
+          }
         } else {
-          $("#toasttext2").html("Ошибка чтения файла!");
-          toastList[1].show();
+          if (notify == true) {
+            $("#toasttext2").html("Ошибка чтения файла!");
+            toastList[1].show();
+          }
         }
       })
     }
@@ -836,7 +810,7 @@
         }
       })
       //video config get
-      conf_load();
+      conf_load(true);
     });
 
     //net conf save
@@ -874,7 +848,7 @@
             toastList[0].show();
           }
         })
-      } else if (adr1 && adr3 && gate){
+      } else if (adr1 && adr3 && gate) {
         fetch("api/net-save", {
           method: 'PATCH',
           body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
@@ -888,7 +862,7 @@
             toastList[0].show();
           }
         })
-      } else if(adr2 && adr3 && gate){
+      } else if (adr2 && adr3 && gate) {
         fetch("api/net-save", {
           method: 'PATCH',
           body: JSON.stringify({ ip1: adr2, ip2: adr3, gate: gate }),
@@ -917,7 +891,7 @@
         if (response.ok) {
           $("#toasttext2").html("Конфигурация выбрана!");
           toastList[1].show();
-          conf_load();
+          conf_load(true);
         } else {
           $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
           toastList[1].show();
@@ -1107,7 +1081,7 @@
           if (response.ok) {
             $("#toasttext3").html("Конфигурация сохранена!");
             toastList[2].show();
-            conf_load();
+            conf_load(false);
           } else {
             $("#toasttext3").html("Ошибка обновления конфигурации!");
             toastList[2].show();
@@ -1176,7 +1150,7 @@
           if (response.ok) {
             $("#toasttext3").html("Конфигурация сохранена!");
             toastList[2].show();
-            conf_load();
+            conf_load(false);
           } else {
             $("#toasttext3").html("Ошибка обновления конфигурации!");
             toastList[2].show();
