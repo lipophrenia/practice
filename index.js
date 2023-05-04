@@ -61,7 +61,7 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
   Selected = req.body.id;
   Select(Selected);
   //fs.writeFile("/home/practice/http_control/files/model", lastSelectedCam, function (err) {
-    fs.writeFile("/proc/device-tree/model", lastSelectedCam, {encoding: 'ascii'}, function (err) {
+    fs.writeFile("/sys/firmware/devicetree/base/", lastSelectedCam, {encoding: 'ascii'}, function (err) {
     if (err) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
