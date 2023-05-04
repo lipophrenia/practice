@@ -60,6 +60,7 @@ app.get("/api/last-selection", function (req, res) {
 app.patch("/api/conf-select", jsonParser, function (req, res) {
   Selected = req.body.id;
   Select(Selected);
+  // /proc/device-tree/model
   //fs.writeFile("/home/practice/http_control/files/model", lastSelectedCam, function (err) {
     fs.writeFile("/sys/firmware/devicetree/base/", lastSelectedCam, {encoding: 'ascii'}, function (err) {
     if (err) {
