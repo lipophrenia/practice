@@ -65,19 +65,19 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
       res.status(500).json({ msg: "Error!" });
       console.error(err);
     } else {
-      res.json({ msg: "Selected id - " + lastSelectedCam });
+      // execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
+      //   if (err) {
+      //     // ошибка
+      //     console.error(err)
+      //   } else {
+      //     // весь стандартный вывод и стандартный поток (буферизованный)
+      //     console.log(stdout);
+      //     console.log(stderr);
+      //   }
+      // });
+      res.json({ msg: "Model id - " + lastSelectedCam +". Success!" });
     }
   });
-  // execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
-  //   if (err) {
-  //     // ошибка
-  //     console.error(err)
-  //   } else {
-  //     // весь стандартный вывод и стандартный поток (буферизованный)
-  //     console.log(stdout);
-  //     console.log(stderr);
-  //   }
-  // });
 });
 
 //get video config
@@ -169,8 +169,8 @@ app.patch("/api/net-save", function (req, res) {
             arrStr[i] = arr.join("=");
           }
         } else {
-            if (arrStr[i].indexOf("#Address") >= 0){
-            arrStr[i] = "Address="+req.body.ip3;
+          if (arrStr[i].indexOf("#Address") >= 0) {
+            arrStr[i] = "Address=" + req.body.ip3;
             break;
           }
         }
@@ -231,7 +231,6 @@ app.patch("/api/net-save", function (req, res) {
     }
   });
 });
-
 
 //reboot
 app.get("/reboot", function (req, res) {
