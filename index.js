@@ -16,7 +16,7 @@ var Selected;
 var confs;
 
 function Init() {
-  lastSelectedCam = fs.readFileSync("/home/practice/http_control/files/model", "ascii");
+  lastSelectedCam = fs.readFileSync("/sys/firmware/devicetree/base/model", "ascii");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
