@@ -471,6 +471,7 @@
       return new bootstrap.Toast(toastEl);
     });
     var confJson;
+    var selectedConf;
 
     function conf_load(notify) {
       fetch("api/conf-get", {
@@ -495,12 +496,12 @@
             }
           }
           if (notify == true) {
-            $("#toasttext2").html("Выбранная конфигурация загружена!");
+            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
             toastList[1].show();
           }
         } else {
           if (notify == true) {
-            $("#toasttext2").html("Ошибка чтения файла!");
+            $("#toasttext2").html("Ошибка чтения файла конфигурации!");
             toastList[1].show();
           }
         }
@@ -788,7 +789,10 @@
         if (response.ok) {
           var json = await response.json();
           if (json.hasOwnProperty("selected")) {
+            selectedConf = json.selected;
             document.getElementById(json.selected).selected = true;
+            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
+            toastList[1].show();
           }
         }
       })
@@ -810,7 +814,7 @@
         }
       })
       //video config get
-      conf_load(true);
+      conf_load(false);
     });
 
     //net conf save
@@ -883,6 +887,7 @@
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
       var selected = selection.options[selection.selectedIndex].id;
+      selectedConf = selected;
       fetch("api/conf-select", {
         method: 'PATCH',
         body: JSON.stringify({ id: selected }),
