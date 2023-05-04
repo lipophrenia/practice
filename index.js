@@ -1,7 +1,7 @@
 const host = "localhost";
 const port = 8080;
 const fs = require("fs");
-const os = require("node:os");
+const os = require("os");
 const path = require("path");
 const bodyParser = require("body-parser");
 const execFile = require('child_process').execFile;
@@ -16,7 +16,7 @@ var Selected;
 var confs;
 
 function Init() {
-  lastSelectedCam = fs.readFileSync("/proc/device-tree/model", "ascii");
+  lastSelectedCam = fs.readFileSync("/home/practice/http_control/files/model", "ascii");
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
@@ -39,6 +39,7 @@ function Select(Selected) {
   return lastSelectedCam;
 }
 
+app.use(express.static(path.join('/etc/')));
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
