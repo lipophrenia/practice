@@ -11,11 +11,16 @@ const app = express();
 app.use(express.json());
 var jsonParser = bodyParser.json()
 var path_to_config;
-var activeCam;
-var Selection;
+var activeCamName;// активный конфиг
+var lastCamName;
+var lastSelectionID; //id конфига, что выбран в списке
 var confs;
 
-Init();
+var init_c = 0;
+if (init_c ==0){
+  Init();
+  init_c++;
+}
 
 function readASCII(str) {
   var result = "";
@@ -37,22 +42,23 @@ function readASCII(str) {
 
 function Init() {
   ascii_str = fs.readFileSync("/proc/device-tree/model", "ascii");
-  activeCam = readASCII(ascii_str);
+  activeCamName = readASCII(ascii_str);
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (activeCam == confs[i].name) {
-      Selected = confs[i].id;
+    if (activeCamName == confs[i].name) {
+      activeSelectionID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
 }
 
-function Select(Selection) {
+function Select(selection) {
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (Selection == confs[i].name) {
+    if (selection == confs[i].name) {
+      lastSelectionID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
@@ -69,16 +75,16 @@ app.get("/api/conflist-get", function (req, res) {
   res.json(confs);
 });
 
-//get last selection
+//get activeCam+
 app.get("/api/active-selection", function (req, res) {
-  res.json({ selected: activeCam });
+  res.json({ selected: activeCamName });
 });
 
 //config select+
 app.patch("/api/conf-select", jsonParser, function (req, res) {
-  Selection = req.body.id;
-  Select(Selection);
-  execFile('./switch.sh', [Selection], { shell: '/bin/bash' }, (err, stdout, stderr) => {
+  lastCamName = req.body.id;
+  Select(lastCamName);
+  execFile('./switch.sh', [lastCamName], { shell: '/bin/bash' }, (err, stdout, stderr) => {
     if (err) {
       // ошибка
       console.error(err)
@@ -87,7 +93,7 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
       console.log(stdout);
       console.log(stderr);
     }
-    res.json({ msg: "Model id - " + Selected + ". Success!" });
+    res.json({ msg: "Model id - " + lastSelectionID + ". Success!" });
   });
 });
 
