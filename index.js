@@ -15,8 +15,27 @@ var lastSelectedCam;
 var Selected;
 var confs;
 
+function readASCII(str) {
+  var result = "";
+  function isCharNumber(char) {
+    return char >= '0' && char <= '9';
+  }
+  function isLetter(char) {
+    return ((char >= 'A' && char <= 'Z') ||
+      (char >= 'a' && char <= 'z'));
+  }
+
+  for (var char of str)
+    if (isCharNumber(char) || isLetter(char))
+      result += char;
+
+  console.log(result);
+  return result;
+}
+
 function Init() {
-  lastSelectedCam = fs.readFileSync("selected.txt", "utf8");
+  ascii_str = fs.readFileSync("/proc/device-tree/model", "ascii");
+  lastSelectedCam = readASCII(ascii_str);
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {

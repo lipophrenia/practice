@@ -791,7 +791,7 @@
           if (json.hasOwnProperty("selected")) {
             selectedConf = json.selected;
             document.getElementById(json.selected).selected = true;
-            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
+            $("#toasttext2").html("Текущая конфигурация - "+selectedConf+"!");
             toastList[1].show();
           }
         }
@@ -894,9 +894,9 @@
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then(async (response) => {
         if (response.ok) {
-          $("#toasttext2").html("Конфигурация выбрана!");
+          $("#toasttext2").html("Конфигурация будет выбрана после перезагрузки!");
           toastList[1].show();
-          conf_load(true);
+          conf_load(false);
         } else {
           $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
           toastList[1].show();
