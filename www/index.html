@@ -873,7 +873,6 @@
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
       var selected = selection.options[selection.selectedIndex].id;
-      selectedConf = selected;
       fetch("api/conf-select", {
         method: 'PATCH',
         body: JSON.stringify({ id: selected }),
@@ -885,6 +884,7 @@
             toastList[1].show();
           }
           else {
+            //selectedConf = selected;
             $("#toasttext2").html("Конфигурация "+selected+" будет выбрана после перезагрузки!");
             toastList[1].show();
             conf_load(false);
@@ -1162,12 +1162,14 @@
       e.preventDefault();
       fetch("/reboot", {
         method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          $("#toasttext4").html("Перезагрузка!");
-          toastList[3].show();
-        }
-      })
+      });
+      // .then(async (response) => {
+      //   if (response.ok) {
+          
+      //   }
+      // })
+      $("#toasttext4").html("Перезагрузка!");
+      toastList[3].show();
     });
   </script>
 </body>
