@@ -50,7 +50,7 @@
     <div class="row gx-2 justify-content-center">
       <div class="col" style="margin-top: 6px">
         <div class="p-3 border bg-light">
-          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px" id="selConf">
             Конфигурация
           </p>
           <div class="row gx-2">
@@ -258,12 +258,6 @@
                 <div class="row" style="margin-top: -8px">
                   <div class="col" style="height: 16px">
                     <p class="fs-6 lh-1 fw-bolder">VIDEO 2</p>
-                  </div>
-                  <div class="col-3" style="height: 16px">
-                    <div class="form-check form-switch" style="margin-top: -4px">
-                      <label for="vid2_lock">Lock</label>
-                      <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_lock" />
-                    </div>
                   </div>
                   <div class="col-3" style="height: 16px">
                     <div class="form-check form-switch" style="margin-top: -4px">
@@ -679,9 +673,8 @@
       }
     }
 
-    function vid2_form_lock() {
-      if (vid2_lock.checked == true) {
-        var ind = true;
+    function vid2_form_lock(ind) {
+      if (ind == true) {
         vid2_device.disabled = ind;
         vid2_fps.disabled = ind;
         vid2_width.disabled = ind;
@@ -701,7 +694,6 @@
         vid2_progReflect.disabled = ind;
         vid2_progZoom.disabled = ind;
       } else {
-        var ind = false;
         vid2_device.disabled = ind;
         vid2_fps.disabled = ind;
         vid2_width.disabled = ind;
@@ -725,8 +717,7 @@
 
     function vid2_form_disable() {
       if (vid2_disable.checked == true) {
-        vid2_lock.checked = true;
-        vid2_form_lock();
+        vid2_form_lock(true);
         vid2_device.value = "";
         vid2_fps.value = "";
         vid2_width.value = "";
@@ -747,8 +738,7 @@
         vid2_progZoom.checked = false;
 
       } else {
-        vid2_lock.checked = false;
-        vid2_form_lock();
+        vid2_form_lock(false);
       }
     }
 
@@ -757,10 +747,6 @@
       if (vid2_disable.checked == false) {
         v2_show();
       }
-    });
-
-    document.getElementById("vid2_lock").addEventListener("click", function (e) {
-      vid2_form_lock();
     });
 
     //selectList get
@@ -894,9 +880,15 @@
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then(async (response) => {
         if (response.ok) {
-          $("#toasttext2").html("Конфигурация будет выбрана после перезагрузки!");
-          toastList[1].show();
-          conf_load(false);
+          if (selectedConf == selected){
+            $("#toasttext2").html("Конфигурация "+selected+" активна!");
+            toastList[1].show();
+          }
+          else {
+            $("#toasttext2").html("Конфигурация "+selected+" будет выбрана после перезагрузки!");
+            toastList[1].show();
+            conf_load(false);
+          }
         } else {
           $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
           toastList[1].show();
@@ -1084,7 +1076,8 @@
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }).then(async (response) => {
           if (response.ok) {
-            $("#toasttext3").html("Конфигурация сохранена!");
+            
+            $("#toasttext3").html("Конфигурация "+selectedConf+" сохранена!");
             toastList[2].show();
             conf_load(false);
           } else {
@@ -1153,7 +1146,7 @@
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }).then(async (response) => {
           if (response.ok) {
-            $("#toasttext3").html("Конфигурация сохранена!");
+            $("#toasttext3").html("Конфигурация "+selectedConf+" сохранена!");
             toastList[2].show();
             conf_load(false);
           } else {
