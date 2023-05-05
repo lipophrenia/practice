@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 var jsonParser = bodyParser.json()
 var path_to_config;
-var lastSelectedCam;
-var Selected;
+var activeCam;
+var Selection;
 var confs;
 
 Init();
@@ -37,27 +37,25 @@ function readASCII(str) {
 
 function Init() {
   ascii_str = fs.readFileSync("/proc/device-tree/model", "ascii");
-  lastSelectedCam = readASCII(ascii_str);
+  activeCam = readASCII(ascii_str);
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (lastSelectedCam == confs[i].name) {
+    if (activeCam == confs[i].name) {
       Selected = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
 }
 
-function Select(Selected) {
+function Select(Selection) {
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (Selected == confs[i].name) {
-      lastSelectedCam = confs[i].name;
+    if (Selection == confs[i].name) {
       path_to_config = confs[i].path;
     }
   }
-  return lastSelectedCam;
 }
 
 app.use("/static", express.static(__dirname + "/www/static"));
@@ -73,31 +71,23 @@ app.get("/api/conflist-get", function (req, res) {
 
 //get last selection
 app.get("/api/active-selection", function (req, res) {
-  res.json({ selected: lastSelectedCam });
+  res.json({ selected: activeCam });
 });
 
 //config select+
 app.patch("/api/conf-select", jsonParser, function (req, res) {
-  Selected = req.body.id;
-  Select(Selected);
-  //fs.writeFile("/home/practice/http_control/files/model", lastSelectedCam, function (err) {
-    fs.writeFile("selected.txt", lastSelectedCam, function (err) {
+  Selection = req.body.id;
+  Select(Selection);
+  execFile('./switch.sh', [Selection], { shell: '/bin/bash' }, (err, stdout, stderr) => {
     if (err) {
-      res.status(500).json({ msg: "Error!" });
-      console.error(err);
+      // ошибка
+      console.error(err)
     } else {
-      execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
-        if (err) {
-          // ошибка
-          console.error(err)
-        } else {
-          // весь стандартный вывод и стандартный поток (буферизованный)
-          console.log(stdout);
-          console.log(stderr);
-        }
-      });
-      res.json({ msg: "Model id - " + lastSelectedCam +". Success!" });
+      // весь стандартный вывод и стандартный поток (буферизованный)
+      console.log(stdout);
+      console.log(stderr);
     }
+    res.json({ msg: "Model id - " + Selected + ". Success!" });
   });
 });
 

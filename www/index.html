@@ -30,7 +30,7 @@
         </div>
         <div class="toast-body" id="toasttext2"></div>
       </div>
-      <!--conf get/patch-->
+      <!--conf get-->
       <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast3" style="margin: 10px">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
@@ -38,19 +38,27 @@
         </div>
         <div class="toast-body" id="toasttext3"></div>
       </div>
-      <!--sys-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast4" style="margin: 10px" data-bs-delay="89000">
+      <!--conf patch-->
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast4" style="margin: 10px">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
         </div>
         <div class="toast-body" id="toasttext4"></div>
       </div>
-      <!--not responding-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px">
+      <!--sys-->
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px" data-bs-delay="89000">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
         </div>
         <div class="toast-body" id="toasttext5"></div>
+      </div>
+      <!--not responding-->
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast6" style="margin: 10px">
+        <div class="toast-header">
+          <strong class="me-auto">Info</strong>
+        </div>
+        <div class="toast-body" id="toasttext6"></div>
       </div>
     </div>
     <div class="row gx-2 justify-content-center">
@@ -481,8 +489,8 @@
           if (response.ok) {
           init();
           } else {
-          $("#toasttext5").html("Устройство не отвечает.");
-          toastList[4].show();
+          $("#toasttext6").html("Устройство не отвечает.");
+          toastList[5].show();
           }
       })
     }
@@ -904,18 +912,18 @@
       }).then(async (response) => {
         if (response.ok) {
           if (selectedConf == selected){
-            $("#toasttext2").html("Конфигурация "+selected+" активна!");
-            toastList[1].show();
+            $("#toasttext3").html("Конфигурация "+selected+" активна!");
+            toastList[2].show();
           }
           else {
             //selectedConf = selected;
-            $("#toasttext2").html("Конфигурация "+selected+" будет выбрана после перезагрузки.");
-            toastList[1].show();
+            $("#toasttext4").html("Конфигурация "+selected+" будет выбрана после перезагрузки.");
+            toastList[3].show();
             conf_load(false);
           }
         } else {
-          $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
-          toastList[1].show();
+          $("#toasttext4").html("Ошибка! Данной конфигурации не существует!");
+          toastList[3].show();
         }
       })
     });
@@ -1101,12 +1109,12 @@
         }).then(async (response) => {
           if (response.ok) {
             
-            $("#toasttext3").html("Конфигурация "+selectedConf+" сохранена!");
-            toastList[2].show();
+            $("#toasttext4").html("Конфигурация "+selectedConf+" сохранена!");
+            toastList[3].show();
             conf_load(false);
           } else {
-            $("#toasttext3").html("Ошибка обновления конфигурации!");
-            toastList[2].show();
+            $("#toasttext4").html("Ошибка обновления конфигурации!");
+            toastList[3].show();
           }
         })
       } else if (
@@ -1170,12 +1178,12 @@
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }).then(async (response) => {
           if (response.ok) {
-            $("#toasttext3").html("Конфигурация "+selectedConf+" сохранена!");
-            toastList[2].show();
+            $("#toasttext4").html("Конфигурация "+selectedConf+" сохранена!");
+            toastList[3].show();
             conf_load(false);
           } else {
-            $("#toasttext3").html("Ошибка обновления конфигурации!");
-            toastList[2].show();
+            $("#toasttext4").html("Ошибка обновления конфигурации!");
+            toastList[3].show();
           }
         })
       }
@@ -1188,8 +1196,8 @@
         method: 'GET',
       });
       // .then(async (response) => {if (response.ok) {}})
-      $("#toasttext4").html("Перезагрузка. Ожидайте...");
-      toastList[3].show();
+      $("#toasttext5").html("Перезагрузка. Ожидайте...");
+      toastList[4].show();
       setTimeout(function(){reboot_check()}, 90000);
     });
   </script>
