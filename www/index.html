@@ -39,12 +39,18 @@
         <div class="toast-body" id="toasttext3"></div>
       </div>
       <!--sys-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast4" style="margin: 10px">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast4" style="margin: 10px" data-bs-delay="89000">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
         </div>
         <div class="toast-body" id="toasttext4"></div>
+      </div>
+      <!--not responding-->
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px">
+        <div class="toast-header">
+          <strong class="me-auto">Info</strong>
+        </div>
+        <div class="toast-body" id="toasttext5"></div>
       </div>
     </div>
     <div class="row gx-2 justify-content-center">
@@ -467,6 +473,57 @@
     var confJson;
     var selectedConf;
 
+    function reboot_check(){
+      fetch("api/reboot-check", {
+          method: 'GET',
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+          init();
+          } else {
+          $("#toasttext5").html("Устройство не отвечает.");
+          toastList[4].show();
+          }
+      })
+    }
+
+    function init(){
+      //last selection get
+      fetch("api/active-selection", {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("selected")) {
+            selectedConf = json.selected;
+            document.getElementById(json.selected).selected = true;
+            $("#toasttext2").html("Текущая конфигурация - "+selectedConf+"!");
+            toastList[1].show();
+          }
+        }
+      })
+      //network conf get
+      fetch("api/net-get", {
+        method: 'GET',
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
+            ip1.value = json.ip1;
+            ip2.value = json.ip2;
+            ip3.value = json.ip3;
+            gtw.value = json.gate;
+          }
+        } else {
+          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
+          toastList[0].show();
+        }
+      })
+      //video config get
+      conf_load(false);
+    }
+
     function conf_load(notify) {
       fetch("api/conf-get", {
         method: 'GET',
@@ -767,40 +824,7 @@
 
     //init
     window.addEventListener("load", () => {
-      //last selection get
-      fetch("api/last-selection", {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("selected")) {
-            selectedConf = json.selected;
-            document.getElementById(json.selected).selected = true;
-            $("#toasttext2").html("Текущая конфигурация - "+selectedConf+"!");
-            toastList[1].show();
-          }
-        }
-      })
-      //network conf get
-      fetch("api/net-get", {
-        method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
-            ip1.value = json.ip1;
-            ip2.value = json.ip2;
-            ip3.value = json.ip3;
-            gtw.value = json.gate;
-          }
-        } else {
-          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
-          toastList[0].show();
-        }
-      })
-      //video config get
-      conf_load(false);
+      init();
     });
 
     //net conf save
@@ -885,7 +909,7 @@
           }
           else {
             //selectedConf = selected;
-            $("#toasttext2").html("Конфигурация "+selected+" будет выбрана после перезагрузки!");
+            $("#toasttext2").html("Конфигурация "+selected+" будет выбрана после перезагрузки.");
             toastList[1].show();
             conf_load(false);
           }
@@ -1163,13 +1187,10 @@
       fetch("/reboot", {
         method: 'GET',
       });
-      // .then(async (response) => {
-      //   if (response.ok) {
-          
-      //   }
-      // })
-      $("#toasttext4").html("Перезагрузка!");
+      // .then(async (response) => {if (response.ok) {}})
+      $("#toasttext4").html("Перезагрузка. Ожидайте...");
       toastList[3].show();
+      setTimeout(function(){reboot_check()}, 90000);
     });
   </script>
 </body>

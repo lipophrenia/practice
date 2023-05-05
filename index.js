@@ -15,6 +15,8 @@ var lastSelectedCam;
 var Selected;
 var confs;
 
+Init();
+
 function readASCII(str) {
   var result = "";
   function isCharNumber(char) {
@@ -62,7 +64,6 @@ app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "www", "index.html"));
-  Init();
 });
 
 //get config list
@@ -71,7 +72,7 @@ app.get("/api/conflist-get", function (req, res) {
 });
 
 //get last selection
-app.get("/api/last-selection", function (req, res) {
+app.get("/api/active-selection", function (req, res) {
   res.json({ selected: lastSelectedCam });
 });
 
@@ -267,6 +268,10 @@ app.get("/reboot", function (req, res) {
       res.send(stdout);
     }
   });
+});
+
+app.get("/api/reboot-check", function (req, res) {
+  res.send("Online");
 });
 
 app.listen(port, () => {
