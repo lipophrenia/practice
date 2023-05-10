@@ -47,26 +47,29 @@
         <div class="toast-body" id="toasttext4"></div>
       </div>
       <!--sys-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px" data-bs-delay="89000">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px"
+        data-bs-delay="89000">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
         </div>
-        <div class="toast-body" id="toasttext5"></div>
-      </div>
-      <!--not responding-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast6" style="margin: 10px">
-        <div class="toast-header">
-          <strong class="me-auto">Info</strong>
+        <div class="toast-body" id="toasttext5">
         </div>
-        <div class="toast-body" id="toasttext6"></div>
       </div>
     </div>
     <div class="row gx-2 justify-content-center">
       <div class="col" style="margin-top: 6px">
         <div class="p-3 border bg-light">
-          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px" id="selConf">
-            Конфигурация
-          </p>
+          <div class="row">
+            <div class="col">
+              <p class="text-start fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px">
+                Конфигурация
+              </p>
+            </div>
+            <div class="col">
+              <p class="text-end fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px; color: #0c4dad" id="selConf">
+              </p>
+            </div>
+          </div>
           <div class="row gx-2">
             <!--rtsp-->
             <div class="col">
@@ -441,7 +444,7 @@
 
         <!--CAMS-->
         <div class="p-3 border bg-light" style="margin-top: 8px">
-          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 6px; margin-top: -8px">
             Камеры
           </p>
           <select class="form-select" id="selection">
@@ -480,22 +483,25 @@
     });
     var confJson;
     var selectedConf;
+    var activeConf;
 
-    function reboot_check(){
+    function reboot_check() {
       fetch("api/reboot-check", {
-          method: 'GET',
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
           init();
-          } else {
-          $("#toasttext6").html("Устройство не отвечает.");
-          toastList[5].show();
-          }
+          $("#toasttext1").html("Устройство перезагружено!");
+          toastList[0].show();
+        } else {
+          $("#toasttext1").html("Устройство не отвечает.");
+          toastList[0].show();
+        }
       })
     }
 
-    function init(){
+    function init() {
       //last selection get
       fetch("api/active-selection", {
         method: 'GET',
@@ -504,9 +510,11 @@
         if (response.ok) {
           var json = await response.json();
           if (json.hasOwnProperty("selected")) {
-            selectedConf = json.selected;
-            document.getElementById(json.selected).selected = true;
-            $("#toasttext2").html("Текущая конфигурация - "+selectedConf+"!");
+            activeConf = json.selected;
+            selectedConf = activeConf;
+            document.getElementById(activeConf).selected = true;
+            $("#selConf").text("Активна: "+activeConf);
+            $("#toasttext2").html("Текущая конфигурация - " + activeConf + "!");
             toastList[1].show();
           }
         }
@@ -555,7 +563,7 @@
             }
           }
           if (notify == true) {
-            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
+            $("#toasttext2").html("Выбрана конфигурация " + selectedConf + "!");
             toastList[1].show();
           }
         } else {
@@ -664,7 +672,8 @@
       }
       if (confJson.video[0].hasOwnProperty("offsetCam")) {
         vid1_zoomShift.checked = confJson.video[0].offsetCam;
-      }
+      } else vid1_zoomShift.checked = false;
+
       if (confJson.video[0].hasOwnProperty("minHFov")) {
         vid1_minHFOV.value = confJson.video[0].minHFov;
       }
@@ -711,9 +720,10 @@
         if (confJson.video[1].hasOwnProperty("maxVFov")) {
           vid2_maxVFOV.value = confJson.video[1].maxVFov;
         }
-        if (confJson.video[1].hasOwnProperty("offsetCam")) {
+        if (confJson.video[1].hasOwnProperty("offsetCam") == true) {
           vid2_zoomShift.checked = confJson.video[1].offsetCam;
-        }
+        } else vid2_zoomShift.checked = false;
+
         if (confJson.video[1].hasOwnProperty("minHFov")) {
           vid2_minHFOV.value = confJson.video[1].minHFov;
         }
@@ -723,15 +733,20 @@
         if (confJson.video[1].hasOwnProperty("zmStab")) {
           vid2_stabScale.value = confJson.video[1].zmStab;
         }
-        if (confJson.video[1].hasOwnProperty("softAF")) {
+        if (confJson.video[1].hasOwnProperty("softAF") == true) {
           vid2_progAF.checked = confJson.video[1].softAF;
-        }
-        if (confJson.video[1].hasOwnProperty("softZoom")) {
+        } else vid2_progAF.checked = false;
+
+        if (confJson.video[1].hasOwnProperty("softZoom") == true) {
           vid2_progZoom.checked = confJson.video[1].softZoom;
-        }
+        } else vid2_progZoom.checked = false;
+
         if (confJson.video[1].hasOwnProperty("softFlips")) {
           vid2_progReflect.checked = confJson.video[1].softFlips;
-        }
+          console.log(confJson.video[1].softFlips);
+          //console.log(vid2_progReflect.checked);
+        } else vid2_progReflect.checked = false;
+
         if (confJson.video[1].hasOwnProperty("queueTelem")) {
           vid2_delay.value = confJson.video[1].queueTelem;
         }
@@ -911,13 +926,14 @@
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then(async (response) => {
         if (response.ok) {
-          if (selectedConf == selected){
-            $("#toasttext3").html("Конфигурация "+selected+" активна!");
+          selectedConf = selected;
+          if (selectedConf == activeConf) {
+            conf_load(false);
+            $("#toasttext3").html("Конфигурация " + selectedConf + " активна!");
             toastList[2].show();
           }
           else {
-            //selectedConf = selected;
-            $("#toasttext4").html("Конфигурация "+selected+" будет выбрана после перезагрузки.");
+            $("#toasttext4").html("Конфигурация " + selectedConf + " станет активна после перезагрузки.");
             toastList[3].show();
             conf_load(false);
           }
@@ -932,111 +948,111 @@
     document.getElementById("btnConfSave").addEventListener("click", function (e) {
       e.preventDefault();
       //rtsp values
-      var rtsp_p = rtsp_port.value;
-      if (rtsp_mode.checked) {
+      var rtsp_p = parseFloat(rtsp_port.value);
+      if (rtsp_mode.checked == true) {
         var rtsp_m = "single";
       } else {
         var rtsp_m = "parallel";
       }
-      if (pauseVid.checked) {
-        var pause = "true";
-      } else {
-        var pause = "false";
-      }
+      var pause = pauseVid.checked;
+      // if (pauseVid.checked == true) {
+      //   var pause = "true";
+      // } else {
+      //   var pause = "false";
+      // }
       //control values
       var ctrl_p = control_port.value;
-      var tcp_p = tcp_port.value;
+      var tcp_p = parseInt(tcp_port.value);
       //gyro value
       var gyro_p = gyro_address.value;
       //processing values
-      var proc_w = width_proc.value;
-      var proc_h = height_proc.value;
+      var proc_w = parseFloat(width_proc.value);
+      var proc_h = parseFloat(height_proc.value);
       var proc_t = tracker_proc.value;
 
       //VIDEO 1 values
       var v1_dev = vid1_device.value;
-      var v1_fps = vid1_fps.value;
+      var v1_fps = parseInt(vid1_fps.value);
       //vid1 picture values
-      var v1_w = vid1_width.value;
-      var v1_h = vid1_height.value;
+      var v1_w = parseInt(vid1_width.value);
+      var v1_h = parseInt(vid1_height.value);
       var v1_format = vid1_format.value;
-      var v1_bitrate = vid1_bitrate.value;
+      var v1_bitrate = parseInt(vid1_bitrate.value);
       //vid1 matrix values
-      var v1_m_w = vid1_Mwidth.value;
-      var v1_m_h = vid1_Mheight.value;
+      var v1_m_w = parseFloat(vid1_Mwidth.value);
+      var v1_m_h = parseFloat(vid1_Mheight.value);
       //big FOV values
-      var v1_bhfov = vid1_maxHFOV.value;
-      var v1_bvfov = vid1_maxVFOV.value;
+      var v1_bhfov = parseFloat(vid1_maxHFOV.value);
+      var v1_bvfov = parseFloat(vid1_maxVFOV.value);
       //small FOV values
-      var v1_shfov = vid1_minHFOV.value;
-      var v1_svfov = vid1_minVFOV.value;
+      var v1_shfov = parseFloat(vid1_minHFOV.value);
+      var v1_svfov = parseFloat(vid1_minVFOV.value);
       //
-      if (vid1_zoomShift.checked) {
-        var v1_zshift = "true";
-      } else {
-        var v1_zshift = "false";
-      }
-      var v1_delay = vid1_delay.value;
-      var v1_sscale = vid1_stabScale.value;
+      var v1_zshift = vid1_zoomShift.checked;
+      // if (vid1_zoomShift.checked == true) {
+      //   var v1_zshift = "true";
+      // } else {
+      //   var v1_zshift = "false";
+      // }
+      var v1_delay = parseFloat(vid1_delay.value);
+      var v1_sscale = parseFloat(vid1_stabScale.value);
 
       //VIDEO 2 values
       var v2_dev = vid2_device.value;
-      var v2_fps = vid2_fps.value;
+      var v2_fps = parseInt(vid2_fps.value);
       //vid1 picture values
-      var v2_w = vid2_width.value;
-      var v2_h = vid2_height.value;
+      var v2_w = parseInt(vid2_width.value);
+      var v2_h = parseInt(vid2_height.value);
       var v2_format = vid2_format.value;
-      var v2_bitrate = vid2_bitrate.value;
+      var v2_bitrate = parseInt(vid2_bitrate.value);
       //vid1 matrix values
-      var v2_m_w = vid2_Mwidth.value;
-      var v2_m_h = vid2_Mheight.value;
+      var v2_m_w = parseFloat(vid2_Mwidth.value);
+      var v2_m_h = parseFloat(vid2_Mheight.value);
       //big FOV values
-      var v2_bhfov = vid2_maxHFOV.value;
-      var v2_bvfov = vid2_maxVFOV.value;
+      var v2_bhfov = parseFloat(vid2_maxHFOV.value);
+      var v2_bvfov = parseFloat(vid2_maxVFOV.value);
       //small FOV values
-      var v2_shfov = vid2_minHFOV.value;
-      var v2_svfov = vid2_minVFOV.value;
+      var v2_shfov = parseFloat(vid2_minHFOV.value);
+      var v2_svfov = parseFloat(vid2_minVFOV.value);
       //
-      if (vid2_zoomShift.checked) {
-        var v2_zshift = "true";
-      } else {
-        var v2_zshift = "false";
-      }
-      var v2_delay = vid2_delay.value;
-      var v2_sscale = vid2_stabScale.value;
-      if (vid2_progAF.checked) {
-        var v2_progAF = "true";
-      } else {
-        var v2_progAF = "false";
-      }
-      if (vid2_progZoom.checked) {
-        var v2_progZ = "true";
-      } else {
-        var v2_progZ = "false";
-      }
-      if (vid2_progReflect.checked) {
-        var v2_progR = "true";
-      } else {
-        var v2_progR = "false";
-      }
+      var v2_zshift = vid2_zoomShift.checked;
+      // if (vid2_zoomShift.checked == true) {
+      //   var v2_zshift = "true";
+      // } else {
+      //   var v2_zshift = "false";
+      // }
+      var v2_delay = parseFloat(vid2_delay.value);
+      var v2_sscale = parseFloat(vid2_stabScale.value);
+      var v2_progAF = vid2_progAF.checked;
+      var v2_progZ = vid2_progZoom.checked;
+      var v2_progR = vid2_progReflect.checked;
+      // if (vid2_progAF.checked == true) {
+      //   var v2_progAF = "true";
+      // } else {
+      //   var v2_progAF = "false";
+      // }
+      // if (vid2_progZoom.checked == true) {
+      //   var v2_progZ = "true";
+      // } else {
+      //   var v2_progZ = "false";
+      // }
+      // if (vid2_progReflect.checked == true) {
+      //   var v2_progR = "true";
+      // } else {
+      //   var v2_progR = "false";
+      // }
       //request
       if (
-        rtsp_p && rtsp_m && pause &&
-        ctrl_p && tcp_p && gyro_p &&
-        proc_w && proc_h && proc_t &&
+        rtsp_p && rtsp_m && ctrl_p && tcp_p &&
+        gyro_p && proc_w && proc_h && proc_t &&
         //v1
-        v1_dev && v1_fps && v1_w &&
-        v1_h && v1_format && v1_bitrate &&
-        v1_m_w && v1_m_h && v1_bhfov &&
-        v1_bvfov && v1_shfov && v1_svfov &&
-        v1_zshift && v1_delay && v1_sscale &&
+        v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate &&
+        v1_m_w && v1_m_h && v1_bhfov && v1_bvfov && v1_shfov && v1_svfov &&
+        v1_delay && v1_sscale &&
         //v2
-        v2_dev && v2_fps && v2_w &&
-        v2_h && v2_format && v2_bitrate &&
-        v2_m_w && v2_m_h && v2_bhfov &&
-        v2_bvfov && v2_shfov && v2_svfov &&
-        v2_zshift && v2_delay && v2_sscale &&
-        v2_progAF && v2_progZ && v2_progR) {
+        v2_dev && v2_fps && v2_w && v2_h && v2_format && v2_bitrate &&
+        v2_m_w && v2_m_h && v2_bhfov && v2_bvfov && v2_shfov && v2_svfov &&
+        v2_delay && v2_sscale) {
         fetch("/api/conf-save", {
           method: 'PATCH',
           body: JSON.stringify({
@@ -1108,8 +1124,7 @@
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }).then(async (response) => {
           if (response.ok) {
-            
-            $("#toasttext4").html("Конфигурация "+selectedConf+" сохранена!");
+            $("#toasttext4").html("Конфигурация " + selectedConf + " сохранена!");
             toastList[3].show();
             conf_load(false);
           } else {
@@ -1118,15 +1133,12 @@
           }
         })
       } else if (
-        rtsp_p && rtsp_m && pause &&
-        ctrl_p && tcp_p && gyro_p &&
-        proc_w && proc_h && proc_t &&
+        rtsp_p && rtsp_m && ctrl_p && tcp_p &&
+        gyro_p && proc_w && proc_h && proc_t &&
         //v1
-        v1_dev && v1_fps && v1_w &&
-        v1_h && v1_format && v1_bitrate &&
-        v1_m_w && v1_m_h && v1_bhfov &&
-        v1_bvfov && v1_shfov && v1_svfov &&
-        v1_zshift && v1_delay && v1_sscale) {
+        v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate &&
+        v1_m_w && v1_m_h && v1_bhfov && v1_bvfov && v1_shfov && v1_svfov &&
+        v1_delay && v1_sscale) {
         fetch("/api/conf-save", {
           method: 'PATCH',
           body: JSON.stringify({
@@ -1178,7 +1190,7 @@
           headers: { 'Content-type': 'application/json; charset=UTF-8' },
         }).then(async (response) => {
           if (response.ok) {
-            $("#toasttext4").html("Конфигурация "+selectedConf+" сохранена!");
+            $("#toasttext4").html("Конфигурация " + selectedConf + " сохранена!");
             toastList[3].show();
             conf_load(false);
           } else {
@@ -1196,9 +1208,9 @@
         method: 'GET',
       });
       // .then(async (response) => {if (response.ok) {}})
-      $("#toasttext5").html("Перезагрузка. Ожидайте...");
+      $("#toasttext5").html("Перезагрузка. Ожидайте... ");
       toastList[4].show();
-      setTimeout(function(){reboot_check()}, 90000);
+      setTimeout(function () { reboot_check() }, 90000);
     });
   </script>
 </body>

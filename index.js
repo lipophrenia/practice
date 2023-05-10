@@ -13,7 +13,7 @@ var jsonParser = bodyParser.json()
 var path_to_config;
 var activeCamName;// активный конфиг
 var lastCamName;
-var lastSelectionID; //id конфига, что выбран в списке
+var lastSelectionID;//выбранный конфиг
 var confs;
 
 var init_c = 0;
@@ -22,6 +22,7 @@ if (init_c ==0){
   init_c++;
 }
 
+//active config
 function readASCII(str) {
   var result = "";
   function isCharNumber(char) {
@@ -43,11 +44,12 @@ function readASCII(str) {
 function Init() {
   ascii_str = fs.readFileSync("/proc/device-tree/model", "ascii");
   activeCamName = readASCII(ascii_str);
+  //activeCamName = fs.readFileSync("/home/practice/http_control/files/selected.txt", "utf8"); //local
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
     if (activeCamName == confs[i].name) {
-      activeSelectionID = confs[i].id;
+      lastSelectionID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
@@ -67,6 +69,7 @@ function Select(selection) {
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
+  Init();
   res.sendFile(path.join(__dirname, "www", "index.html"));
 });
 
@@ -89,7 +92,6 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
       // ошибка
       console.error(err)
     } else {
-      // весь стандартный вывод и стандартный поток (буферизованный)
       console.log(stdout);
       console.log(stderr);
     }
@@ -99,15 +101,15 @@ app.patch("/api/conf-select", jsonParser, function (req, res) {
 
 //get video config+
 app.get("/api/conf-get", function (req, res) {
-  //var confFile = fs.readFileSync("/home/practice/http_control/files/" + path_to_config);
-  var confFile = fs.readFileSync("/etc/" + path_to_config); // путь до файла
+  //var confFile = fs.readFileSync("/home/practice/http_control/files/" + path_to_config);//local
+  var confFile = fs.readFileSync("/etc/" + path_to_config); // ssh
   res.json(JSON.parse(confFile));
 });
 
 //save video config+
 app.patch("/api/conf-save", function (req, res) {
-  //var fileJson = path.join("/home/practice/http_control/files/", path_to_config);
-  var fileJson = path.join("/etc/", path_to_config); // папка, в которой лежат файлы video.config
+  //var fileJson = path.join("/home/practice/http_control/files/", path_to_config);//local
+  var fileJson = path.join("/etc/", path_to_config); //ssh
   var dataJson = JSON.stringify(req.body, null, 4);
   fs.writeFile(fileJson, dataJson, function (err) {
     if (err) {
@@ -121,8 +123,8 @@ app.patch("/api/conf-save", function (req, res) {
 
 //get net config+
 app.get("/api/net-get", function (req, res) {
-  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network");
-  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // local
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
@@ -162,8 +164,8 @@ app.get("/api/net-get", function (req, res) {
 
 //save net config+
 app.patch("/api/net-save", function (req, res) {
-  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network");
-  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // local
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
@@ -216,7 +218,6 @@ app.patch("/api/net-save", function (req, res) {
         arrStr[i].trim();
         if (arrStr[i][0] != "#") {
           if (arrStr[i].indexOf("Address") >= 0) {
-            //console.log(arrStr[i]);
             var arr = arrStr[i].split("=");
             if (addrCounter == 0) {
               arr[1] = req.body.ip1;
