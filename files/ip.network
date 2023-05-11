@@ -4,6 +4,6 @@ Name=eth0
 
 [Network]
 Address=1
-Address=2
-Address=3
+#Address=
+#Address=
 Gateway=4

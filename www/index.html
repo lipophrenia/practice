@@ -47,8 +47,7 @@
         <div class="toast-body" id="toasttext4"></div>
       </div>
       <!--sys-->
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px"
-        data-bs-delay="89000">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px" data-bs-autohide="false">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
         </div>
@@ -66,20 +65,21 @@
               </p>
             </div>
             <div class="col">
-              <p class="text-end fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px; color: #0c4dad" id="selConf">
+              <p class="text-end fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px; color: #146c43" id="selConf">
               </p>
             </div>
           </div>
           <div class="row gx-2">
             <!--rtsp-->
-            <div class="col">
+            <form class="col needs-validation" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   RTSP
                 </p>
                 <div class="form-group">
                   <label for="rtsp_port">RTSP порт:</label>
-                  <input type="text" class="form-control form-control-sm" id="rtsp_port" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="rtsp_port" placeholder="" />
+                  <div class="invalid-feedback">Введите целое число.</div>
                 </div>
                 <div class="row justify-content-start">
                   <div class="col">Передача видео</div>
@@ -99,10 +99,10 @@
                     видео</label>
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--control-->
-            <div class="col">
+            <form class="col needs-validation" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   CONTROL
@@ -113,13 +113,13 @@
                 </div>
                 <div class="form-group">
                   <label for="tcp_port">TCP-порт управления</label>
-                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tcp_port"
-                    placeholder="" />
+                  <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="tcp_port" min="1024" max="65535" placeholder="" />
+                  <div class="invalid-feedback">1024-65535</div>
                 </div>
               </div>
-            </div>
+            </form>
 
-            <div class="col">
+            <form class="col needs-validation" novalidate>
               <!--gyro-->
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
@@ -131,34 +131,35 @@
                     placeholder="" />
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--processing-->
-            <div class="col">
+            <form class="col needs-validation" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   PROCESSING
                 </p>
                 <div class="form-group">
                   <label for="width_proc">Ширина</label>
-                  <input type="text" class="form-control form-control-sm" id="width_proc" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="width_proc" placeholder="" />
+                  <div class="invalid-feedback">Введите целое число.</div>
                 </div>
                 <div class="form-group">
                   <label for="height_proc">Высота</label>
-                  <input type="text" class="form-control form-control-sm" id="height_proc" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="height_proc" placeholder="" />
+                  <div class="invalid-feedback">Введите целое число.</div>
                 </div>
                 <div class="form-group">
                   <label for="tracker_proc">TCP-порт управления</label>
-                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tracker_proc"
-                    placeholder="" />
+                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tracker_proc" placeholder="" />
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
           <div class="row gx-2" style="margin-top: -2px">
             <!--video1-->
-            <div class="col">
+            <form class="col needs-validation" novalidate>
               <div class="p-3 border bg-light" style="margin-top: 10px">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   VIDEO 1
@@ -170,7 +171,7 @@
                   </div>
                   <div class="col">
                     <label for="vid1_fps">fps</label>
-                    <input type="text" class="form-control form-control-sm" id="vid1_fps" placeholder="" />
+                    <input type="number" step="0.1"  class="form-control form-control-sm has-validation" id="vid1_fps" placeholder="" />
                   </div>
                 </div>
                 <div class="p-3 border bg-light" style="margin-top: 8px">
@@ -180,7 +181,8 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid1_width">Ширина</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_width" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" id="vid1_width" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                     <div class="col">
                       <label for="vid1_format">Формат</label>
@@ -190,13 +192,13 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid1_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid1_height" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_height" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                     <div class="col">
                       <label for="vid1_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid1_bitrate" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid1_bitrate" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                   </div>
                 </div>
@@ -208,11 +210,11 @@
                       </p>
                       <div class="form-group">
                         <label for="vid1_Mwidth">Ширина</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_Mwidth" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_Mwidth" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid1_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -8px"
                           id="vid1_Mheight" placeholder="" />
                       </div>
                     </div>
@@ -224,11 +226,11 @@
                       </p>
                       <div class="form-group">
                         <label for="vid1_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_maxHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_maxHFOV" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid1_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -8px"
                           id="vid1_maxVFOV" placeholder="" />
                       </div>
                     </div>
@@ -242,11 +244,11 @@
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid1_delay">Задержка телеметрии</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_delay" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_delay" placeholder="" />
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid1_stabScale">Масштабирование стабилизации</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_stabScale" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_stabScale" placeholder="" />
                     </div>
                   </div>
                   <div class="col">
@@ -256,21 +258,21 @@
                       </p>
                       <div class="form-group">
                         <label for="vid1_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_minHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_minHFOV" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid1_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -8px"
                           id="vid1_minVFOV" placeholder="" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--video 2-->
-            <div class="col" id="vid2_col">
+            <form class="col needs-validation" novalidate id="vid2_col">
               <div class="p-3 border bg-light" style="margin-top: 10px; margin-bottom: -8px">
                 <div class="row" style="margin-top: -8px">
                   <div class="col" style="height: 16px">
@@ -291,7 +293,7 @@
                   </div>
                   <div class="col">
                     <label for="vid2_fps">fps</label>
-                    <input type="text" class="form-control form-control-sm" id="vid2_fps" placeholder="" />
+                    <input type="number" step="0.1" class="form-control form-control-sm" id="vid2_fps" placeholder="" />
                   </div>
                 </div>
                 <div class="p-3 border bg-light" style="margin-top: 8px">
@@ -301,7 +303,8 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid2_width">Ширина</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_width" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" id="vid2_width" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                     <div class="col">
                       <label for="vid2_format">Формат</label>
@@ -311,13 +314,13 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid2_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid2_height" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_height" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                     <div class="col">
                       <label for="vid2_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid2_bitrate" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="vid2_bitrate" placeholder="" />
+                      <div class="invalid-feedback">Введите целое число.</div>
                     </div>
                   </div>
                 </div>
@@ -329,11 +332,11 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_Mwidth">Ширина</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_Mwidth" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_Mwidth" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid2_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -8px"
                           id="vid2_Mheight" placeholder="" />
                       </div>
                     </div>
@@ -345,11 +348,11 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_maxHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_maxHFOV" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid2_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -8px"
                           id="vid2_maxVFOV" placeholder="" />
                       </div>
                     </div>
@@ -363,11 +366,11 @@
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid2_delay">Задержка телеметрии</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_delay" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_delay" placeholder="" />
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid2_stabScale">Масштабирование стабилизации</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_stabScale" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_stabScale" placeholder="" />
                     </div>
                   </div>
                   <div class="col">
@@ -377,11 +380,11 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_minHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_minHFOV" placeholder="" />
                       </div>
                       <div class="form-group">
                         <label for="vid2_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -6px"
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" style="margin-bottom: -6px"
                           id="vid2_minVFOV" placeholder="" />
                       </div>
                     </div>
@@ -405,14 +408,14 @@
                   <label><input type="checkbox" id="vid2_progZoom" style="margin-right: 5px" />Программный зум</label>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
 
       <div class="col-2" style="margin-top: 6px">
         <!--network-->
-        <div class="p-3 border bg-light">
+        <form class="p-3 border bg-light needs-validation" novalidate>
           <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
             Настройки сети
           </p>
@@ -434,13 +437,13 @@
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px; margin-bottom: 0px"
                 id="btnNet">
                 Сохранить
               </button>
             </div>
           </div>
-        </div>
+        </form>
 
         <!--CAMS-->
         <div class="p-3 border bg-light" style="margin-top: 8px">
@@ -451,21 +454,21 @@
           </select>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfLoad">
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px" id="btnConfLoad">
                 Выбрать
               </button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfSave">
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px" id="btnConfSave">
                 Сохранить
               </button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px; margin-bottom: 0px"
                 id="btnReboot">
                 Перезагрузка
               </button>
@@ -477,10 +480,12 @@
   </div>
 
   <script>
+    var forms = document.querySelectorAll('.needs-validation')
     var toastElList = [].slice.call(document.querySelectorAll(".toast"));
     var toastList = toastElList.map(function (toastEl) {
       return new bootstrap.Toast(toastEl);
     });
+    var status;
     var confJson;
     var selectedConf;
     var activeConf;
@@ -491,14 +496,24 @@
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then(async (response) => {
         if (response.ok) {
+          toastList[4].hide();
           init();
           $("#toasttext1").html("Устройство перезагружено!");
           toastList[0].show();
-        } else {
-          $("#toasttext1").html("Устройство не отвечает.");
-          toastList[0].show();
-        }
-      })
+        } 
+      }).catch ((error) => {
+        setTimeout(function () {reboot_check() },5000);
+      });
+    }
+
+    function validate() {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.checkValidity()
+          form.classList.add('was-validated')
+        }, false)
     }
 
     function init() {
@@ -560,6 +575,7 @@
               v1_show();
               //vid2
               v2_show();
+              validate();
             }
           }
           if (notify == true) {
@@ -567,10 +583,8 @@
             toastList[1].show();
           }
         } else {
-          if (notify == true) {
-            $("#toasttext2").html("Ошибка чтения файла конфигурации!");
-            toastList[1].show();
-          }
+          $("#toasttext4").html("Данной конфигурации не существует!");
+          toastList[3].show();
         }
       })
     }
@@ -743,8 +757,6 @@
 
         if (confJson.video[1].hasOwnProperty("softFlips")) {
           vid2_progReflect.checked = confJson.video[1].softFlips;
-          console.log(confJson.video[1].softFlips);
-          //console.log(vid2_progReflect.checked);
         } else vid2_progReflect.checked = false;
 
         if (confJson.video[1].hasOwnProperty("queueTelem")) {
@@ -848,6 +860,7 @@
     //init
     window.addEventListener("load", () => {
       init();
+      validate();
     });
 
     //net conf save
@@ -857,7 +870,13 @@
       var adr2 = ip2.value;
       var adr3 = ip3.value;
       var gate = gtw.value;
-      if (adr1 && adr2 && adr3 && gate) {
+      if (adr1=="" & adr2=="" & adr3==""){
+        $("#toasttext1").html("Укажите хотя бы один адрес!");
+        toastList[0].show();
+      } else if (gate=="") {
+        $("#toasttext1").html("Укажите шлюз!");
+        toastList[0].show();
+      } else if (adr1 && adr2 && adr3 && gate) {
         fetch("api/net-save", {
           method: 'PATCH',
           body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
@@ -913,6 +932,48 @@
             toastList[0].show();
           }
         })
+      } else if (adr1 && gate) {
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr1, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
+      } else if (adr2 && gate) {
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr2, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
+      } else if (adr3 && gate) {
+        fetch("api/net-save", {
+          method: 'PATCH',
+          body: JSON.stringify({ ip1: adr3, gate: gate }),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        }).then(async (response) => {
+          if (response.ok) {
+            $("#toasttext1").html("Конфигурация сети сохранена!");
+            toastList[0].show();
+          } else {
+            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+            toastList[0].show();
+          }
+        })
       }
     });
 
@@ -937,9 +998,6 @@
             toastList[3].show();
             conf_load(false);
           }
-        } else {
-          $("#toasttext4").html("Ошибка! Данной конфигурации не существует!");
-          toastList[3].show();
         }
       })
     });
@@ -947,6 +1005,7 @@
     //config data save
     document.getElementById("btnConfSave").addEventListener("click", function (e) {
       e.preventDefault();
+      validate();
       //rtsp values
       var rtsp_p = parseFloat(rtsp_port.value);
       if (rtsp_mode.checked == true) {
@@ -989,11 +1048,6 @@
       var v1_svfov = parseFloat(vid1_minVFOV.value);
       //
       var v1_zshift = vid1_zoomShift.checked;
-      // if (vid1_zoomShift.checked == true) {
-      //   var v1_zshift = "true";
-      // } else {
-      //   var v1_zshift = "false";
-      // }
       var v1_delay = parseFloat(vid1_delay.value);
       var v1_sscale = parseFloat(vid1_stabScale.value);
 
@@ -1016,31 +1070,11 @@
       var v2_svfov = parseFloat(vid2_minVFOV.value);
       //
       var v2_zshift = vid2_zoomShift.checked;
-      // if (vid2_zoomShift.checked == true) {
-      //   var v2_zshift = "true";
-      // } else {
-      //   var v2_zshift = "false";
-      // }
       var v2_delay = parseFloat(vid2_delay.value);
       var v2_sscale = parseFloat(vid2_stabScale.value);
       var v2_progAF = vid2_progAF.checked;
       var v2_progZ = vid2_progZoom.checked;
       var v2_progR = vid2_progReflect.checked;
-      // if (vid2_progAF.checked == true) {
-      //   var v2_progAF = "true";
-      // } else {
-      //   var v2_progAF = "false";
-      // }
-      // if (vid2_progZoom.checked == true) {
-      //   var v2_progZ = "true";
-      // } else {
-      //   var v2_progZ = "false";
-      // }
-      // if (vid2_progReflect.checked == true) {
-      //   var v2_progR = "true";
-      // } else {
-      //   var v2_progR = "false";
-      // }
       //request
       if (
         rtsp_p && rtsp_m && ctrl_p && tcp_p &&
@@ -1210,7 +1244,7 @@
       // .then(async (response) => {if (response.ok) {}})
       $("#toasttext5").html("Перезагрузка. Ожидайте... ");
       toastList[4].show();
-      setTimeout(function () { reboot_check() }, 90000);
+      setTimeout(function () {reboot_check() },40000);
     });
   </script>
 </body>

@@ -1,4 +1,5 @@
 const host = "172.16.99.199";
+//const host = "localhost";
 const port = 8080;
 const fs = require("fs");
 const os = require("os");
@@ -123,7 +124,7 @@ app.patch("/api/conf-save", function (req, res) {
 
 //get net config+
 app.get("/api/net-get", function (req, res) {
-  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // local
+  //var fileName = path.resolve("/home/practice/http_control/files/", "ip.network"); // local
   var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
@@ -164,7 +165,7 @@ app.get("/api/net-get", function (req, res) {
 
 //save net config+
 app.patch("/api/net-save", function (req, res) {
-  //var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // local
+  //var fileName = path.resolve("/home/practice/http_control/files/", "ip.network"); // local
   var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
@@ -207,11 +208,8 @@ app.patch("/api/net-save", function (req, res) {
           res.json({ msg: "NetConf saved!" });
         }
       });
-    } else if (
-      req.body.hasOwnProperty("ip1") &&
-      req.body.hasOwnProperty("ip2") &&
-      req.body.hasOwnProperty("gate")
-    ) {
+    } else if (//2 адреса
+      req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("gate")) {
       addrCounter = 0;
       var arrStr = fileData.split(/\r\n|\r|\n/g);
       for (var i = 0; i < arrStr.length; i++) {
@@ -248,7 +246,42 @@ app.patch("/api/net-save", function (req, res) {
           res.json({ msg: "NetConf saved!" });
         }
       });
-    } else {
+    } else if ( //1 адрес
+      req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("gate")) {
+      addrCounter = 0;
+      var arrStr = fileData.split(/\r\n|\r|\n/g);
+      for (var i = 0; i < arrStr.length; i++) {
+        arrStr[i].trim();
+        if (arrStr[i][0] != "#") {
+          if (arrStr[i].indexOf("Address") >= 0) {
+            var arr = arrStr[i].split("=");
+            if (addrCounter == 0) {
+              arr[1] = req.body.ip1;
+              addrCounter++;
+              arrStr[i] = arr.join("=");
+            } else if (addrCounter >= 1) {
+              arrStr[i] = "#Address=";
+            }
+          }
+          if (arrStr[i].indexOf("Gateway") >= 0) {
+            var arr = arrStr[i].split("=");
+            arr[1] = req.body.gate;
+            arrStr[i] = arr.join("=");
+            break;
+          }
+        }
+      }
+      var str = arrStr.join(os.EOL);
+      fs.writeFile(fileName, str, function (err) {
+        if (err) {
+          res.status(500).json({ msg: "NetConf save error!" });
+          console.error(err);
+        } else {
+          res.json({ msg: "NetConf saved!" });
+        }
+      });
+    }
+     else {
       res.status(409).json({ msg: "Wrong parameters." });
     }
   });
