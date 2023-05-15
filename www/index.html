@@ -473,23 +473,27 @@
           </p>
           <div class="form-group">
             <label for="ip1">Адрес 1</label>
-            <input type="text" class="form-control form-control-sm" id="ip1" value=""
+            <input type="text" class="form-control form-control-sm" id="ip1" value="" required
               pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="ip2">Адрес 2</label>
             <input type="text" class="form-control form-control-sm" id="ip2" value=""
               pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="ip3">Адрес 3</label>
             <input type="text" class="form-control form-control-sm" id="ip3" value=""
               pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="gtw">Шлюз</label>
-            <input type="text" class="form-control form-control-sm" id="gtw" value=""
+            <input type="text" class="form-control form-control-sm" id="gtw" value="" required
               pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x</div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
@@ -547,7 +551,7 @@
     var activeConf;
     var validVid;
     var validNet;
-  //functions
+    //functions
     //sys
     function init() {
       //last selection get
@@ -656,7 +660,7 @@
           validateVidConf();
 
         } else {
-          $("#toasttext3").html("Файла конфигурации "+selectedConf+" не существует!");
+          $("#toasttext3").html("Файла конфигурации " + selectedConf + " не существует!");
           toastList[2].show();
           selectedConf = lastselectedConf;
           document.getElementById(selectedConf).selected = true;
@@ -946,7 +950,7 @@
       }
     }
 
-  //events
+    //events
     document.getElementById("vid2_disable").addEventListener("click", function (e) {
       vid2_form_disable();
       if (vid2_disable.checked == false) {
@@ -977,123 +981,75 @@
 
     //net conf save click
     document.getElementById("btnNet").addEventListener("click", function (e) {
-      e.preventDefault();
-      validateNetConf();
-      if (validNet == true) {
-        var adr1 = ip1.value;
-        var adr2 = ip2.value;
-        var adr3 = ip3.value;
-        var gate = gtw.value;
-        if (adr1 == "" & adr2 == "" & adr3 == "") {
-          $("#toasttext1").html("Укажите хотя бы один адрес!");
+        e.preventDefault();
+        validateNetConf();
+        if (validNet == true) {
+          var adr1 = ip1.value;
+          var adr2 = ip2.value;
+          var adr3 = ip3.value;
+          var gate = gtw.value;
+          if (adr1 && adr2 && adr3 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && adr2 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr2, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && adr3 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          }
+        } else {
+          $("#toasttext1").html("Поля не прошли валидацию!");
           toastList[0].show();
-        } else if (gate == "") {
-          $("#toasttext1").html("Укажите шлюз!");
-          toastList[0].show();
-        } else if (adr1 && adr2 && adr3 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr1 && adr2 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr1, ip2: adr2, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr1 && adr3 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr2 && adr3 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr2, ip2: adr3, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr1 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr1, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr2 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr2, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
-        } else if (adr3 && gate) {
-          fetch("api/net-save", {
-            method: 'PATCH',
-            body: JSON.stringify({ ip1: adr3, gate: gate }),
-            headers: { 'Content-type': 'application/json; charset=UTF-8' },
-          }).then(async (response) => {
-            if (response.ok) {
-              $("#toasttext1").html("Конфигурация сети сохранена!");
-              toastList[0].show();
-            } else {
-              $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-              toastList[0].show();
-            }
-          })
         }
-      } else {
-        $("#toasttext1").html("Поля не прошли валидацию!");
-        toastList[0].show();
-      }
-    });
+      });
 
     //select video conf click
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
