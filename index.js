@@ -173,6 +173,7 @@ app.patch("/api/net-save", function (req, res) {
       console.error(err);
     } else if (req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("ip3") && req.body.hasOwnProperty("gate")) {
       addrCounter = 0;
+      gridCounter = 2;
       var arrStr = fileData.split(/\r\n|\r|\n/g);
       for (var i = 0; i < arrStr.length; i++) {
         arrStr[i].trim();
@@ -182,8 +183,16 @@ app.patch("/api/net-save", function (req, res) {
             if (addrCounter == 0) {
               arr[1] = req.body.ip1;
               addrCounter++;
-            } else {
+            } else if (addrCounter == 1) {
               arr[1] = req.body.ip2;
+              addrCounter++;
+              gridCounter--;
+            } else if (addrCounter == 2) {
+              arr[1] = req.body.ip3;
+              addrCounter++;
+              gridCounter--;
+            } else {
+              arrStr[i] = "#Address=";
             }
             arrStr[i] = arr.join("=");
           }
@@ -194,8 +203,12 @@ app.patch("/api/net-save", function (req, res) {
           }
         } else {
           if (arrStr[i].indexOf("#Address") >= 0) {
-            arrStr[i] = "Address=" + req.body.ip3;
-            break;
+            if (gridCounter == 1) {
+              arrStr[i] = "Address=" + req.body.ip3;
+            } else if (gridCounter == 2) {
+              arrStr[i] = "Address=" + req.body.ip2;
+              gridCounter--;
+            }
           }
         }
       }
@@ -211,6 +224,7 @@ app.patch("/api/net-save", function (req, res) {
     } else if (//2 адреса
       req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("gate")) {
       addrCounter = 0;
+      gridCounter = 2;
       var arrStr = fileData.split(/\r\n|\r|\n/g);
       for (var i = 0; i < arrStr.length; i++) {
         arrStr[i].trim();
@@ -224,8 +238,9 @@ app.patch("/api/net-save", function (req, res) {
             } else if (addrCounter == 1) {
               arr[1] = req.body.ip2;
               addrCounter++;
+              gridCounter--;
               arrStr[i] = arr.join("=");
-            } else if (addrCounter == 2) {
+            } else if (addrCounter >= 2) {
               arrStr[i] = "#Address=";
             }
           }
@@ -233,7 +248,15 @@ app.patch("/api/net-save", function (req, res) {
             var arr = arrStr[i].split("=");
             arr[1] = req.body.gate;
             arrStr[i] = arr.join("=");
-            break;
+          }
+        } else {
+          if (arrStr[i].indexOf("#Address") >= 0) {
+            if (gridCounter == 2) {
+              arrStr[i] = "Address=" + req.body.ip2;
+              gridCounter--;
+            } else if (gridCounter == 1){
+              break;
+            }
           }
         }
       }
