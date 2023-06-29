@@ -1,7 +1,8 @@
-const host = "localhost";
+const host = "172.16.99.199";
+//const host = "localhost";
 const port = 8080;
 const fs = require("fs");
-const os = require("node:os");
+const os = require("os");
 const path = require("path");
 const bodyParser = require("body-parser");
 const execFile = require('child_process').execFile;
@@ -11,39 +12,66 @@ const app = express();
 app.use(express.json());
 var jsonParser = bodyParser.json()
 var path_to_config;
-var lastSelectedCam;
-var Selected;
+var activeCamName;// активный конфиг
+var lastCamName;
+var lastSelectionID;//выбранный конфиг
 var confs;
 
+var init_c = 0;
+if (init_c ==0){
+  Init();
+  init_c++;
+}
+
+//active config
+function readASCII(str) {
+  var result = "";
+  function isCharNumber(char) {
+    return char >= '0' && char <= '9';
+  }
+  function isLetter(char) {
+    return ((char >= 'A' && char <= 'Z') ||
+      (char >= 'a' && char <= 'z'));
+  }
+
+  for (var char of str)
+    if (isCharNumber(char) || isLetter(char))
+      result += char;
+
+  console.log(result);
+  return result;
+}
+
 function Init() {
-  lastSelectedCam = fs.readFileSync("model", "utf8");
+  ascii_str = fs.readFileSync("/proc/device-tree/model", "ascii");
+  activeCamName = readASCII(ascii_str);
+  //activeCamName = fs.readFileSync("/home/practice/http_control/files/selected.txt", "utf8"); //local
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (lastSelectedCam == confs[i].name) {
-      Selected = confs[i].id;
+    if (activeCamName == confs[i].name) {
+      lastSelectionID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
 }
 
-function Select(Selected) {
+function Select(selection) {
   var configsList = fs.readFileSync("configs.json", "utf8");
   confs = JSON.parse(configsList);
   for (var i = 0; i < confs.length; i++) {
-    if (Selected == confs[i].name) {
-      lastSelectedCam = confs[i].name;
+    if (selection == confs[i].name) {
+      lastSelectionID = confs[i].id;
       path_to_config = confs[i].path;
     }
   }
-  return lastSelectedCam;
 }
 
 app.use("/static", express.static(__dirname + "/www/static"));
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "www", "index.html"));
   Init();
+  res.sendFile(path.join(__dirname, "www", "index.html"));
 });
 
 //get config list
@@ -51,44 +79,38 @@ app.get("/api/conflist-get", function (req, res) {
   res.json(confs);
 });
 
-//get last selection
-app.get("/api/last-selection", function (req, res) {
-  res.json({ selected: lastSelectedCam });
+//get activeCam+
+app.get("/api/active-selection", function (req, res) {
+  res.json({ selected: activeCamName });
 });
 
-//config select
+//config select+
 app.patch("/api/conf-select", jsonParser, function (req, res) {
-  Selected = req.body.id;
-  Select(Selected);
-  fs.writeFile("model", lastSelectedCam, function (err) {
+  lastCamName = req.body.id;
+  Select(lastCamName);
+  execFile('./switch.sh', [lastCamName], { shell: '/bin/bash' }, (err, stdout, stderr) => {
     if (err) {
-      res.status(500).json({ msg: "Error!" });
-      console.error(err);
+      // ошибка
+      console.error(err)
     } else {
-      // execFile('./switch.sh', [Selected], { shell: '/bin/bash' }, (err, stdout, stderr) => {
-      //   if (err) {
-      //     // ошибка
-      //     console.error(err)
-      //   } else {
-      //     // весь стандартный вывод и стандартный поток (буферизованный)
-      //     console.log(stdout);
-      //     console.log(stderr);
-      //   }
-      // });
-      res.json({ msg: "Model id - " + lastSelectedCam +". Success!" });
+      console.log(stdout);
+      console.log(stderr);
     }
+    res.json({ msg: "Model id - " + lastSelectionID + ". Success!" });
   });
 });
 
-//get video config
+//get video config+
 app.get("/api/conf-get", function (req, res) {
-  var confFile = fs.readFileSync("/home/practice/practice/files/" + path_to_config); // путь до файла
+  //var confFile = fs.readFileSync("/home/practice/http_control/files/" + path_to_config);//local
+  var confFile = fs.readFileSync("/etc/" + path_to_config); // ssh
   res.json(JSON.parse(confFile));
 });
 
-//save video config
+//save video config+
 app.patch("/api/conf-save", function (req, res) {
-  var fileJson = path.join("/home/practice/practice/files/", path_to_config); // папка, в которой лежат файлы video.config
+  //var fileJson = path.join("/home/practice/http_control/files/", path_to_config);//local
+  var fileJson = path.join("/etc/", path_to_config); //ssh
   var dataJson = JSON.stringify(req.body, null, 4);
   fs.writeFile(fileJson, dataJson, function (err) {
     if (err) {
@@ -100,9 +122,10 @@ app.patch("/api/conf-save", function (req, res) {
   });
 });
 
-//get net config
+//get net config+
 app.get("/api/net-get", function (req, res) {
-  var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  //var fileName = path.resolve("/home/practice/http_control/files/", "ip.network"); // local
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
@@ -140,15 +163,17 @@ app.get("/api/net-get", function (req, res) {
   });
 });
 
-//save net config
+//save net config+
 app.patch("/api/net-save", function (req, res) {
-  var fileName = path.resolve("/home/practice/practice/files/", "ip.network"); // путь до файла ip.network
+  //var fileName = path.resolve("/home/practice/http_control/files/", "ip.network"); // local
+  var fileName = path.resolve("/etc/systemd/network/", "10-eth.network"); //ssh
   fs.readFile(fileName, "utf8", function (err, fileData) {
     if (err) {
       res.status(500).json({ msg: "Something went wrong." });
       console.error(err);
     } else if (req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("ip3") && req.body.hasOwnProperty("gate")) {
       addrCounter = 0;
+      gridCounter = 2;
       var arrStr = fileData.split(/\r\n|\r|\n/g);
       for (var i = 0; i < arrStr.length; i++) {
         arrStr[i].trim();
@@ -158,8 +183,16 @@ app.patch("/api/net-save", function (req, res) {
             if (addrCounter == 0) {
               arr[1] = req.body.ip1;
               addrCounter++;
-            } else {
+            } else if (addrCounter == 1) {
               arr[1] = req.body.ip2;
+              addrCounter++;
+              gridCounter--;
+            } else if (addrCounter == 2) {
+              arr[1] = req.body.ip3;
+              addrCounter++;
+              gridCounter--;
+            } else {
+              arrStr[i] = "#Address=";
             }
             arrStr[i] = arr.join("=");
           }
@@ -170,8 +203,12 @@ app.patch("/api/net-save", function (req, res) {
           }
         } else {
           if (arrStr[i].indexOf("#Address") >= 0) {
-            arrStr[i] = "Address=" + req.body.ip3;
-            break;
+            if (gridCounter == 1) {
+              arrStr[i] = "Address=" + req.body.ip3;
+            } else if (gridCounter == 2) {
+              arrStr[i] = "Address=" + req.body.ip2;
+              gridCounter--;
+            }
           }
         }
       }
@@ -184,18 +221,15 @@ app.patch("/api/net-save", function (req, res) {
           res.json({ msg: "NetConf saved!" });
         }
       });
-    } else if (
-      req.body.hasOwnProperty("ip1") &&
-      req.body.hasOwnProperty("ip2") &&
-      req.body.hasOwnProperty("gate")
-    ) {
+    } else if (//2 адреса
+      req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("ip2") && req.body.hasOwnProperty("gate")) {
       addrCounter = 0;
+      gridCounter = 2;
       var arrStr = fileData.split(/\r\n|\r|\n/g);
       for (var i = 0; i < arrStr.length; i++) {
         arrStr[i].trim();
         if (arrStr[i][0] != "#") {
           if (arrStr[i].indexOf("Address") >= 0) {
-            //console.log(arrStr[i]);
             var arr = arrStr[i].split("=");
             if (addrCounter == 0) {
               arr[1] = req.body.ip1;
@@ -204,8 +238,51 @@ app.patch("/api/net-save", function (req, res) {
             } else if (addrCounter == 1) {
               arr[1] = req.body.ip2;
               addrCounter++;
+              gridCounter--;
               arrStr[i] = arr.join("=");
-            } else if (addrCounter == 2) {
+            } else if (addrCounter >= 2) {
+              arrStr[i] = "#Address=";
+            }
+          }
+          if (arrStr[i].indexOf("Gateway") >= 0) {
+            var arr = arrStr[i].split("=");
+            arr[1] = req.body.gate;
+            arrStr[i] = arr.join("=");
+          }
+        } else {
+          if (arrStr[i].indexOf("#Address") >= 0) {
+            if (gridCounter == 2) {
+              arrStr[i] = "Address=" + req.body.ip2;
+              gridCounter--;
+            } else if (gridCounter == 1){
+              break;
+            }
+          }
+        }
+      }
+      var str = arrStr.join(os.EOL);
+      fs.writeFile(fileName, str, function (err) {
+        if (err) {
+          res.status(500).json({ msg: "NetConf save error!" });
+          console.error(err);
+        } else {
+          res.json({ msg: "NetConf saved!" });
+        }
+      });
+    } else if ( //1 адрес
+      req.body.hasOwnProperty("ip1") && req.body.hasOwnProperty("gate")) {
+      addrCounter = 0;
+      var arrStr = fileData.split(/\r\n|\r|\n/g);
+      for (var i = 0; i < arrStr.length; i++) {
+        arrStr[i].trim();
+        if (arrStr[i][0] != "#") {
+          if (arrStr[i].indexOf("Address") >= 0) {
+            var arr = arrStr[i].split("=");
+            if (addrCounter == 0) {
+              arr[1] = req.body.ip1;
+              addrCounter++;
+              arrStr[i] = arr.join("=");
+            } else if (addrCounter >= 1) {
               arrStr[i] = "#Address=";
             }
           }
@@ -226,7 +303,8 @@ app.patch("/api/net-save", function (req, res) {
           res.json({ msg: "NetConf saved!" });
         }
       });
-    } else {
+    }
+     else {
       res.status(409).json({ msg: "Wrong parameters." });
     }
   });
@@ -243,6 +321,10 @@ app.get("/reboot", function (req, res) {
       res.send(stdout);
     }
   });
+});
+
+app.get("/api/reboot-check", function (req, res) {
+  res.send("Online");
 });
 
 app.listen(port, () => {

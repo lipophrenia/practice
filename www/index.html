@@ -30,7 +30,7 @@
         </div>
         <div class="toast-body" id="toasttext2"></div>
       </div>
-      <!--conf get/patch-->
+      <!--conf get-->
       <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast3" style="margin: 10px">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
@@ -38,7 +38,7 @@
         </div>
         <div class="toast-body" id="toasttext3"></div>
       </div>
-      <!--sys-->
+      <!--conf patch-->
       <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast4" style="margin: 10px">
         <div class="toast-header">
           <strong class="me-auto">Info</strong>
@@ -46,23 +46,43 @@
         </div>
         <div class="toast-body" id="toasttext4"></div>
       </div>
+      <!--sys-->
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast5" style="margin: 10px"
+        data-bs-autohide="false">
+        <div class="toast-header">
+          <strong class="me-auto">Info</strong>
+        </div>
+        <div class="toast-body" id="toasttext5">
+        </div>
+      </div>
     </div>
     <div class="row gx-2 justify-content-center">
       <div class="col" style="margin-top: 6px">
         <div class="p-3 border bg-light">
-          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px">
-            Конфигурация
-          </p>
+          <div class="row">
+            <div class="col">
+              <p class="text-start fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px">
+                Конфигурация
+              </p>
+            </div>
+            <div class="col">
+              <p class="text-end fs-6 lh-1 fw-bolder" style="margin-bottom: 8px; margin-top: -8px; color: #146c43"
+                id="selConf">
+              </p>
+            </div>
+          </div>
           <div class="row gx-2">
             <!--rtsp-->
-            <div class="col">
+            <form class="col needs-validation" id="rtspForm" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   RTSP
                 </p>
                 <div class="form-group">
                   <label for="rtsp_port">RTSP порт:</label>
-                  <input type="text" class="form-control form-control-sm" id="rtsp_port" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="rtsp_port" required min="0"
+                    placeholder="" />
+                  <div class="invalid-feedback">Введите целое число.</div>
                 </div>
                 <div class="row justify-content-start">
                   <div class="col">Передача видео</div>
@@ -82,28 +102,31 @@
                     видео</label>
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--control-->
-            <div class="col">
+            <form class="col needs-validation" id="controlForm" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   CONTROL
                 </p>
                 <div class="form-group">
                   <label for="control_port">Порт управления</label>
-                  <input type="text" class="form-control form-control-sm" id="control_port" placeholder="" />
+                  <input type="text" class="form-control form-control-sm" id="control_port" required
+                    pattern="^(/dev/ttyS[0-9][0-9]?)" placeholder="" />
+                  <div class="invalid-feedback">/dev/ttyS(0-99)</div>
                 </div>
                 <div class="form-group">
                   <label for="tcp_port">TCP-порт управления</label>
-                  <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tcp_port"
-                    placeholder="" />
+                  <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px" id="tcp_port"
+                    required min="1024" max="65535" placeholder="" />
+                  <div class="invalid-feedback">1024-65535</div>
                 </div>
               </div>
-            </div>
+            </form>
 
-            <div class="col">
-              <!--gyro-->
+            <!--gyro-->
+            <form class="col needs-validation" id="gyroForm" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   GYRO
@@ -111,37 +134,42 @@
                 <div class="form-group">
                   <label for="gyro_address">Порт управления</label>
                   <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="gyro_address"
-                    placeholder="" />
+                    required pattern="^(/dev/ttyS[0-9][0-9]?)" placeholder="" />
+                  <div class="invalid-feedback">/dev/ttyS(0-99)</div>
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--processing-->
-            <div class="col">
+            <form class="col needs-validation" id="procForm" novalidate>
               <div class="p-3 border bg-light">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   PROCESSING
                 </p>
                 <div class="form-group">
                   <label for="width_proc">Ширина</label>
-                  <input type="text" class="form-control form-control-sm" id="width_proc" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="width_proc" required min="1"
+                    placeholder="" />
+                  <div class="invalid-feedback">Введите целое число >0.</div>
                 </div>
                 <div class="form-group">
                   <label for="height_proc">Высота</label>
-                  <input type="text" class="form-control form-control-sm" id="height_proc" placeholder="" />
+                  <input type="number" class="form-control form-control-sm" id="height_proc" required min="1"
+                    placeholder="" />
+                  <div class="invalid-feedback">Введите целое число >0.</div>
                 </div>
                 <div class="form-group">
                   <label for="tracker_proc">TCP-порт управления</label>
                   <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px" id="tracker_proc"
-                    placeholder="" />
+                    required placeholder="" />
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
           <div class="row gx-2" style="margin-top: -2px">
             <!--video1-->
-            <div class="col">
+            <form class="col needs-validation" id="vid1Form" novalidate>
               <div class="p-3 border bg-light" style="margin-top: 10px">
                 <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                   VIDEO 1
@@ -149,11 +177,15 @@
                 <div class="row">
                   <div class="col">
                     <label for="vid1_device">Устройство</label>
-                    <input type="text" class="form-control form-control-sm" id="vid1_device" placeholder="" />
+                    <input type="text" class="form-control form-control-sm" id="vid1_device" required minlength="6"
+                      pattern="^(/dev/)(.)+" placeholder="" />
+                    <div class="invalid-feedback" style="margin-top: -4px">/dev/*</div>
                   </div>
                   <div class="col">
                     <label for="vid1_fps">fps</label>
-                    <input type="text" class="form-control form-control-sm" id="vid1_fps" placeholder="" />
+                    <input type="number" class="form-control form-control-sm has-validation" id="vid1_fps" required
+                      min="1" placeholder="" />
+                    <div class="invalid-feedback" style="margin-top: -4px">Должно быть целое число >0.</div>
                   </div>
                 </div>
                 <div class="p-3 border bg-light" style="margin-top: 8px">
@@ -163,23 +195,28 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid1_width">Ширина</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_width" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" id="vid1_width" required min="1"
+                        placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px">Должно быть целое число >0.</div>
                     </div>
                     <div class="col">
                       <label for="vid1_format">Формат</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_format" placeholder="" />
+                      <input type="text" class="form-control form-control-sm" id="vid1_format" required
+                        placeholder="" />
                     </div>
                   </div>
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid1_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid1_height" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_height" required min="1" placeholder="" />
+                      <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть целое число >0.</div>
                     </div>
                     <div class="col">
                       <label for="vid1_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid1_bitrate" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid1_bitrate" required min="1" placeholder="" />
+                      <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть целое число >0.</div>
                     </div>
                   </div>
                 </div>
@@ -191,12 +228,15 @@
                       </p>
                       <div class="form-group">
                         <label for="vid1_Mwidth">Ширина</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_Mwidth" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_Mwidth"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid1_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                          id="vid1_Mheight" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid1_Mheight" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
@@ -207,12 +247,15 @@
                       </p>
                       <div class="form-group">
                         <label for="vid1_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_maxHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_maxHFOV"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid1_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                          id="vid1_maxVFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid1_maxVFOV" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
@@ -225,45 +268,47 @@
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid1_delay">Задержка телеметрии</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_delay" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_delay"
+                        required min="0" placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px">Должно быть число ≥0.</div>
                     </div>
-                    <div class="form-group" style="margin-top: 2px">
-                      <label for="vid1_stabScale">Масштабирование стабилизации</label>
-                      <input type="text" class="form-control form-control-sm" id="vid1_stabScale" placeholder="" />
+                    <div class="form-group" style="margin-top: 2px; margin-bottom: 4px">
+                      <label for="vid1_stabScale">Масштаб стабилизации</label>
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_stabScale"
+                        required min="0.0000000001" placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px; margin-bottom: -12px">Должно быть число >0.
+                      </div>
                     </div>
                   </div>
                   <div class="col">
-                    <div class="p-3 border bg-light" style="margin-top: -6px; margin-bottom: 4px">
+                    <div class="p-3 border bg-light" style="margin-top: -6px">
                       <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 0px; margin-top: -8px">
                         Узкий FOV
                       </p>
                       <div class="form-group">
                         <label for="vid1_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid1_minHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid1_minHFOV"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid1_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                          id="vid1_minVFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid1_minVFOV" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
 
             <!--video 2-->
-            <div class="col" id="vid2_col">
+            <form class="col needs-validation" id="vid2Form" novalidate>
               <div class="p-3 border bg-light" style="margin-top: 10px; margin-bottom: -8px">
                 <div class="row" style="margin-top: -8px">
                   <div class="col" style="height: 16px">
                     <p class="fs-6 lh-1 fw-bolder">VIDEO 2</p>
-                  </div>
-                  <div class="col-3" style="height: 16px">
-                    <div class="form-check form-switch" style="margin-top: -4px">
-                      <label for="vid2_lock">Lock</label>
-                      <input class="form-check-input" type="checkbox" style="padding-right: 20px" id="vid2_lock" />
-                    </div>
                   </div>
                   <div class="col-3" style="height: 16px">
                     <div class="form-check form-switch" style="margin-top: -4px">
@@ -272,15 +317,18 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="row">
                   <div class="col">
                     <label for="vid2_device">Устройство</label>
-                    <input type="text" class="form-control form-control-sm" id="vid2_device" placeholder="" />
+                    <input type="text" class="form-control form-control-sm" id="vid2_device" required minlength="6"
+                      pattern="^(/dev/)(.)+" placeholder="" />
+                    <div class="invalid-feedback" style="margin-top: -4px">/dev/*</div>
                   </div>
                   <div class="col">
                     <label for="vid2_fps">fps</label>
-                    <input type="text" class="form-control form-control-sm" id="vid2_fps" placeholder="" />
+                    <input type="number" class="form-control form-control-sm" id="vid2_fps" required min="1"
+                      placeholder="" />
+                    <div class="invalid-feedback" style="margin-top: -4px">Должно быть целое число >0.</div>
                   </div>
                 </div>
                 <div class="p-3 border bg-light" style="margin-top: 8px">
@@ -290,23 +338,28 @@
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid2_width">Ширина</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_width" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" id="vid2_width" required min="1"
+                        placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px">Должно быть целое число >0.</div>
                     </div>
                     <div class="col">
                       <label for="vid2_format">Формат</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_format" placeholder="" />
+                      <input type="text" class="form-control form-control-sm" id="vid2_format" min="1" required
+                        placeholder="" />
                     </div>
                   </div>
                   <div class="row gx-2">
                     <div class="col">
                       <label for="vid2_height">Высота</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid2_height" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_height" required min="1" placeholder="" />
+                      <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть целое число >0.</div>
                     </div>
                     <div class="col">
                       <label for="vid2_bitrate">Битрейт</label>
-                      <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                        id="vid2_bitrate" placeholder="" />
+                      <input type="number" class="form-control form-control-sm" style="margin-bottom: -8px"
+                        id="vid2_bitrate" required min="1" placeholder="" />
+                      <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть целое число >0.</div>
                     </div>
                   </div>
                 </div>
@@ -318,12 +371,15 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_Mwidth">Ширина</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_Mwidth" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_Mwidth"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid2_Mheight">Высота</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                          id="vid2_Mheight" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid2_Mheight" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
@@ -334,12 +390,15 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_maxHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_maxHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_maxHFOV"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid2_maxVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -8px"
-                          id="vid2_maxVFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid2_maxVFOV" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
@@ -352,11 +411,15 @@
                     </div>
                     <div class="form-group" style="margin-top: 2px">
                       <label for="vid2_delay">Задержка телеметрии</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_delay" placeholder="" />
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_delay"
+                        required min="0" placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px">Должно быть число ≥0.</div>
                     </div>
                     <div class="form-group" style="margin-top: 2px">
-                      <label for="vid2_stabScale">Масштабирование стабилизации</label>
-                      <input type="text" class="form-control form-control-sm" id="vid2_stabScale" placeholder="" />
+                      <label for="vid2_stabScale">Масштаб стабилизации</label>
+                      <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_stabScale"
+                        required min="0.0000000001" placeholder="" />
+                      <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                     </div>
                   </div>
                   <div class="col">
@@ -366,12 +429,15 @@
                       </p>
                       <div class="form-group">
                         <label for="vid2_minHFOV">По горизонтали</label>
-                        <input type="text" class="form-control form-control-sm" id="vid2_minHFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm" id="vid2_minHFOV"
+                          required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-top: -4px">Должно быть число >0.</div>
                       </div>
                       <div class="form-group">
                         <label for="vid2_minVFOV">По вертикали</label>
-                        <input type="text" class="form-control form-control-sm" style="margin-bottom: -6px"
-                          id="vid2_minVFOV" placeholder="" />
+                        <input type="number" step="0.0000000001" class="form-control form-control-sm"
+                          style="margin-bottom: -8px" id="vid2_minVFOV" required min="0.0000000001" placeholder="" />
+                        <div class="invalid-feedback" style="margin-bottom: -12px">Должно быть число >0.</div>
                       </div>
                     </div>
                   </div>
@@ -394,67 +460,75 @@
                   <label><input type="checkbox" id="vid2_progZoom" style="margin-right: 5px" />Программный зум</label>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
 
       <div class="col-2" style="margin-top: 6px">
         <!--network-->
-        <div class="p-3 border bg-light">
+        <form class="p-3 border bg-light needs-validation" id="netForm" novalidate>
           <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
             Настройки сети
           </p>
           <div class="form-group">
             <label for="ip1">Адрес 1</label>
-            <input type="text" class="form-control form-control-sm" id="ip1" value="" />
+            <input type="text" class="form-control form-control-sm" id="ip1" value="" required
+              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="ip2">Адрес 2</label>
-            <input type="text" class="form-control form-control-sm" id="ip2" value="" />
+            <input type="text" class="form-control form-control-sm" id="ip2" value=""
+              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="ip3">Адрес 3</label>
-            <input type="text" class="form-control form-control-sm" id="ip3" value="" />
+            <input type="text" class="form-control form-control-sm" id="ip3" value=""
+              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/(3[0-2]|2[0-9]|[01]?[0-9]?)$" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x/x</div>
           </div>
           <div class="form-group">
             <label for="gtw">Шлюз</label>
-            <input type="text" class="form-control form-control-sm" id="gtw" value="" />
+            <input type="text" class="form-control form-control-sm" id="gtw" value="" required
+              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" />
+            <div class="invalid-feedback" style="margin-top: -4px">x.x.x.x</div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px; margin-bottom: 0px"
                 id="btnNet">
                 Сохранить
               </button>
             </div>
           </div>
-        </div>
+        </form>
 
         <!--CAMS-->
         <div class="p-3 border bg-light" style="margin-top: 8px">
-          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 4px; margin-top: -8px">
+          <p class="fs-6 lh-1 fw-bolder" style="margin-bottom: 6px; margin-top: -8px">
             Камеры
           </p>
           <select class="form-select" id="selection">
           </select>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfLoad">
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px" id="btnConfLoad">
                 Выбрать
               </button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px" id="btnConfSave">
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px" id="btnConfSave">
                 Сохранить
               </button>
             </div>
           </div>
           <div class="container overflow-hidden">
             <div class="row gx">
-              <button type="button" class="btn btn-primary btn-sm" style="margin-top: 8px; margin-bottom: 0px"
+              <button type="button" class="btn btn-success btn-sm" style="margin-top: 8px; margin-bottom: 0px"
                 id="btnReboot">
                 Перезагрузка
               </button>
@@ -470,17 +544,105 @@
     var toastList = toastElList.map(function (toastEl) {
       return new bootstrap.Toast(toastEl);
     });
+    var status;
     var confJson;
     var selectedConf;
+    var lastselectedConf;
+    var activeConf;
+    var validVid;
+    var validNet;
+    //functions
+    //sys
+    function init() {
+      //last selection get
+      fetch("api/active-selection", {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("selected")) {
+            activeConf = json.selected;
+            selectedConf = activeConf;
+            document.getElementById(activeConf).selected = true;
+            $("#selConf").text("Активна: " + activeConf);
+            $("#toasttext2").html("Текущая конфигурация - " + activeConf + "!");
+            toastList[1].show();
+          }
+        }
+      })
+      //network conf get
+      fetch("api/net-get", {
+        method: 'GET',
+      }).then(async (response) => {
+        if (response.ok) {
+          var json = await response.json();
+          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
+            ip1.value = json.ip1;
+            ip2.value = json.ip2;
+            ip3.value = json.ip3;
+            gtw.value = json.gate;
+            validateNetConf();
+          }
+        } else {
+          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
+          toastList[0].show();
+        }
+      })
+      //video config get
+      conf_load();
+    }
 
-    function conf_load(notify) {
+    function reboot_check() {
+      fetch("api/reboot-check", {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          toastList[4].hide();
+          init();
+          $("#toasttext1").html("Устройство перезагружено!");
+          toastList[0].show();
+        }
+      }).catch((error) => {
+        setTimeout(function () { reboot_check() }, 5000);
+      });
+    }
+
+    //conf
+    function conf_select() {
+      var selected = selection.options[selection.selectedIndex].id;
+      fetch("api/conf-select", {
+        method: 'PATCH',
+        body: JSON.stringify({ id: selected }),
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      }).then(async (response) => {
+        if (response.ok) {
+          selectedConf = selected;
+          if (selectedConf == activeConf) {
+            conf_load();
+            validateVidConf();
+            $("#toasttext4").html("Конфигурация " + selectedConf + " активна!");
+            toastList[3].show();
+          }
+          else {
+            conf_load();
+            validateVidConf();
+            $("#toasttext4").html("Конфигурация " + selectedConf + " станет активна после перезагрузки.");
+            toastList[3].show();
+          }
+        }
+      })
+    }
+
+    function conf_load() {
       fetch("api/conf-get", {
         method: 'GET',
       }).then(async (response) => {
         if (response.ok) {
+          lastselectedConf = selectedConf;
           confJson = await response.json();
           conf_show();
-          //video get
           if (confJson.hasOwnProperty("video")) {
             if (confJson.video && confJson.video.length == 1) {//если камера одна
               v1_show();
@@ -495,15 +657,14 @@
               v2_show();
             }
           }
-          if (notify == true) {
-            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
-            toastList[1].show();
-          }
+          validateVidConf();
+
         } else {
-          if (notify == true) {
-            $("#toasttext2").html("Ошибка чтения файла конфигурации!");
-            toastList[1].show();
-          }
+          $("#toasttext3").html("Файла конфигурации " + selectedConf + " не существует!");
+          toastList[2].show();
+          selectedConf = lastselectedConf;
+          document.getElementById(selectedConf).selected = true;
+          conf_select();
         }
       })
     }
@@ -605,7 +766,8 @@
       }
       if (confJson.video[0].hasOwnProperty("offsetCam")) {
         vid1_zoomShift.checked = confJson.video[0].offsetCam;
-      }
+      } else vid1_zoomShift.checked = false;
+
       if (confJson.video[0].hasOwnProperty("minHFov")) {
         vid1_minHFOV.value = confJson.video[0].minHFov;
       }
@@ -652,9 +814,10 @@
         if (confJson.video[1].hasOwnProperty("maxVFov")) {
           vid2_maxVFOV.value = confJson.video[1].maxVFov;
         }
-        if (confJson.video[1].hasOwnProperty("offsetCam")) {
+        if (confJson.video[1].hasOwnProperty("offsetCam") == true) {
           vid2_zoomShift.checked = confJson.video[1].offsetCam;
-        }
+        } else vid2_zoomShift.checked = false;
+
         if (confJson.video[1].hasOwnProperty("minHFov")) {
           vid2_minHFOV.value = confJson.video[1].minHFov;
         }
@@ -664,24 +827,62 @@
         if (confJson.video[1].hasOwnProperty("zmStab")) {
           vid2_stabScale.value = confJson.video[1].zmStab;
         }
-        if (confJson.video[1].hasOwnProperty("softAF")) {
+        if (confJson.video[1].hasOwnProperty("softAF") == true) {
           vid2_progAF.checked = confJson.video[1].softAF;
-        }
-        if (confJson.video[1].hasOwnProperty("softZoom")) {
+        } else vid2_progAF.checked = false;
+
+        if (confJson.video[1].hasOwnProperty("softZoom") == true) {
           vid2_progZoom.checked = confJson.video[1].softZoom;
-        }
+        } else vid2_progZoom.checked = false;
+
         if (confJson.video[1].hasOwnProperty("softFlips")) {
           vid2_progReflect.checked = confJson.video[1].softFlips;
-        }
+        } else vid2_progReflect.checked = false;
+
         if (confJson.video[1].hasOwnProperty("queueTelem")) {
           vid2_delay.value = confJson.video[1].queueTelem;
         }
       }
     }
 
-    function vid2_form_lock() {
-      if (vid2_lock.checked == true) {
-        var ind = true;
+    //validate forms
+    function validateVidConf() {
+      document.getElementById("rtspForm").checkValidity();
+      document.getElementById("rtspForm").classList.add("was-validated");
+      document.getElementById("controlForm").checkValidity();
+      document.getElementById("controlForm").classList.add("was-validated");
+      document.getElementById("gyroForm").checkValidity();
+      document.getElementById("gyroForm").classList.add("was-validated");
+      document.getElementById("procForm").checkValidity();
+      document.getElementById("procForm").classList.add("was-validated");
+      document.getElementById("vid1Form").checkValidity();
+      document.getElementById("vid1Form").classList.add("was-validated");
+      document.getElementById("vid2Form").checkValidity();
+      document.getElementById("vid2Form").classList.add("was-validated");
+      if (document.getElementById("rtspForm").checkValidity() == false |
+        document.getElementById("controlForm").checkValidity() == false |
+        document.getElementById("gyroForm").checkValidity() == false |
+        document.getElementById("procForm").checkValidity() == false |
+        document.getElementById("vid1Form").checkValidity() == false |
+        document.getElementById("vid2Form").checkValidity() == false) {
+        validVid = false;
+      } else {
+        validVid = true;
+      }
+    }
+
+    function validateNetConf() {
+      document.getElementById("netForm").checkValidity();
+      document.getElementById("netForm").classList.add("was-validated");
+      if (document.getElementById("netForm").checkValidity() == false) {
+        validNet = false;
+      } else {
+        validNet = true;
+      }
+    }
+
+    function vid2_form_lock(ind) {
+      if (ind == true) {
         vid2_device.disabled = ind;
         vid2_fps.disabled = ind;
         vid2_width.disabled = ind;
@@ -701,7 +902,6 @@
         vid2_progReflect.disabled = ind;
         vid2_progZoom.disabled = ind;
       } else {
-        var ind = false;
         vid2_device.disabled = ind;
         vid2_fps.disabled = ind;
         vid2_width.disabled = ind;
@@ -725,8 +925,7 @@
 
     function vid2_form_disable() {
       if (vid2_disable.checked == true) {
-        vid2_lock.checked = true;
-        vid2_form_lock();
+        vid2_form_lock(true);
         vid2_device.value = "";
         vid2_fps.value = "";
         vid2_width.value = "";
@@ -747,20 +946,16 @@
         vid2_progZoom.checked = false;
 
       } else {
-        vid2_lock.checked = false;
-        vid2_form_lock();
+        vid2_form_lock(false);
       }
     }
 
+    //events
     document.getElementById("vid2_disable").addEventListener("click", function (e) {
       vid2_form_disable();
       if (vid2_disable.checked == false) {
         v2_show();
       }
-    });
-
-    document.getElementById("vid2_lock").addEventListener("click", function (e) {
-      vid2_form_lock();
     });
 
     //selectList get
@@ -781,400 +976,330 @@
 
     //init
     window.addEventListener("load", () => {
-      //last selection get
-      fetch("api/last-selection", {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("selected")) {
-            selectedConf = json.selected;
-            document.getElementById(json.selected).selected = true;
-            $("#toasttext2").html("Выбрана конфигурация "+selectedConf+"!");
-            toastList[1].show();
-          }
-        }
-      })
-      //network conf get
-      fetch("api/net-get", {
-        method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          var json = await response.json();
-          if (json.hasOwnProperty("ip1") && json.hasOwnProperty("ip2") && json.hasOwnProperty("ip3") && json.hasOwnProperty("gate")) {
-            ip1.value = json.ip1;
-            ip2.value = json.ip2;
-            ip3.value = json.ip3;
-            gtw.value = json.gate;
+      init();
+    });
+
+    //net conf save click
+    document.getElementById("btnNet").addEventListener("click", function (e) {
+        e.preventDefault();
+        validateNetConf();
+        if (validNet == true) {
+          var adr1 = ip1.value;
+          var adr2 = ip2.value;
+          var adr3 = ip3.value;
+          var gate = gtw.value;
+          if (adr1 && adr2 && adr3 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && adr2 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr2, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && adr3 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
+          } else if (adr1 && gate) {
+            fetch("api/net-save", {
+              method: 'PATCH',
+              body: JSON.stringify({ ip1: adr1, gate: gate }),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            }).then(async (response) => {
+              if (response.ok) {
+                $("#toasttext1").html("Конфигурация сети сохранена!");
+                toastList[0].show();
+              } else {
+                $("#toasttext1").html("Ошибка обновления конфигурации сети!");
+                toastList[0].show();
+              }
+            })
           }
         } else {
-          $("#toasttext1").html("Ошибка загрузки файла конфигурации сети!");
+          $("#toasttext1").html("Поля не прошли валидацию!");
           toastList[0].show();
         }
-      })
-      //video config get
-      conf_load(false);
-    });
+      });
 
-    //net conf save
-    document.getElementById("btnNet").addEventListener("click", function (e) {
-      e.preventDefault();
-      var adr1 = ip1.value;
-      var adr2 = ip2.value;
-      var adr3 = ip3.value;
-      var gate = gtw.value;
-      if (adr1 && adr2 && adr3 && gate) {
-        fetch("api/net-save", {
-          method: 'PATCH',
-          body: JSON.stringify({ ip1: adr1, ip2: adr2, ip3: adr3, gate: gate }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext1").html("Конфигурация сети сохранена!");
-            toastList[0].show();
-          } else {
-            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-            toastList[0].show();
-          }
-        })
-      } else if (adr1 && adr2 && gate) {
-        fetch("api/net-save", {
-          method: 'PATCH',
-          body: JSON.stringify({ ip1: adr1, ip2: adr2, gate: gate }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext1").html("Конфигурация сети сохранена!");
-            toastList[0].show();
-          } else {
-            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-            toastList[0].show();
-          }
-        })
-      } else if (adr1 && adr3 && gate) {
-        fetch("api/net-save", {
-          method: 'PATCH',
-          body: JSON.stringify({ ip1: adr1, ip2: adr3, gate: gate }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext1").html("Конфигурация сети сохранена!");
-            toastList[0].show();
-          } else {
-            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-            toastList[0].show();
-          }
-        })
-      } else if (adr2 && adr3 && gate) {
-        fetch("api/net-save", {
-          method: 'PATCH',
-          body: JSON.stringify({ ip1: adr2, ip2: adr3, gate: gate }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext1").html("Конфигурация сети сохранена!");
-            toastList[0].show();
-          } else {
-            $("#toasttext1").html("Ошибка обновления конфигурации сети!");
-            toastList[0].show();
-          }
-        })
-      }
-    });
-
-    //select conf
+    //select video conf click
     document.getElementById("btnConfLoad").addEventListener("click", function (e) {
       e.preventDefault();
-      var selected = selection.options[selection.selectedIndex].id;
-      selectedConf = selected;
-      fetch("api/conf-select", {
-        method: 'PATCH',
-        body: JSON.stringify({ id: selected }),
-        headers: { 'Content-type': 'application/json; charset=UTF-8' },
-      }).then(async (response) => {
-        if (response.ok) {
-          $("#toasttext2").html("Конфигурация выбрана!");
-          toastList[1].show();
-          conf_load(true);
-        } else {
-          $("#toasttext2").html("Ошибка! Данной конфигурации не существует!");
-          toastList[1].show();
-        }
-      })
+      conf_select();
     });
 
-    //config data save
+    //video conf save click
     document.getElementById("btnConfSave").addEventListener("click", function (e) {
       e.preventDefault();
-      //rtsp values
-      var rtsp_p = rtsp_port.value;
-      if (rtsp_mode.checked) {
-        var rtsp_m = "single";
-      } else {
-        var rtsp_m = "parallel";
-      }
-      if (pauseVid.checked) {
-        var pause = "true";
-      } else {
-        var pause = "false";
-      }
-      //control values
-      var ctrl_p = control_port.value;
-      var tcp_p = tcp_port.value;
-      //gyro value
-      var gyro_p = gyro_address.value;
-      //processing values
-      var proc_w = width_proc.value;
-      var proc_h = height_proc.value;
-      var proc_t = tracker_proc.value;
+      validateVidConf();
+      if (validVid == true) {
+        //rtsp values
+        var rtsp_p = parseFloat(rtsp_port.value);
+        if (rtsp_mode.checked == true) {
+          var rtsp_m = "single";
+        } else {
+          var rtsp_m = "parallel";
+        }
+        var pause = pauseVid.checked;
+        //control values
+        var ctrl_p = control_port.value;
+        var tcp_p = parseInt(tcp_port.value);
+        //gyro value
+        var gyro_p = gyro_address.value;
+        //processing values
+        var proc_w = parseFloat(width_proc.value);
+        var proc_h = parseFloat(height_proc.value);
+        var proc_t = tracker_proc.value;
 
-      //VIDEO 1 values
-      var v1_dev = vid1_device.value;
-      var v1_fps = vid1_fps.value;
-      //vid1 picture values
-      var v1_w = vid1_width.value;
-      var v1_h = vid1_height.value;
-      var v1_format = vid1_format.value;
-      var v1_bitrate = vid1_bitrate.value;
-      //vid1 matrix values
-      var v1_m_w = vid1_Mwidth.value;
-      var v1_m_h = vid1_Mheight.value;
-      //big FOV values
-      var v1_bhfov = vid1_maxHFOV.value;
-      var v1_bvfov = vid1_maxVFOV.value;
-      //small FOV values
-      var v1_shfov = vid1_minHFOV.value;
-      var v1_svfov = vid1_minVFOV.value;
-      //
-      if (vid1_zoomShift.checked) {
-        var v1_zshift = "true";
-      } else {
-        var v1_zshift = "false";
-      }
-      var v1_delay = vid1_delay.value;
-      var v1_sscale = vid1_stabScale.value;
+        //VIDEO 1 values
+        var v1_dev = vid1_device.value;
+        var v1_fps = parseInt(vid1_fps.value);
+        //vid1 picture values
+        var v1_w = parseInt(vid1_width.value);
+        var v1_h = parseInt(vid1_height.value);
+        var v1_format = vid1_format.value;
+        var v1_bitrate = parseInt(vid1_bitrate.value);
+        //vid1 matrix values
+        var v1_m_w = parseFloat(vid1_Mwidth.value);
+        var v1_m_h = parseFloat(vid1_Mheight.value);
+        //big FOV values
+        var v1_bhfov = parseFloat(vid1_maxHFOV.value);
+        var v1_bvfov = parseFloat(vid1_maxVFOV.value);
+        //small FOV values
+        var v1_shfov = parseFloat(vid1_minHFOV.value);
+        var v1_svfov = parseFloat(vid1_minVFOV.value);
+        //
+        var v1_zshift = vid1_zoomShift.checked;
+        var v1_delay = parseFloat(vid1_delay.value);
+        var v1_sscale = parseFloat(vid1_stabScale.value);
 
-      //VIDEO 2 values
-      var v2_dev = vid2_device.value;
-      var v2_fps = vid2_fps.value;
-      //vid1 picture values
-      var v2_w = vid2_width.value;
-      var v2_h = vid2_height.value;
-      var v2_format = vid2_format.value;
-      var v2_bitrate = vid2_bitrate.value;
-      //vid1 matrix values
-      var v2_m_w = vid2_Mwidth.value;
-      var v2_m_h = vid2_Mheight.value;
-      //big FOV values
-      var v2_bhfov = vid2_maxHFOV.value;
-      var v2_bvfov = vid2_maxVFOV.value;
-      //small FOV values
-      var v2_shfov = vid2_minHFOV.value;
-      var v2_svfov = vid2_minVFOV.value;
-      //
-      if (vid2_zoomShift.checked) {
-        var v2_zshift = "true";
-      } else {
-        var v2_zshift = "false";
-      }
-      var v2_delay = vid2_delay.value;
-      var v2_sscale = vid2_stabScale.value;
-      if (vid2_progAF.checked) {
-        var v2_progAF = "true";
-      } else {
-        var v2_progAF = "false";
-      }
-      if (vid2_progZoom.checked) {
-        var v2_progZ = "true";
-      } else {
-        var v2_progZ = "false";
-      }
-      if (vid2_progReflect.checked) {
-        var v2_progR = "true";
-      } else {
-        var v2_progR = "false";
-      }
-      //request
-      if (
-        rtsp_p && rtsp_m && pause &&
-        ctrl_p && tcp_p && gyro_p &&
-        proc_w && proc_h && proc_t &&
-        //v1
-        v1_dev && v1_fps && v1_w &&
-        v1_h && v1_format && v1_bitrate &&
-        v1_m_w && v1_m_h && v1_bhfov &&
-        v1_bvfov && v1_shfov && v1_svfov &&
-        v1_zshift && v1_delay && v1_sscale &&
-        //v2
-        v2_dev && v2_fps && v2_w &&
-        v2_h && v2_format && v2_bitrate &&
-        v2_m_w && v2_m_h && v2_bhfov &&
-        v2_bvfov && v2_shfov && v2_svfov &&
-        v2_zshift && v2_delay && v2_sscale &&
-        v2_progAF && v2_progZ && v2_progR) {
-        fetch("/api/conf-save", {
-          method: 'PATCH',
-          body: JSON.stringify({
-            rtsp: {
-              port: rtsp_p,
-              mode: rtsp_m,
-              pause: pause,
-            },
-
-            video: [
-              {
-                device: v1_dev,
-                width: v1_w,
-                height: v1_h,
-                format: v1_format,
-                bitrate: v1_bitrate,
-                fps: v1_fps,
-                matrixW: v1_m_w,
-                matrixH: v1_m_h,
-                maxHFov: v1_bhfov,
-                maxVFov: v1_bvfov,
-                minHFov: v1_shfov,
-                minVFov: v1_svfov,
-                zmStab: v1_sscale,
-                offsetCam: v1_zshift,
-                queueTelem: v1_delay,
+        //VIDEO 2 values
+        var v2_dev = vid2_device.value;
+        var v2_fps = parseInt(vid2_fps.value);
+        //vid1 picture values
+        var v2_w = parseInt(vid2_width.value);
+        var v2_h = parseInt(vid2_height.value);
+        var v2_format = vid2_format.value;
+        var v2_bitrate = parseInt(vid2_bitrate.value);
+        //vid1 matrix values
+        var v2_m_w = parseFloat(vid2_Mwidth.value);
+        var v2_m_h = parseFloat(vid2_Mheight.value);
+        //big FOV values
+        var v2_bhfov = parseFloat(vid2_maxHFOV.value);
+        var v2_bvfov = parseFloat(vid2_maxVFOV.value);
+        //small FOV values
+        var v2_shfov = parseFloat(vid2_minHFOV.value);
+        var v2_svfov = parseFloat(vid2_minVFOV.value);
+        //
+        var v2_zshift = vid2_zoomShift.checked;
+        var v2_delay = parseFloat(vid2_delay.value);
+        var v2_sscale = parseFloat(vid2_stabScale.value);
+        var v2_progAF = vid2_progAF.checked;
+        var v2_progZ = vid2_progZoom.checked;
+        var v2_progR = vid2_progReflect.checked;
+        //request
+        if (
+          rtsp_p && rtsp_m && ctrl_p && tcp_p &&
+          gyro_p && proc_w && proc_h && proc_t &&
+          //v1
+          v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate &&
+          v1_m_w && v1_m_h && v1_bhfov && v1_bvfov && v1_shfov && v1_svfov &&
+          v1_delay && v1_sscale &&
+          //v2
+          v2_dev && v2_fps && v2_w && v2_h && v2_format && v2_bitrate &&
+          v2_m_w && v2_m_h && v2_bhfov && v2_bvfov && v2_shfov && v2_svfov &&
+          v2_delay && v2_sscale) {
+          fetch("/api/conf-save", {
+            method: 'PATCH',
+            body: JSON.stringify({
+              rtsp: {
+                port: rtsp_p,
+                mode: rtsp_m,
+                pause: pause,
               },
-              {
-                device: v2_dev,
-                width: v2_w,
-                height: v2_h,
-                format: v2_format,
-                bitrate: v2_bitrate,
-                fps: v2_fps,
-                matrixW: v2_m_w,
-                matrixH: v2_m_h,
-                maxHFov: v2_bhfov,
-                maxVFov: v2_bvfov,
-                minHFov: v2_shfov,
-                minVFov: v2_svfov,
-                softAF: v2_progAF,
-                softZoom: v2_progZ,
-                softFlips: v2_progR,
-                zmStab: v2_sscale,
-                offsetCam: v2_zshift,
-                queueTelem: v2_delay,
+
+              video: [
+                {
+                  device: v1_dev,
+                  width: v1_w,
+                  height: v1_h,
+                  format: v1_format,
+                  bitrate: v1_bitrate,
+                  fps: v1_fps,
+                  matrixW: v1_m_w,
+                  matrixH: v1_m_h,
+                  maxHFov: v1_bhfov,
+                  maxVFov: v1_bvfov,
+                  minHFov: v1_shfov,
+                  minVFov: v1_svfov,
+                  zmStab: v1_sscale,
+                  offsetCam: v1_zshift,
+                  queueTelem: v1_delay,
+                },
+                {
+                  device: v2_dev,
+                  width: v2_w,
+                  height: v2_h,
+                  format: v2_format,
+                  bitrate: v2_bitrate,
+                  fps: v2_fps,
+                  matrixW: v2_m_w,
+                  matrixH: v2_m_h,
+                  maxHFov: v2_bhfov,
+                  maxVFov: v2_bvfov,
+                  minHFov: v2_shfov,
+                  minVFov: v2_svfov,
+                  softAF: v2_progAF,
+                  softZoom: v2_progZ,
+                  softFlips: v2_progR,
+                  zmStab: v2_sscale,
+                  offsetCam: v2_zshift,
+                  queueTelem: v2_delay,
+                },
+              ],
+
+              control: {
+                uart: {
+                  device: ctrl_p,
+                },
+                tcp: {
+                  port: tcp_p,
+                },
               },
-            ],
 
-            control: {
-              uart: {
-                device: ctrl_p,
+              gyro: {
+                port: gyro_p,
               },
-              tcp: {
-                port: tcp_p,
+
+              processing: {
+                width: proc_w,
+                height: proc_h,
+                script: proc_t,
               },
-            },
-
-            gyro: {
-              port: gyro_p,
-            },
-
-            processing: {
-              width: proc_w,
-              height: proc_h,
-              script: proc_t,
-            },
-          }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext3").html("Конфигурация сохранена!");
-            toastList[2].show();
-            conf_load(false);
-          } else {
-            $("#toasttext3").html("Ошибка обновления конфигурации!");
-            toastList[2].show();
-          }
-        })
-      } else if (
-        rtsp_p && rtsp_m && pause &&
-        ctrl_p && tcp_p && gyro_p &&
-        proc_w && proc_h && proc_t &&
-        //v1
-        v1_dev && v1_fps && v1_w &&
-        v1_h && v1_format && v1_bitrate &&
-        v1_m_w && v1_m_h && v1_bhfov &&
-        v1_bvfov && v1_shfov && v1_svfov &&
-        v1_zshift && v1_delay && v1_sscale) {
-        fetch("/api/conf-save", {
-          method: 'PATCH',
-          body: JSON.stringify({
-            rtsp: {
-              port: rtsp_p,
-              mode: rtsp_m,
-              pause: pause,
-            },
-
-            video: [
-              {
-                device: v1_dev,
-                width: v1_w,
-                height: v1_h,
-                format: v1_format,
-                bitrate: v1_bitrate,
-                fps: v1_fps,
-                matrixW: v1_m_w,
-                matrixH: v1_m_h,
-                maxHFov: v1_bhfov,
-                maxVFov: v1_bvfov,
-                minHFov: v1_shfov,
-                minVFov: v1_svfov,
-                zmStab: v1_sscale,
-                offsetCam: v1_zshift,
-                queueTelem: v1_delay,
+            }),
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          }).then(async (response) => {
+            if (response.ok) {
+              $("#toasttext4").html("Конфигурация " + selectedConf + " сохранена!");
+              toastList[3].show();
+              conf_load();
+            } else {
+              $("#toasttext4").html("Ошибка обновления конфигурации!");
+              toastList[3].show();
+            }
+          })
+        } else if (
+          rtsp_p && rtsp_m && ctrl_p && tcp_p &&
+          gyro_p && proc_w && proc_h && proc_t &&
+          //v1
+          v1_dev && v1_fps && v1_w && v1_h && v1_format && v1_bitrate &&
+          v1_m_w && v1_m_h && v1_bhfov && v1_bvfov && v1_shfov && v1_svfov &&
+          v1_delay && v1_sscale) {
+          fetch("/api/conf-save", {
+            method: 'PATCH',
+            body: JSON.stringify({
+              rtsp: {
+                port: rtsp_p,
+                mode: rtsp_m,
+                pause: pause,
               },
-            ],
 
-            control: {
-              uart: {
-                device: ctrl_p,
+              video: [
+                {
+                  device: v1_dev,
+                  width: v1_w,
+                  height: v1_h,
+                  format: v1_format,
+                  bitrate: v1_bitrate,
+                  fps: v1_fps,
+                  matrixW: v1_m_w,
+                  matrixH: v1_m_h,
+                  maxHFov: v1_bhfov,
+                  maxVFov: v1_bvfov,
+                  minHFov: v1_shfov,
+                  minVFov: v1_svfov,
+                  zmStab: v1_sscale,
+                  offsetCam: v1_zshift,
+                  queueTelem: v1_delay,
+                },
+              ],
+
+              control: {
+                uart: {
+                  device: ctrl_p,
+                },
+                tcp: {
+                  port: tcp_p,
+                },
               },
-              tcp: {
-                port: tcp_p,
+
+              gyro: {
+                port: gyro_p,
               },
-            },
 
-            gyro: {
-              port: gyro_p,
-            },
-
-            processing: {
-              width: proc_w,
-              height: proc_h,
-              script: proc_t,
-            },
-          }),
-          headers: { 'Content-type': 'application/json; charset=UTF-8' },
-        }).then(async (response) => {
-          if (response.ok) {
-            $("#toasttext3").html("Конфигурация сохранена!");
-            toastList[2].show();
-            conf_load(false);
-          } else {
-            $("#toasttext3").html("Ошибка обновления конфигурации!");
-            toastList[2].show();
-          }
-        })
+              processing: {
+                width: proc_w,
+                height: proc_h,
+                script: proc_t,
+              },
+            }),
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+          }).then(async (response) => {
+            if (response.ok) {
+              $("#toasttext4").html("Конфигурация " + selectedConf + " сохранена!");
+              toastList[3].show();
+              conf_load();
+            } else {
+              $("#toasttext4").html("Ошибка обновления конфигурации!");
+              toastList[3].show();
+            }
+          })
+        }
+      } else {
+        $("#toasttext4").html("Поля не прошли валидацию!");
+        toastList[3].show();
       }
     })
 
-    //reboot
+    //reboot click
     document.getElementById("btnReboot").addEventListener("click", function (e) {
       e.preventDefault();
       fetch("/reboot", {
         method: 'GET',
-      }).then(async (response) => {
-        if (response.ok) {
-          $("#toasttext4").html("Перезагрузка!");
-          toastList[3].show();
-        }
-      })
+      });
+      // .then(async (response) => {if (response.ok) {}})
+      $("#toasttext5").html("Перезагрузка. Ожидайте... ");
+      toastList[4].show();
+      setTimeout(function () { reboot_check() }, 40000);
     });
   </script>
 </body>

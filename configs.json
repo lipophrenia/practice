@@ -53,4 +53,11 @@
         "text":"Зарезервировано",
         "path":"video9.conf"
     }
+    ,
+    {
+        "id":9,
+        "name":"OES10",
+        "text":"test",
+        "path":"video10.conf"
+    }
 ]

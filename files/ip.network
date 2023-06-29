@@ -3,7 +3,7 @@ Name=eth0
 #KernelCommandLine=!root=/dev/nfs
 
 [Network]
-Address=1
-Address=2
-Address=3
-Gateway=4
+Address=172.16.99.120/17
+Address=192.168.0.92/25
+#Address=
+Gateway=172.16.99.2
